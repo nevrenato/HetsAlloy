@@ -1,0 +1,3 @@
+free type Nat ::= Zero | Suc (prec : Nat)
+
+op f(x:Nat):Nat = Suc x

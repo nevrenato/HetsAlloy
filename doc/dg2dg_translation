@@ -1,0 +1,62 @@
+
+This file describes the implementation task: 
+ how to translate a development graph along a comorphism into an
+ isomorphic development graph 
+
+But unfortunately in German
+
+Die Grundidee findet sich im CASL Reference Manual (LNCS 2960) auf 
+Seite 297-298 (Liegt hier als LNCS2960_297-298.pdf) 
+
+Hier nun eine Beschreibung auf Deutsch, die wir (Till und Klaus) um
+notwendige Details anreichern werden:
+
+ - der übersetzte Graph hat die gleiche Anzahl Knoten und Kanten wie
+   das Original, so dass jedem Originalknoten n ein Knoten R(n) im
+   übersetzten Graph zugeordnet ist. Das gleiche gilt für Kanten.
+
+ - zu beachten ist das manch ein Comorphism Signaturen in Theorien
+   übersetzt; dadurch kann es passieren, dass einige Sätze doppelt
+   erzeugt werden. Deshalb müssen aus den neu erzeugten Sätze noch die
+   ausgefiltert werden, die schon über andere Kanten importiert werden
+
+ - der übersetzte Graph wird dann in einem neuen uDrawGraph Fenster
+   angezeigt.
+
+ - minimale Sublogic bezüglich aller Knoten für die Auswahl des 
+   Comorphismus. (lessThanSublogic s. SPASS.CreateDFG)
+
+ - erstmal eine Fehlermeldung, wenn sich Links entlang
+   Comorphismus-Übersetzungen im DevGraph finden.
+
+ - Modul-Namen: Static.DGTranslation
+                GUI.DGTranslation
+                Static/test/dgTrans.hs
+                  - statische Analyse bis zum DG
+                  - minimale Sublogik
+                  - Übersetzung mit PCFOL2CFOL
+                  - Anzeige des Ergebnis in uDrawGraph
+
+Datenstrukturen
+  siehe Static/DevGraph.hs
+  Der zu übersetzende Typ ist GlobalContext, mittels rekursivem Abstieg.
+  Die eigentliche Übersetzung findet dann bei den Typen G_sign, G_theory,
+  G_morphism und GMorphism statt (dies sind Typen, die beim rekursiven
+  Abstieg vorkommen). Diese Typen müssen mit einem case ausgepackt werden,
+  und Signatur der G_sign (bzw. der Morphismus des G_morphism etc.) muss
+  mittles coerceSign (bzw. coerceMorphism) aus Logic.Coerce der
+  Quell-Logik des Comorphismus angepasst werden. Dazu muss der coerce-
+  Funktion die ausgepackte lid sowie die lid, die sich mittels
+  sourceLogic (siehe Logic.Comorphism) aus dem Comorphismus ergibt,
+  übergeben werden. Nach Aufruf der Coerce-Funktion kann dann der
+  Comorphismus angewendet werden (map_sign, map_theory, map_morphism),
+  und das Resultat (zusammen mit der lid, die sich aus der targetLogic
+  des Comorphismus ergibt) in den neuen Entwicklungsgraphen eingetragen werden.
+
+Später brauchen wir noch dies:
+
+ - für die Übersetzung nach OWL-DL brauchen wir eine Möglichkeit die
+   Kantentypen zu beschränken. Denn OWL-DL kennt nur "import"-Kanten.
+   Also brauchen wir für diese Richtung auch eine Übersetzung von
+   Hiding/Renaming-Kanten in import-Kanten.
+   

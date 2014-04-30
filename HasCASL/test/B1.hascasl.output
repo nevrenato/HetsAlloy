@@ -1,0 +1,68 @@
+classes b, c, d, e, f, g
+class Type
+class Type
+class Type
+class d
+class a < d
+class a < a
+class a < b
+class b < d
+class d < d
+class d < a
+type  t : a
+class h < a
+class h < c
+type  [__] : a -> b
+vars  x : a; y : Type; x : y
+var
+var   x : b
+var   x < t
+classes
+a < Type;
+b < Type;
+c < Type;
+d < Type;
+e < Type;
+f < Type;
+g < Type;
+h < Type
+classes
+a < b;
+a < d;
+b < d;
+h < a;
+h < c
+types
+[__] : a -> b;
+t : a
+vars
+x < t : a %(var_4)%;
+y : Type %(var_2)%
+var
+x : y
+3.7-3.10: ### Warning: void universe class declaration 'Type'
+4.7-4.10: ### Warning: void universe class declaration 'Type'
+6.7-6.10: ### Warning: void universe class declaration 'Type'
+8.11: *** Error: not a class 'a'
+8.7: ### Warning: unchanged class 'd'
+13.7: *** Error: cyclic class 'a'
+15.7: ### Warning: refined class 'a'
+16.7: ### Warning: refined class 'b'
+18.7: *** Error: cyclic class 'd'
+19.7: *** Error: cyclic class 'd'
+24.7: ### Warning: refined class 'h'
+26.7: *** Error: illegal type pattern argument '__'
+28.5: ### Hint: is type variable 'x'
+28.12: ### Hint: is type variable 'y'
+28.24: ### Hint: not a class 'y'
+28.22: ### Warning: variable also known as type variable 'x'
+30.7: ### Hint: not a class 's'
+30.9: *** Error: unknown type 's'
+32.5: ### Hint: is type variable 'x'
+32.5: ### Hint: rebound type variable 'x'
+32.5: ### Warning:
+type variable does not shadow normal variable 'x'
+34.5: ### Hint: rebound type variable 'x'
+34.5: ### Warning:
+type variable does not shadow normal variable 'x'
+36.8: *** Error: illegal type pattern argument '__'

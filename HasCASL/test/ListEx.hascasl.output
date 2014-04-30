@@ -1,0 +1,148 @@
+var   b : Type
+var   a : +Type
+type  List a
+free type List a ::= Nil | Cons (head : a; tail : List a)
+free type
+free type
+free type
+free type Tree a ::= Leaf | Branch (head : Tree a; tail : Tree a)
+generated type Tree1 a
+               ::= Leaf | Branch (head : Tree a; tail : Tree1 a)
+type  Tree2 a ::= Leaf | Branch (head : Tree a; tail : Tree2 a)
+free types
+even a ::= rek (odd a);
+odd a ::= rek (even a)
+free type odd2 a ::= rek (even2 a)
+type  DList a := List (List a)
+class Ord
+var   o : Ord
+types List o, DList o : Ord
+class
+Ord < Type
+types
+DList : +Ord -> Ord;
+DList : +Type -> Type;
+List : +Ord -> Ord;
+List : +Type -> Type;
+Tree : +Type -> Type;
+Tree1 : +Type -> Type;
+Tree2 : +Type -> Type;
+even : +Type -> Type;
+even2 : +Type -> Type;
+odd : +Type -> Type;
+odd2 : +Type -> Type
+type
+DList (a : +Type) := List (List a)
+vars
+a : +Type %(var_2)%;
+b : Type %(var_1)%;
+o : Ord %(var_16)%
+op Branch : forall a : Type . Tree a * Tree a -> Tree a
+            %(constructor)%
+op Branch : forall a : Type . Tree a * Tree1 a -> Tree1 a
+            %(constructor)%
+op Branch : forall a : Type . Tree a * Tree2 a -> Tree2 a
+            %(constructor)%
+op Cons : forall a : Type . a * List a -> List a %(constructor)%
+op Leaf : forall a : Type . Tree a %(constructor)%
+op Leaf : forall a : Type . Tree1 a %(constructor)%
+op Leaf : forall a : Type . Tree2 a %(constructor)%
+op Nil : forall a : Type . List a %(constructor)%
+op head : forall a : Type . List a -> a
+          %(selector of constructor(s)
+          Cons : forall a : Type . a * List a -> List a)%
+op head : forall a : Type . Tree a -> Tree a
+          %(selector of constructor(s)
+          Branch : forall a : Type . Tree a * Tree a -> Tree a)%
+op head : forall a : Type . Tree1 a -> Tree a
+          %(selector of constructor(s)
+          Branch : forall a : Type . Tree a * Tree1 a -> Tree1 a)%
+op head : forall a : Type . Tree2 a -> Tree a
+          %(selector of constructor(s)
+          Branch : forall a : Type . Tree a * Tree2 a -> Tree2 a)%
+op rek : forall a : Type . even a -> odd a %(constructor)%
+op rek : forall a : Type . even2 a -> odd2 a %(constructor)%
+op rek : forall a : Type . odd a -> even a %(constructor)%
+op tail : forall a : Type . List a -> List a
+          %(selector of constructor(s)
+          Cons : forall a : Type . a * List a -> List a)%
+op tail : forall a : Type . Tree a -> Tree a
+          %(selector of constructor(s)
+          Branch : forall a : Type . Tree a * Tree a -> Tree a)%
+op tail : forall a : Type . Tree1 a -> Tree1 a
+          %(selector of constructor(s)
+          Branch : forall a : Type . Tree a * Tree1 a -> Tree1 a)%
+op tail : forall a : Type . Tree2 a -> Tree2 a
+          %(selector of constructor(s)
+          Branch : forall a : Type . Tree a * Tree2 a -> Tree2 a)%
+forall a : Type; x_1 : a; x_2 : List a
+. (op head : forall a : Type . List a -> a) (Cons (x_1, x_2)) = x_1
+                                                %(ga_select_head)%
+forall a : Type; x_1 : a; x_2 : List a
+. (op tail : forall a : Type . List a -> List a) (Cons (x_1, x_2))
+  = x_2                                         %(ga_select_tail)%
+free type List(a : +Type) ::= Cons (head : a; tail : List a) | Nil
+                                                       %(ga_List)%
+free type List(a : +Type) ::= Cons (head : a; tail : List a) | Nil
+                                                       %(ga_List)%
+free type List(a : +Type) ::= Cons (head : a; tail : List a) | Nil
+                                                       %(ga_List)%
+free type List(a : +Type) ::= Cons (head : a; tail : List a) | Nil
+                                                       %(ga_List)%
+forall a : Type; x_1 : Tree a; x_2 : Tree a
+. (op head : forall a : Type . Tree a -> Tree a)
+  ((op Branch : forall a : Type . Tree a * Tree a -> Tree a)
+   (x_1, x_2))
+  = x_1                                         %(ga_select_head)%
+forall a : Type; x_1 : Tree a; x_2 : Tree a
+. (op tail : forall a : Type . Tree a -> Tree a)
+  ((op Branch : forall a : Type . Tree a * Tree a -> Tree a)
+   (x_1, x_2))
+  = x_2                                         %(ga_select_tail)%
+free type Tree(a : +Type) ::=
+          Branch (head : Tree a; tail : Tree a) | Leaf %(ga_Tree)%
+forall a : Type; x_1 : Tree a; x_2 : Tree1 a
+. (op head : forall a : Type . Tree1 a -> Tree a)
+  ((op Branch : forall a : Type . Tree a * Tree1 a -> Tree1 a)
+   (x_1, x_2))
+  = x_1                                         %(ga_select_head)%
+forall a : Type; x_1 : Tree a; x_2 : Tree1 a
+. (op tail : forall a : Type . Tree1 a -> Tree1 a)
+  ((op Branch : forall a : Type . Tree a * Tree1 a -> Tree1 a)
+   (x_1, x_2))
+  = x_2                                         %(ga_select_tail)%
+generated type Tree1(a : +Type) ::=
+               Branch (head : Tree a; tail : Tree1 a) | Leaf
+                                                      %(ga_Tree1)%
+forall a : Type; x_1 : Tree a; x_2 : Tree2 a
+. (op head : forall a : Type . Tree2 a -> Tree a)
+  ((op Branch : forall a : Type . Tree a * Tree2 a -> Tree2 a)
+   (x_1, x_2))
+  = x_1                                         %(ga_select_head)%
+forall a : Type; x_1 : Tree a; x_2 : Tree2 a
+. (op tail : forall a : Type . Tree2 a -> Tree2 a)
+  ((op Branch : forall a : Type . Tree a * Tree2 a -> Tree2 a)
+   (x_1, x_2))
+  = x_2                                         %(ga_select_tail)%
+type Tree2(a : +Type) ::=
+     Branch (head : Tree a; tail : Tree2 a) | Leaf    %(ga_Tree2)%
+free type even(a : +Type) ::= rek (odd a)
+free type odd(a : +Type) ::= rek (even a)          %(ga_even_odd)%
+free type odd2(a : +Type) ::= rek (even2 a) %(ga_even2_odd2)%
+1.5: ### Hint: is type variable 'b'
+2.5: ### Hint: is type variable 'a'
+4.11-4.14: ### Hint: redeclared type 'List'
+5.50-5.55: *** Error:
+unbound type variable(s)
+  b in
+'List b'
+6.57: *** Error: unexpected type argument 'b'
+7.50-7.61: *** Error:
+illegal polymorphic recursion
+  expected: List a
+     found: List (List a)
+14.27-14.38: *** Error:
+illegal polymorphic recursion
+  expected: odd2 a
+     found: odd2 (odd2 a)
+19.5: ### Hint: is type variable 'o'

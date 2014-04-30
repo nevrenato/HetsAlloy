@@ -1,0 +1,69 @@
+\begin{verbatim}
+BASIC-SPEC      ::= basic-spec BASIC-ITEMS*
+
+BASIC-ITEMS     ::= channel-items CHANNEL-ITEM+
+                  | process-items PROCESS-ITEM+
+                  | ...
+
+CHANNEL-ITEM    ::= channel-item CHANNEL+ SORT
+
+PROCESS-ITEM    ::= process-decl PROCESS-NAME PROCESS-PROFILE
+                  | process-eq PROCESS-NAME VAR* PROCESS
+                  | process-defn PROCESS-NAME ARG-DECL* ALPHABET PROCESS
+
+PROCESS-PROFILE ::= process-profiles SORT* ALPHABET
+
+
+ALPHABET        ::= alphabet SORT-OR-CHANNEL*
+
+SORT-OR-CHANNEL ::= SORT
+                  | CHANNEL
+                  | sorted-channel CHANNEL SORT
+
+CHANNEL         ::= SORT-ID
+PROCESS-NAME    ::= SORT-ID
+
+PROCESS         ::= skip
+                  | stop
+                  | div
+                  | run EVENT-SET
+                  | choas EVENT-SET
+                  | cond-process FORMULA PROCESS PROCESS
+                  | process-call PROCESS-SYMB TERM*
+
+                  | hiding PROCESS EVENT-SET
+                  | renaming PROCESS RENAMING
+
+                  | event-process EVENT PROCESS
+                  | term-event TERM PROCESS
+                  | prefix-ext-choice VAR SORT PROCESS
+                  | prefix-int-choice VAR SORT PROCESS
+
+                  | sequence PROCESS PROCESS
+
+                  | ext-choice PROCESS PROCESS
+                  | int-choice PROCESS PROCESS
+
+                  | generalized PROCESS EVENT-SET PROCESS
+                  | alphabetized PROCESS EVENT-SET EVENT-SET PROCESS
+                  | synchronous PROCESS PROCESS
+                  | interleaved PROCESS PROCESS
+
+EVENT-SET       ::= event-set SORT-OR-CHANNEL*
+
+PROCESS-SYMB    ::= PROCESS-NAME
+                  | qual-process-name PROCESS-NAME PROCESS-PROFILE
+
+RENAMING        ::= renaming RENAME+
+
+RENAME          ::= id ID
+                  | opId ID
+                  | predId ID
+                  | totalOp ID SORT SORT
+                  | partialOp ID SORT SORT
+                  | binPredicate ID SORT SORT
+
+EVENT           ::= read-event CHANNEL VAR SORT
+                  | write-event CHANNEL VAR SORT
+                  | write-term CHANNEL TERM
+\end{verbatim}

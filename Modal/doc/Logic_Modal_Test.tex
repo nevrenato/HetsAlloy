@@ -1,0 +1,73 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{german}
+\usepackage{isolatin1}
+\usepackage{amssymb}
+\usepackage{epsfig}
+\usepackage{moreverb}
+
+\setlength{\textwidth}{16cm}
+\setlength{\topmargin}{-1cm}
+\setlength{\evensidemargin}{0cm}
+\setlength{\oddsidemargin}{0cm}
+\setlength{\textheight}{24cm}
+
+% skip between paragraphs
+\setlength{\parskip}{1ex}
+% ... and no indentation at start of a new paragraph
+\setlength{\parindent}{0ex}
+\pagestyle{plain}
+\thispagestyle{plain}
+
+\begin{document}
+\part*{Test}
+\section*{ABLP}
+\begin{verbatim}
+sorts Principal
+op 1 : Principal
+op P : Principal
+op Q : Principal
+op __&__ : Principal * Principal -> Principal
+op __|__ : Principal * Principal -> Principal
+pred __==>__ : Principal * Principal
+pred p : ()
+pred q : ()
+term modality Principal
+
+
+ . forall x:Principal; y:Principal; z:Principal
+       . x & (y & z) = (x & y) & z %(ga_assoc___&__)%
+
+ . forall x:Principal; y:Principal
+       . x & y = y & x %(ga_comm___&__)%
+
+ . forall x:Principal . x & x = x %(ga_idem___&__)%
+
+ . forall x:Principal; y:Principal; z:Principal
+       . x | (y | z) = (x | y) | z %(ga_assoc___|__)%
+
+ . forall x:Principal . x | 1 = x %(ga_right_unit___|__)%
+
+ . forall x:Principal . 1 | x = x %(ga_left_unit___|__)%
+
+ . forall A, B, C:Principal . (A | B) & C = (A & C) | (B & C)
+
+ . [P]( . p => [Q] . q)
+
+ . < P > ( . p => < Q >  . q)
+
+ . [P | Q]( . p <=> [Q | P] . p)
+
+\end{verbatim}
+
+\section*{Dynamic}
+\begin{verbatim}
+
+logic Modal
+Analyzing spec Dynamic
+*** Error CASL-lib/Modal/Dynamic.het:17.16, unexpected mixfix token: p
+
+Fail: user error (Stopped due to errors)
+
+\end{verbatim}
+\end{document}

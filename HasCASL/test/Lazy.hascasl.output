@@ -1,0 +1,17 @@
+type  t
+op    f : ? t -> t
+op    g : t -> (? t)
+ops   a, b : t
+ops   c, d : ? t
+. f a = g c
+. def c ();
+type
+t : Type
+op a : t
+op b : t
+op c : ? t
+op d : ? t
+op f : ? t -> t
+op g : t -> ? t
+. f a = g c
+. def c ()

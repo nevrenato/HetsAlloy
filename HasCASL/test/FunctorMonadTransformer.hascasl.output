@@ -1,0 +1,343 @@
+class Functor < Type -> Type
+      {vars  f : Functor; a, b, c : Type
+      op    map : (a -> b) -> f a -> f b
+      vars  x : f a; f : a -> b; g : b -> c
+      . (map \ y : a .! y) x = x
+      . (map \ y : a .! g (f y)) x = map g (map f x);
+      }
+class Monad < Type -> Type
+      {vars  m : Monad; a, b, c : Type
+      ops   __>>=__ : m a * (a ->? m b) ->? m b;
+            __>>=__ : m a * (a -> m b) -> m b;
+            ret : a -> m a
+      vars  x, y : a; p : m a; q : a ->? m b; r : b ->? m c; f : a ->? b
+      . def q x => ret x >>= q = q x
+      . (p >>= \ x : a . ret (f x) >>= r) = p >>= \ x : a . r (f x)
+      . p >>= ret = p
+      . (p >>= q) >>= r = p >>= \ x : a . q x >>= r
+      . (ret x : m a) = ret y => x = y;
+      }
+class instance Monad < Functor
+vars  m : Monad; a, b : Type; f : a -> b; x : m a
+. map f x = x >>= \ y : a . ret (f y);
+class MonadT < Monad -> Monad
+      {vars  t : MonadT; m : Monad; a : Type
+      op    lift : m a -> t m a
+      vars  x : a; p : m a; b : Type; q : a -> m b
+      . lift (ret x) = (ret x : t m a)
+      . lift (p >>= q) = lift p >>= \ y : a .! lift (q y) : t m b;
+      }
+var   state : Type
+type instance ST state : Monad
+vars  a, b : Type
+type  ST state a := state ->? a * state
+vars  x : a; p : ST state a; q : a ->? ST state b
+classes
+Functor < Type -> Type;
+Monad < Type -> Type;
+MonadT < (Type -> Type) -> Type -> Type
+classes
+Monad < Functor;
+MonadT < Monad -> Monad
+type
+ST : Type -> Monad
+type
+ST (state : Type) (a : Type) := state ->? a * state
+vars
+a : Type %(var_246)%;
+b : Type %(var_247)%;
+c : Type %(var_28)%;
+f : Functor %(var_1)%;
+m : Monad %(var_162)%;
+state : Type %(var_244)%;
+t : MonadT %(var_161)%
+op __>>=__ : forall m : Monad; a : Type; b : Type
+             . m a * (a -> m b) -> m b
+op __>>=__ : forall m : Monad; a : Type; b : Type
+             . m a * (a ->? m b) ->? m b
+op lift : forall t : MonadT; m : Monad; a : Type . m a -> t m a
+op map : forall f : Functor; a : Type; b : Type
+         . (a -> b) -> f a -> f b
+op ret : forall m : Monad; a : Type . a -> m a
+vars
+f : a -> b;
+g : b -> c;
+p : ST state a;
+q : a ->? ST state b;
+r : b ->? m c;
+x : a;
+y : a
+forall a : Type; f : Functor; x : f a . (map \ y : a .! y) x = x
+forall
+a : Type; b : Type; c : Type; f : Functor; f : a -> b; g : b -> c;
+x : f a
+. (map \ y : a .! g (f y)) x = map g (map f x)
+forall a : Type; b : Type; m : Monad; q : a ->? m b; x : a
+. def q x
+  => (op __>>=__ :
+      forall m : Monad; a : Type; b : Type . m a * (a ->? m b) ->? m b)
+     (ret x, q)
+     = q x
+forall
+a : Type; b : Type; c : Type; m : Monad; f : a ->? b; p : m a;
+r : b ->? m c
+. (op __>>=__ :
+   forall m : Monad; a : Type; b : Type . m a * (a ->? m b) ->? m b)
+  (p,
+   \ x : a
+   . (op __>>=__ :
+      forall m : Monad; a : Type; b : Type . m a * (a ->? m b) ->? m b)
+     (ret (f x), r))
+  = (op __>>=__ :
+     forall m : Monad; a : Type; b : Type . m a * (a ->? m b) ->? m b)
+    (p, \ x : a . r (f x))
+forall a : Type; m : Monad; p : m a
+. (op __>>=__ :
+   forall m : Monad; a : Type; b : Type . m a * (a -> m b) -> m b)
+  (p, ret)
+  = p
+forall
+a : Type; b : Type; c : Type; m : Monad; p : m a; q : a ->? m b;
+r : b ->? m c
+. (op __>>=__ :
+   forall m : Monad; a : Type; b : Type . m a * (a ->? m b) ->? m b)
+  ((op __>>=__ :
+    forall m : Monad; a : Type; b : Type . m a * (a ->? m b) ->? m b)
+   (p, q),
+   r)
+  = (op __>>=__ :
+     forall m : Monad; a : Type; b : Type . m a * (a ->? m b) ->? m b)
+    (p,
+     \ x : a
+     . (op __>>=__ :
+        forall m : Monad; a : Type; b : Type . m a * (a ->? m b) ->? m b)
+       (q x, r))
+forall a : Type; m : Monad; x : a; y : a
+. (ret x : m a) = ret y => x = y
+forall a : Type; b : Type; m : Monad; f : a -> b; x : m a
+. map f x
+  = (op __>>=__ :
+     forall m : Monad; a : Type; b : Type . m a * (a ->? m b) ->? m b)
+    (x, \ y : a . ret (f y))
+forall a : Type; m : Monad; t : MonadT; x : a
+. lift (ret x) = (ret x : t m a)
+forall
+a : Type; b : Type; m : Monad; t : MonadT; p : m a; q : a -> m b
+. lift
+  ((op __>>=__ :
+    forall m : Monad; a : Type; b : Type . m a * (a -> m b) -> m b)
+   (p, q))
+  = (op __>>=__ :
+     forall m : Monad; a : Type; b : Type . m a * (a -> m b) -> m b)
+    (lift p, \ y : a .! lift (q y) : t m b)
+2.7: ### Hint: is type variable 'f'
+2.19: ### Hint: is type variable 'a'
+2.22: ### Hint: is type variable 'b'
+2.25: ### Hint: is type variable 'c'
+4.8: ### Hint: not a kind 'f a'
+4.16: ### Hint: not a class 'a'
+4.16: ### Hint: not a class 'b'
+4.15: ### Warning: variable also known as type variable 'f'
+4.27: ### Hint: not a class 'b'
+4.27: ### Hint: not a class 'c'
+9.7: ### Hint: is type variable 'm'
+9.17: ### Hint: is type variable 'a'
+9.17: ### Hint: rebound type variable 'a'
+9.20: ### Hint: is type variable 'b'
+9.20: ### Hint: rebound type variable 'b'
+9.23: ### Hint: is type variable 'c'
+9.23: ### Hint: rebound type variable 'c'
+10.17-10.19: ### Hint:
+no kind found for 'm a'
+  expected: {Cpo}
+     found: {Type}
+10.17-10.19: ### Hint:
+no kind found for 'm a'
+  expected: {Cppo}
+     found: {Type}
+11.17-11.19: ### Hint:
+no kind found for 'm a'
+  expected: {Cpo}
+     found: {Type}
+11.17-11.19: ### Hint:
+no kind found for 'm a'
+  expected: {Cppo}
+     found: {Type}
+13.8: ### Hint: not a class 'a'
+13.7: ### Hint: rebound variable 'x'
+13.11: ### Hint: not a class 'a'
+13.17: ### Hint: not a kind 'm a'
+13.25: ### Hint: not a kind 'a ->? m b'
+13.39: ### Hint: not a kind 'b ->? m c'
+13.53: ### Hint: not a kind 'a ->? b'
+13.52: ### Hint: rebound variable 'f'
+13.52: ### Warning: variable also known as type variable 'f'
+14.14-14.24: ### Hint:
+rejected '__->?__ < __->__' of '((op ret : forall m : Monad; a : Type . a -> m a) (var x : a),
+ (var q : a ->? m b))'
+14.14-14.24: ### Hint:
+untypeable term (with type: _v33_m _v34_a * (_v34_a -> _v33_m _v35_b))
+'(ret x, q)'
+15.12: ### Hint: rebound variable 'x'
+15.19-15.33: ### Hint:
+rejected '__->?__ < __->__' of '((op ret : forall m : Monad; a : Type . a -> m a)
+ ((var f : a ->? b) (var x : a)),
+ (var r : b ->? m c))'
+15.19-15.33: ### Hint:
+untypeable term (with type: _v52_m _v53_a * (_v53_a -> _v52_m _v54_b))
+'(ret (f x), r)'
+15.3-15.33: ### Hint:
+rejected '__->?__ < __->__' of '((var p : m a),
+ \ x : a
+ . (op __>>=__ :
+    forall m : Monad; a : Type; b : Type . m a * (a ->? m b) ->? m b)
+   ((op ret : forall m : Monad; a : Type . a -> m a)
+    ((var f : a ->? b) (var x : a)),
+    (var r : b ->? m c)))'
+15.3-15.29: ### Hint:
+untypeable term (with type: _v46_m _v47_a * (_v47_a -> _v46_m _v48_b))
+'(p, \ x : a . ret (f x) >>= r)'
+15.12: ### Hint: rebound variable 'x'
+15.19-15.33: ### Hint:
+rejected '__->?__ < __->__' of '((op ret : forall m : Monad; a : Type . a -> m a)
+ ((var f : a ->? b) (var x : a)),
+ (var r : b ->? m c))'
+15.19-15.33: ### Hint:
+untypeable term (with type: _v62_m _v63_a * (_v63_a -> _v62_m _v64_b))
+'(ret (f x), r)'
+16.13: ### Hint: rebound variable 'x'
+16.5-16.25: ### Hint:
+rejected '__->?__ < __->__' of '((var p : m a),
+ \ x : a . (var r : b ->? m c) ((var f : a ->? b) (var x : a)))'
+16.5-16.25: ### Hint:
+untypeable term (with type: _v72_m _v73_a * (_v73_a -> _v72_m _v74_b))
+'(p, \ x : a . r (f x))'
+16.13: ### Hint: rebound variable 'x'
+18.4-18.10: ### Hint:
+rejected '__->?__ < __->__' of '((var p : m a), (var q : a ->? m b))'
+18.4-18.10: ### Hint:
+untypeable term (with type: _v102_m _v103_a * (_v103_a -> _v102_m _v104_b))
+'(p, q)'
+18.4-18.17: ### Hint:
+rejected '__->?__ < __->__' of '((op __>>=__ :
+  forall m : Monad; a : Type; b : Type . m a * (a ->? m b) ->? m b)
+ ((var p : m a), (var q : a ->? m b)),
+ (var r : b ->? m c))'
+18.6-18.17: ### Hint:
+untypeable term (with type: _v96_m _v97_a * (_v97_a -> _v96_m _v98_b))
+'(p >>= q, r)'
+18.4-18.10: ### Hint:
+rejected '__->?__ < __->__' of '((var p : m a), (var q : a ->? m b))'
+18.4-18.10: ### Hint:
+untypeable term (with type: _v108_m _v109_a * (_v109_a -> _v108_m _v110_b))
+'(p, q)'
+18.29: ### Hint: rebound variable 'x'
+18.36-18.44: ### Hint:
+rejected '__->?__ < __->__' of '((var q : a ->? m b) (var x : a), (var r : b ->? m c))'
+18.36-18.44: ### Hint:
+untypeable term (with type: _v120_m _v121_a * (_v121_a -> _v120_m _v122_b))
+'(q x, r)'
+18.21-18.44: ### Hint:
+rejected '__->?__ < __->__' of '((var p : m a),
+ \ x : a
+ . (op __>>=__ :
+    forall m : Monad; a : Type; b : Type . m a * (a ->? m b) ->? m b)
+   ((var q : a ->? m b) (var x : a), (var r : b ->? m c)))'
+18.21-18.40: ### Hint:
+untypeable term (with type: _v114_m _v115_a * (_v115_a -> _v114_m _v116_b))
+'(p, \ x : a . q x >>= r)'
+18.29: ### Hint: rebound variable 'x'
+18.36-18.44: ### Hint:
+rejected '__->?__ < __->__' of '((var q : a ->? m b) (var x : a), (var r : b ->? m c))'
+18.36-18.44: ### Hint:
+untypeable term (with type: _v126_m _v127_a * (_v127_a -> _v126_m _v128_b))
+'(q x, r)'
+20.16-20.20: ### Warning: refined class 'Monad'
+21.7: ### Hint: is type variable 'm'
+21.7: ### Hint: rebound type variable 'm'
+21.17: ### Hint: is type variable 'a'
+21.17: ### Hint: rebound type variable 'a'
+21.20: ### Hint: is type variable 'b'
+21.20: ### Hint: rebound type variable 'b'
+21.30: ### Hint: not a class 'a'
+21.30: ### Hint: not a class 'b'
+21.29: ### Hint: rebound variable 'f'
+21.29: ### Warning: variable also known as type variable 'f'
+21.41: ### Hint: not a kind 'm a'
+21.40: ### Hint: rebound variable 'x'
+22.21: ### Hint: rebound variable 'y'
+22.13-22.35: ### Hint:
+rejected '__->?__ < __->__' of '((var x : m a),
+ \ y : a
+ . (op ret : forall m : Monad; a : Type . a -> m a)
+   ((var f : a -> b) (var y : a)))'
+22.13-22.35: ### Hint:
+untypeable term (with type: _v149_m _v150_a * (_v150_a -> _v149_m _v151_b))
+'(x, \ y : a . ret (f y))'
+22.21: ### Hint: rebound variable 'y'
+25.7: ### Hint: is type variable 't'
+25.18: ### Hint: is type variable 'm'
+25.18: ### Hint: rebound type variable 'm'
+25.28: ### Hint: is type variable 'a'
+25.28: ### Hint: rebound type variable 'a'
+27.8: ### Hint: not a class 'a'
+27.7: ### Hint: rebound variable 'x'
+27.14: ### Hint: not a kind 'm a'
+27.13: ### Hint: rebound variable 'p'
+27.21: ### Hint: is type variable 'b'
+27.21: ### Hint: rebound type variable 'b'
+27.31: ### Hint: not a kind 'a -> m b'
+27.30: ### Hint: rebound variable 'q'
+29.33: ### Hint: rebound variable 'y'
+29.33: ### Hint: rebound variable 'y'
+29.33: ### Hint: rebound variable 'y'
+29.33: ### Hint: rebound variable 'y'
+31.7-31.11: ### Hint: is type variable 'state'
+33.7: ### Hint: is type variable 'a'
+33.7: ### Hint: rebound type variable 'a'
+33.10: ### Hint: is type variable 'b'
+33.10: ### Hint: rebound type variable 'b'
+34.30: ### Hint:
+no kind found for 'a'
+  expected: {Cpo}
+     found: {Type}
+34.30: ### Hint:
+no kind found for 'a'
+  expected: {Cppo}
+     found: {Type}
+34.6-34.7: ### Hint: redeclared type 'ST'
+35.8: ### Hint: not a class 'a'
+35.7: ### Hint: rebound variable 'x'
+35.14: ### Hint: not a kind 'ST state a'
+35.13: ### Hint: rebound variable 'p'
+35.29: ### Hint: not a kind 'a ->? ST state b'
+35.28: ### Hint: rebound variable 'q'
+36.3-36.7: ### Hint:
+in type of '(op ret : forall m : Monad; a : Type . a -> m a) (var x : a)'
+  typename 'a' (35.10)
+  is not unifiable with type 'a * state' (36.20)
+36.3-36.42: ### Hint:
+untypeable term (with type: ? _v250_a * ? _v250_a)
+'(ret x : ST state a, \ s : state . (x, s))'
+36.22: *** Error:
+no typing for '(ret x : ST state a) = \ s : state . (x, s)'
+37.3-37.9: ### Hint:
+in type of '((var p : ST state a), (var q : a ->? ST state b))'
+  typename 'a' (35.31)
+  is not unifiable with type 'a * state' (35.25)
+37.3-37.9: ### Hint:
+untypeable term (with type: _v254_m _v255_a * (_v255_a -> _v254_m _v256_b))
+'(p, q)'
+37.3-37.9: ### Hint:
+in type of '((var p : ST state a), (var q : a ->? ST state b))'
+  typename 'a' (35.31)
+  is not unifiable with type 'a * state' (35.25)
+37.3-37.9: ### Hint:
+untypeable term (with type: _v257_m _v258_a * (_v258_a ->? _v257_m _v259_b))
+'(p, q)'
+37.5-37.54: ### Hint:
+untypeable term (with type: ? _v253_a * ? _v253_a)
+'(p >>= q, \ s1 : state . let (z, s2) = p s1 in q z s2)'
+37.11: *** Error:
+no typing for
+'p >>= q = \ s1 : state . let (z, s2) = p s1 in q z s2'

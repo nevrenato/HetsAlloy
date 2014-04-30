@@ -1,0 +1,30 @@
+[a]
+(a)(b)
+a:s(a)
+a +
++
+__*__
+([a], (a)(b), a +, __<__(a,b))
+[[a], (a)(b), a +, __<__(a,b)]
+a when (op a:b) else b
+a when (var a:b) else b
+a when (op a:b)(a) else b
+A[a]
+B[a]
+A[a]A[a]p
+A[a]!
+[[[a]]]
+[b, A[a]]
+b + [a] + b
+[a+b]
+A([a])
+- [a]
+b + A[a]
+[a]! %[combining [__] with __! is allowed without parenthesis]%
+[A[a] + b]
+[b + A[a]]
+[A[a], A[a]]
+A[a] + b
++2^4
+(var a:b)(a)
+odd - a

@@ -1,0 +1,14 @@
+classes C, D
+type  t : C -> C -> C
+type  t : +C -> C -> C
+type  t : C -> -C -> C
+type  t : -C -> +C -> C
+type  s : (+C -> C) -> C
+type  s : (D -> D) -> D
+classes
+C < Type;
+D < Type
+types
+s : (+C -> C) -> C;
+s : (D -> D) -> D;
+t : +-C -> +-C -> C

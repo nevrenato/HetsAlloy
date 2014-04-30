@@ -1,0 +1,88 @@
+\begin{verbatim}
+BASIC-SPEC      ::= BASIC-ITEMS...BASIC-ITEMS
+                  | { }
+
+BASIC-ITEMS     ::= channel CHANNEL-ITEM ;...; CHANNEL-ITEM ;/
+                  | channels CHANNEL-ITEM ;...; CHANNEL-ITEM ;/
+                  | process PROCESS-ITEM ;...; PROCESS-ITEM ;/
+                  | ...
+
+CHANNEL-ITEM    ::= CHANNEL ,..., CHANNEL : SORT
+
+PROCESS-ITEM    ::= PROCESS-NAME PROCESS-PROFILE
+                  | PROCESS-NAME PROCESS-HEAD = PROCESS
+                  | PROCESS-NAME = PROCESS
+
+PROCESS-PROFILE ::= ( SORT ,..., SORT ) : ALPHABET
+                  | : ALPHABET
+
+PROCESS-HEAD    ::= ( VAR ,..., VAR )
+                  | ( ARG-DECL ;...; ARG-DECL) : ALPHABET
+                  | : ALPHABET
+
+ALPHABET        ::= SORT-OR-CHANNEL ,..., SORT-OR-CHANNEL
+                  | { SORT-OR-CHANNEL ,..., SORT-OR-CHANNEL }
+                  | { }
+
+SORT-OR-CHANNEL ::= SORT
+                  | CHANNEL
+                  | CHANNEL : SORT
+
+CHANNEL         ::= SORT-ID
+PROCESS-NAME    ::= SORT-ID
+
+PROCESS         ::= ( PROCESS )
+                  | "SKIP"
+                  | "STOP"
+                  | "DIV"
+                  | "RUN" ( EVENT-SET )
+                  | "CHAOS" ( EVENT-SET )
+                  | if FORMULA then PROCESS else PROCESS
+                  | PROCESS-CALL
+
+                  | PROCESS \ EVENT-SET
+                  | PROCESS [[ RENAMING ]]
+
+                  | EVENT -> PROCESS
+                  | TERM -> PROCESS
+                  | [] VAR :: SORT -> PROCESS
+                  | |~| VAR :: SORT -> PROCESS
+
+                  | PROCESS ; PROCESS
+                  | PROCESS ;; PROCESS
+
+                  | PROCESS [] PROCESS
+                  | PROCESS |~| PROCESS
+
+                  | PROCESS [| EVENT-SET |] PROCESS
+                  | PROCESS |[ EVENT-SET ]| PROCESS
+                  | PROCESS [ EVENT-SET || EVENT-SET ] PROCESS
+                  | PROCESS |[ EVENT-SET || EVENT-SET ]| PROCESS
+                  | PROCESS |[ EVENT-SET "|" EVENT-SET ]| PROCESS
+                  | PROCESS || PROCESS
+                  | PROCESS ||| PROCESS
+
+EVENT-SET       ::= ALPHABET
+
+PROCESS-CALL    ::= PROCESS-SYMB
+                  | PROCESS-SYMB ( TERM ,..., TERM )
+
+PROCESS-SYMB    ::= PROCESS-NAME
+                  | ( process PROCESS-NAME PROCESS-PROFILE )
+
+RENAMING        ::= RENAME ,..., RENAME
+
+RENAME          ::= ID
+                  | op ID
+                  | pred ID
+                  | op ID : SORT -> SORT
+                  | op ID : SORT ->? SORT
+                  | pred ID : SORT * SORT
+                  | ID : SORT -> SORT
+                  | ID : SORT ->? SORT
+                  | ID : SORT * SORT
+
+EVENT           ::= CHANNEL ? VAR :: SORT
+                  | CHANNEL ! VAR :: SORT
+                  | CHANNEL ! TERM
+\end{verbatim}

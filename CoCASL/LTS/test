@@ -1,0 +1,93 @@
+--Exercise Sheet 1, 2:
+
+simulations (LTS ['p','q','r']  [(Edge 'p' 'a' 'q'),(Edge 'q' 'b' 'r'),(Edge 'r' 'a' 'p'),(Edge 'p' 'c' 'r')] ['a','b','c']) (LTS ['s','t','u','v'] [(Edge 's' 'a' 't'),(Edge 't' 'b' 'u'),(Edge 'u' 'a' 's'),(Edge 'u' 'a' 'v'),(Edge 'v' 'c' 'u')] ['a','b','c'])
+
+[]
+
+simulations (LTS ['s','t','u','v'] [(Edge 's' 'a' 't'),(Edge 't' 'b' 'u'),(Edge 'u' 'a' 's'),(Edge 'u' 'a' 'v'),(Edge 'v' 'c' 'u')] ['a','b','c']) (LTS ['p','q','r']  [(Edge 'p' 'a' 'q'),(Edge 'q' 'b' 'r'),(Edge 'r' 'a' 'p'),(Edge 'p' 'c' 'r')] ['a','b','c'])
+
+[
+(('s','p'),[('t','q'),('u','r'),('s','p'),('v','p')]),
+(('t','q'),[('u','r'),('s','p'),('t','q'),('v','p')]),
+(('u','r'),[('s','p'),('t','q'),('u','r'),('v','p')]),
+(('v','p'),[('s','p'),('t','q'),('u','r'),('v','p')])
+]
+
+ bisimulations (LTS ['p','q','r']  [(Edge 'p' 'a' 'q'),(Edge 'q' 'b' 'r'),(Edge 'r' 'a' 'p'),(Edge 'p' 'c' 'r')] ['a','b','c']) (LTS ['s','t','u','v'] [(Edge 's' 'a' 't'),(Edge 't' 'b' 'u'),(Edge 'u' 'a' 's'),(Edge 'u' 'a' 'v'),(Edge 'v' 'c' 'u')] ['a','b','c'])
+
+[]
+
+--Exercise Sheet 1, 3:
+
+simulations (LTS ['p','q','r','s'] [(Edge 'p' 'a' 'q'),(Edge 'p' 'a' 'r'),(Edge 'r' 'b' 's')] ['a','b']) (LTS ['t','u','v'] [(Edge 't' 'a' 'u'),(Edge 'u' 'b' 'v')] ['a','b'])
+
+[
+(('p','t'),[('q','u'),('p','t'),('s','v'),('r','u')]),
+(('q','t'),[('q','t')]),
+(('q','u'),[('q','u')]),
+(('q','v'),[('q','v')]),
+(('r','u'),[('s','v'),('r','u')]),
+(('s','t'),[('s','t')]),
+(('s','u'),[('s','u')]),
+(('s','v'),[('s','v')])
+]
+
+simulations (LTS ['t','u','v'] [(Edge 't' 'a' 'u'),(Edge 'u' 'b' 'v')] ['a','b']) (LTS ['p','q','r','s'] [(Edge 'p' 'a' 'q'),(Edge 'p' 'a' 'r'),(Edge 'r' 'b' 's')] ['a','b'])
+
+[
+(('t','p'),[('v','s'),('u','r'),('t','p')]),
+(('u','r'),[('v','s'),('u','r')]),
+(('v','p'),[('v','p')]),
+(('v','q'),[('v','q')]),
+(('v','r'),[('v','r')]),
+(('v','s'),[('v','s')])
+]
+
+bisimulations (LTS ['p','q','r','s'] [(Edge 'p' 'a' 'q'),(Edge 'p' 'a' 'r'),(Edge 'r' 'b' 's')] ['a','b']) (LTS ['t','u','v'] [(Edge 't' 'a' 'u'),(Edge 'u' 'b' 'v')] ['a','b'])
+
+[
+(('q','v'),[('q','v')]),
+(('r','u'),[('s','v'),('r','u')]),
+(('s','v'),[('s','v')])
+]
+
+
+--Exercise Sheet 3, 1, a
+
+satisfy (LTS ['p','q','r','s'] [(Edge 'p' 'b' 'q'),(Edge 'p' 'b' 'r'),(Edge 'q' 'a' 'r'),(Edge 's' 'b' 'q'),(Edge 'r' 'a' 'p'),(Edge 'r' 'b' 'r'),(Edge 'r' 'a' 's')] ['a','b']) (Modal BoxOp (Modal DiamondOp (Top) 'a') 'b')
+
+[
+('p',([('p',Modal BoxOp (Modal DiamondOp Top 'a') 'b',True),('q',Modal DiamondOp Top 'a',True),('r',Top,True),('r',Modal DiamondOp Top 'a',True),('p',Top,True)],True)),
+
+('q',([('q',Modal BoxOp (Modal DiamondOp Top 'a') 'b',True)],True)),
+
+('r',([('r',Modal BoxOp (Modal DiamondOp Top 'a') 'b',True),('r',Modal DiamondOp Top 'a',True),('p',Top,True)],True)),
+
+('s',([('s',Modal BoxOp (Modal DiamondOp Top 'a') 'b',True),('q',Modal DiamondOp Top 'a',True),('r',Top,True)],True))
+]
+
+
+satisfy (LTS ['p','q','r','s'] [(Edge 'p' 'b' 'q'),(Edge 'p' 'b' 'r'),(Edge 'q' 'a' 'r'),(Edge 's' 'b' 'q'),(Edge 'r' 'a' 'p'),(Edge 'r' 'b' 'r'),(Edge 'r' 'a' 's')] ['a','b']) (Modal BoxOp (Modal DiamondOp (Modal DiamondOp (Top) 'b') 'b') 'a')
+
+[
+('p',([('p',Modal BoxOp (Modal DiamondOp (Modal DiamondOp Top 'b') 'b') 'a',True)],True)),
+
+('q',([('q',Modal BoxOp (Modal DiamondOp (Modal DiamondOp Top 'b') 'b') 'a',True),('r',Modal DiamondOp (Modal DiamondOp Top 'b') 'b',True),('r',Modal DiamondOp Top 'b',True),('r',Top,True)],True)),
+
+('r',([('r',Modal BoxOp (Modal DiamondOp (Modal DiamondOp Top 'b') 'b') 'a',False),('p',Modal DiamondOp (Modal DiamondOp Top 'b') 'b',True),('q',Modal DiamondOp Top 'b',False),('r',Modal DiamondOp Top 'b',True),('r',Top,True),('s',Modal DiamondOp (Modal DiamondOp Top 'b') 'b',False)],False)),
+
+('s',([('s',Modal BoxOp (Modal DiamondOp (Modal DiamondOp Top 'b') 'b') 'a',True)],True))
+]
+
+
+satisfy (LTS ['p','q','r','s'] [(Edge 'p' 'b' 'q'),(Edge 'p' 'b' 'r'),(Edge 'q' 'a' 'r'),(Edge 's' 'b' 'q'),(Edge 'r' 'a' 'p'),(Edge 'r' 'b' 'r'),(Edge 'r' 'a' 's')] ['a','b']) (Modal DiamondOp (Bin OrOp (Modal BoxOp Bot 'a') (Modal BoxOp (Modal BoxOp Bot 'b') 'b')) 'a')
+
+
+[
+('p',([('p',Modal DiamondOp (Bin OrOp (Modal BoxOp Bot 'a') (Modal BoxOp (Modal BoxOp Bot 'b') 'b')) 'a',False)],False)),
+
+('q',([('q',Modal DiamondOp (Bin OrOp (Modal BoxOp Bot 'a') (Modal BoxOp (Modal BoxOp Bot 'b') 'b')) 'a',False),('r',Bin OrOp (Modal BoxOp Bot 'a') (Modal BoxOp (Modal BoxOp Bot 'b') 'b'),False),('r',Modal BoxOp Bot 'a',False),('p',Bot,False),('r',Modal BoxOp (Modal BoxOp Bot 'b') 'b',False),('r',Modal BoxOp Bot 'b',False),('r',Bot,False)],False)),
+
+('r',([('r',Modal DiamondOp (Bin OrOp (Modal BoxOp Bot 'a') (Modal BoxOp (Modal BoxOp Bot 'b') 'b')) 'a',True),('p',Bin OrOp (Modal BoxOp Bot 'a') (Modal BoxOp (Modal BoxOp Bot 'b') 'b'),True),('p',Modal BoxOp Bot 'a',True),('p',Modal BoxOp (Modal BoxOp Bot 'b') 'b',False),('q',Modal BoxOp Bot 'b',True),('r',Modal BoxOp Bot 'b',False),('r',Bot,False)],True)),
+
+('s',([('s',Modal DiamondOp (Bin OrOp (Modal BoxOp Bot 'a') (Modal BoxOp (Modal BoxOp Bot 'b') 'b')) 'a',False)],False))]

@@ -1,0 +1,1399 @@
+\documentclass{llncs}
+%\documentclass[a4paper,11pt]{article}
+%\textwidth  15.93cm
+%\textheight 24cm
+%\oddsidemargin  0.0cm
+%\evensidemargin 0.0cm
+%\topmargin  0.0cm
+
+\begin{document}
+
+\title{Translating Haskell to Isabelle}
+\author{ Paolo Torrini\inst{1} \and
+  Christoph Lueth\inst{2}
+  Christian Maeder\inst{2}
+  Till Mossakowski\inst{2}
+}
+\institute{Verimag, {\tt Paolo.Torrini@imag.fr} 
+\and DFKI Lab Bremen, {\tt \{Christoph.Lueth,Christian.Maeder,Till.Mossakowski\}@dfki.de} }
+% \date{\today}
+
+\maketitle
+
+\begin{abstract}
+  We present partial translations of Haskell programs to Isabelle that have
+  been implemented as part of the Heterogeneous Tool Set. The the target logic
+  is Isabelle/HOLCF, and the translation is based on a shallow embedding
+  approach.
+  % The AWE package has been used to support a translation of monadic
+  %operators based on theory morphisms.
+\end{abstract}
+
+\sloppy
+
+\section{Introduction}
+\label{intro}
+
+Automating translation from programming languages to the language of a generic
+prover may provide useful support for the formal development and the
+verification of programs. It has been argued that functional languages can
+make the task of proving assertions about programs written in them easier,
+owing to the relative simplicity of their semantics
+\cite{Thompson92,Thompson95}. The idea of translating Haskell programs, came
+to us, more specifically, from an interest in the use of functional languages
+for the specification of reactive systems. Haskell is a strongly typed, purely
+functional language with lazy evaluation, polymorphic types extended with type
+constructor classes, and a syntax for side effects and pseudo-imperative code
+based on monadic operators \cite{HaskellRep}.  Several languages based on
+Haskell have been proposed for application to robotics \cite{phh99,Hudak2003}.
+In such languages, monadic constructors are extensively used to deal with
+side-effects. Isabelle is a generic theorem-prover implemented in SML
+supporting several logics --- in particular, Isabelle/HOL is the
+implementation in Isabelle of classical higher-order logic based on simply
+typed lambda calculus extended with axiomatic type classes. It provides
+support for reasoning about programming functions, both in terms of rich
+libraries and efficient automation.  Isabelle/HOLCF \cite{holcf}
+\cite{Paulson94isa,holcf} is Isabelle/HOL conservatively extended with the
+Logic of Computable Functions --- a formalisation of domain theory.
+
+We have implemented as functions of Hets translations of Haskell to
+Isabelle/HOLCF following an approach based on shallow embedding,
+mapping Haskell types to Isabelle ones, therefore taking full
+advantage of Isabelle built-in type-checking. Hets
+\cite{MossaTh,HetsUG,Hets,MossakowskiEtAl07b} is an Haskell-based
+application designed to support heterogeneous specification and the
+formal development of programs. It has an interface with Isabelle, and
+relies on Programatica \cite{Prog04} for parsing and static analysis
+of Haskell programs.  Programatica already includes a translation to
+Isabelle/HOLCF which, in contrast to ours, is based on an object-level
+modelling of the type system \cite{Huff}.
+
+The paper is organised as follows: Section~\ref{sec:semantics} discusses
+the semantic background of the translation, while the subsequent sections
+are devoted to the translation of types, datatypes, classes and function
+definitions, respectively. Sect.~\ref{sec:ex} shows some example proof,
+and Sect.~\ref{sec:conclusion} concludes the paper.
+
+%Section 2 gives some background, section 3 introduces the system, section 4
+%gives the sublanguages of Haskell that can be translated, in section 5 we
+%define the two translations.
+%, in section 6 we sketch a denotational semantics
+%associated with the translation to Isabelle/HOLCF, in section 7 we show how translation
+%of monads is carried out with AWE.
+
+\section{Semantic Background of the Translation}
+\label{sec:semantics}
+
+We firstly describe the subset of Haskell that we cover.
+Our translation to Isabelle/HOLCF covers at present Booleans, integers, basic
+constructors (function, product, list, \emph{maybe}), equality,
+single-parameter type classes (with some limitations), \emph{case} and
+\emph{if} expressions, \emph{let} expressions without patterns, mutually
+recursive data-types and functions. 
+%It relies on existing formalisations of
+%lazy lists and \emph{maybe}. 
+It keeps into account partiality and laziness by
+following, for the main lines, the denotational semantics of lazy evaluation
+given in \cite{winskel}. There are several limitations: \emph{Prelude} syntax
+is covered only partially; list comprehension, \emph{where} expressions and
+\emph{let} with patterns are not covered; further built-in types and type
+classes are not covered; imports are not allowed; constructor type classes are
+not covered at all --- and so for monadic types beyond list and \emph{maybe}.
+Of all these limitations, the only logically deep ones are those related to
+classes --- all the other ones are just a matter of implementation.
+
+For the translation, we have followed the informal description of the
+operational semantics given in the Haskell report \cite{HaskellRep},
+and also consulted the complete static semantics for Haskell 98
+\cite{journals/jfp/Faxen02}, as well as the (fragmentary) dynamic
+semantics \cite{oai:CiteSeerPSU:71374}.  However, it should be noted
+that there is no denotational semantics of Haskell! This also has
+become clear after a query that one of the authors has sent to the
+Haskell mailing list \cite{HaskellMail05}.  Hence, our translation to
+Isabelle/HOLCF can be seen as the first denotational semantics given
+to a large subset of Haskell 98.  This also means that there is no
+notion of correctness of this translation, because it just
+\emph{defines} the denotational semantics.  Of course, an interesting
+question is the coincidence of denotational and operational semantics.
+However, this is beyond the scope of the paper.
+
+%The base translation to Isabelle-HOL is more limited, insofar as it covers
+%only total primitive recursive functions. A better semantics with respect to
+%partiality could be obtained by lifting the type of function values with
+%\emph{option}, but this has not been pursued here. Still, \emph{option} has
+%been used to translate \emph{maybe}. On the other hand, laziness appears very
+%hard to be captured with Isabelle-HOL. It also seems hard to overcome the
+%limitation to primitive recursion. Other limitations are similar to those
+%mentioned for the translation to Isabelle/HOLCF --- with the notable exception of
+%monads.
+
+
+
+%\section{Translations in Hets}
+
+%The Haskell-to-Isabelle translation in Hets requires GHC, Programatica,
+%Isabelle and AWE. The application is run by a command that takes as arguments
+%a target logic and an Haskell program, given as a GHC source file. The latter
+%gets analysed and translated, the result of a successful run being an Isabelle
+%theory file in the target logic.
+
+%The Hets internal representation of Haskell is similar to that of
+%Programatica, whereas the internal representation of Isabelle is based on the
+%ML definition of the Isabelle base logic, extended in order to allow for a
+%simpler representation of Isabelle-HOL and Isabelle/HOLCF.  Haskell programs and
+%Isabelle theories are internally represented as Hets theories --- each of them
+%formed by a signature and a set of sentences, according to the theoretical
+%framework described in \cite{MossaTh}.  Each translation, defined as
+%composition of a signature translation with a translation of all sentences, is
+%essentially a morphism from theories in the internal representation of the
+%source language to theories in the representation of the target language.
+
+
+
+\section{Translation of Types}
+\label{sec:types}
+
+
+In Isabelle/HOL types are interpreted as sets (class \emph{type});
+functions are total and may not be computable. A non-primitive
+recursive function may require discharging proof obligations already
+at the stage of definition --- in fact, a specific relation has to be
+given for a function to be proved total. In Isabelle/HOLCF each type
+is interpreted as a pointed complete partially ordered set (class
+\emph{pcpo}) i.e. a set with a partial order which has suprema of
+$\omega$-chains and has a bottom. Isabelle's formalisation, based on
+axiomatic type classes \cite{Wenzel}, makes it possible to deal with
+complete partial orders in quite an abstract way.  Functions are
+generally partial and computability can be expressed in terms of
+continuity. Recursion can be expressed in terms of least fixed-point
+operator, and so, in contrast with Isabelle/HOL, function definition
+does not depend on proofs.  Nevertheless, proving theorems in
+Isabelle/HOLCF may turn out to be comparatively hard.  After being
+spared the need to discharge proof obligations at the definition
+stage, one has to bear with assumptions on function continuity
+throughout the proofs. A standard strategy is then to define as much
+as possible in Isabelle/HOL, using Isabelle/HOLCF type constructors to
+lift types only when this is necessary.
+
+The provision of pcpos, domains and continuous functions by
+Isabelle/HOLCF eases the translation of Haskell types and functions a
+lot.  However, special care is needed when trying to understand the
+Haskell semantics. If one reads the section of the Haskell report
+dealing with types and classes, one could come to the conclusion that
+a function space in Haskell can be mapped to the space of the
+continuous functions in Isabelle/HOLCF --- this would correspond to a
+purely lazy language. However, Haskell is a mixed eager and lazy
+language, as it provides a function $seq$ that enforces eager
+evaluation. This function is introduced in part 6 of the Haskell
+report, ``Predefined Types and Classes'', in section 6.2.  We quote
+from there:
+\begin{quote}
+  However, the provision of $seq$ has important semantic consequences,
+  because it is available at every type. As a consequence, $\bot$ is
+  not the same as $\lambda x \rightarrow \bot$, since $seq$ can be
+  used to distinguish them.
+\end{quote}
+In order to enforce this distinction, each function space needs to be
+lifted. The same holds for products.  We define these liftings in a
+specific Isabelle/HOLCF theory \emph{HsHOLCF} (included in the Hets
+distribution) as follows:
+
+\begin{verbatim} 
+defaultsort pcpo
+
+domain ('a,'b) lprod = lpair (lazy 'a) (lazy 'b)
+
+domain ('a,'b) LiftedCFun  = Lift (lazy "'a -> 'b")  
+syntax 
+  "LiftedCFun"  :: "[type, type] => type"      ("(_ --> _)" [1,0]0)
+
+constdefs
+  liftedApp :: "('a --> 'b) => ('a => 'b)" ("_$$_" [999,1000] 999)
+                                                (* application *)
+  "liftedApp f x == case f of
+                     Lift $ g => g $ x"
+constdefs
+  liftedLam :: "('a => 'b) => ('a --> 'b)" (binder "Lam " 10)
+                                                (* abstraction *)
+  "liftedLam f == Lift $ (LAM x . f x)"
+\end{verbatim}
+
+Our translation of Haskell types to Isabelle types is defined
+recursively.  It is based on a translation of names for avoidance of
+name clashes that is not specified here. We write $\alpha'$ for both
+the recursive translation of item $\alpha$ and the renaming according
+to the name translation.  The translation of types is given by the
+following rules:
+
+
+\noindent Types
+$$\begin{array}{ll}
+  a & \Longrightarrow \ 'a::\{pcpo\} \\
+  () & \Longrightarrow \ unit \ \mbox{lift} \\
+  Bool & \Longrightarrow \ bool \ \mbox{lift} \\
+  Integer & \Longrightarrow \ int \ \mbox{lift} \\
+  \tau_{1} \to \tau_{2} & \Longrightarrow
+  \ \tau'_{1} \ \verb@-->@ \ \tau'_{2})  \\
+  (\tau_{1},\tau_{2}) & \Longrightarrow
+  \ (\tau'_{1} ~lprod~ \tau'_{2}) \\
+  {[\tau]} \ & \Longrightarrow \ \tau' \ llist \\
+  T \ \tau_1 \ \ldots \ \tau_n & \Longrightarrow
+  \ \tau'_1 \ \ldots \ \tau'_n \ T' \\
+  & \quad \mbox{with} \ T \ \mbox{either \ datatype \ or \ defined \ type} \\
+\end{array}$$
+
+Built-in types are translated to the lifting of the corresponding HOL type.
+The Isabelle/HOLCF type constructor \emph{lift} is used to lift types to flat
+domains. The type constructor $llist$ is discussed in the next section.
+
+
+\section{Translation of Datatypes}
+
+As explained in the Haskell report \cite{HaskellRep}, section 4.2.3,
+the following four Haskell declarations
+
+\begin{verbatim}
+ data D1 = D1 Int
+ data D2 = D2 !Int
+ type S = Int
+ newtype N = N Int
+\end{verbatim}
+
+have four different semantics. Indeed, the correct translation to
+Isabelle/HOLCF is as follows:
+
+\begin{verbatim}
+domain D1 = D1 (lazy D1_1::"Int lift")
+domain D2 = D2 (D2_1::"Int lift")
+types S = "Int lift"
+pcpodef N = "{x:: Int lift . True}"
+by auto
+\end{verbatim}
+\noindent In Isabelle/HOLCF, the keyword \emph{domain} defines a
+(possibly recursive) domain as solution of the corresponding domain
+equation.  The keyword \emph{lazy} ensures that the constructor $D1$
+above is non-strict, i.e.\ $D1 \ \bot \ \neq \ \bot$.  The keyword
+\emph{pcpodef} can be used to define sub-pcpos of existing pcpos;
+here, we use it just to introduce an isomorphic copy of an existing
+pcpo --- this is the semantics of Haskell \emph{newtype} definitions.
+Although a domain with one strict unary constructor, such as $D2$,
+also introduces an isomorphic copy, the difference is that the
+``constructor'' $Abs\_N~ ::~ Int~ \mathit{lift} \Rightarrow N$
+introduced implicitly by the above \emph{pcpodef} declaration is
+merely a representation function; it cannot be used for pattern
+matching. This means that in function definitions, any pattern for
+values of type $N$ must be variable (which always matches), and the
+selector $Rep\_N~ ::~ N \Rightarrow Int ~ \mathit{lift}$ needs to be
+applied to this variable whereever the corresponding value of type
+$Int ~ \mathit{lift}$ is needed. This ``always match'' behaviour is
+exactly the behaviour specified for newtypes in the Haskell report.
+
+Lists are translated to the domain \emph{llist}, defined as follows 
+in our prelude theory \emph{HsHOLCF}:
+
+\begin{verbatim}
+domain 'a llist = lNil | ### (lazy 'a) (lazy 'a llist) 
+\end{verbatim}
+\noindent allowing for partial list as well as for infinite ones \cite{holcf}.\\
+
+For each datatype, we have to lift the constructors from the
+HOLCF continuous function spaces to our lifted function spaces:
+
+\begin{verbatim}
+constdefs
+  cont2lifted2 :: "('a -> 'b -> 'c) => ('a --> 'b --> 'c)"
+  "cont2lifted2 f == Lam x . Lam y. f $ x $ y"
+
+  llCons :: "'a --> 'a llist --> 'a llist"
+  "llCons == cont2lifted2 (op ###)"
+\end{verbatim}
+
+
+
+The general scheme for translation of mutually recursive lazy Haskell
+datatypes to Isabelle/HOLCF domains is as follows:
+\begin{tabbing}
+$ data \ \phi_1 \ = \ C_{11} \ x_1 \ldots x_i
+  \ | \ \ldots \ | \ C_{1p} \ y_1 \ldots y_j $ \\
+$ \ldots $ \\
+$ data \ \phi_n \ = \ C_{n1} \ w_1 \ldots w_h
+  \ | \ \ldots \ | \ C_{1q} \ z_1 \ldots z_k \qquad \Longrightarrow $ \\
+$  \qquad $\=$ domain$\=$ \ \phi'_1 \ = \  $\=$ C'_{11} \ (lazy~ ::\ x'_1) \ \ldots \ (lazy~ :: \ 
+  x'_i) \ |$\\
+\>\>\>$ \ \ldots \ | \ $\\
+\>\>\>$ C'_{1p} \ 
+  (lazy~ :: \ y'_1) \ \ldots \ (lazy~ :: \ y'_j) $\\
+\>$  and \ \ldots $\\
+\>$  and \ $\>$\phi'_n \ = \ C'_{n1} \ (lazy~ :: \ w'_1) \ \ldots \ (lazy~ :: \ 
+  w'_h) \ | \ $\\
+\>\>\>$\ldots \ | $\\
+\>\>\>$\  C'_{nq} \ 
+  (lazy~ :: \ z'_1) \ \ldots \ (lazy~ :: \ z'_k) $\\
+\end{tabbing}
+Mutually recursive datatypes relies on specific Isabelle syntax
+(keyword \emph{and}).\footnote {Due to a bug in Isabelle/HOLCF 2005,
+  declaration of mutually recursive lazy domains does not work.
+  However, this will be fixed in Isabelle 2007; the fix currently is
+  available in the development snapshot.} Order of declarations is
+taken care of. In case of strict arguments (indicated with ! in
+Haskell), the keyword \emph{lazy} is omitted.
+
+The translation scheme for definitions of type synonyms is simply as follows:
+$$  type \ \tau \ = \ \tau_1 \quad \qquad \Longrightarrow \qquad
+  \ types \ \tau' \ = \ \tau'_1 
+$$
+
+
+\section{Translation of Kinds and Type Classes}
+
+Type classes in Isabelle and Haskell associate a set of functions to a
+type class identifier (these functions are also called the
+\emph{methods} of the class). In Isabelle, type classes are typically
+further specified using a set of axioms; for example, the class
+$\mathit{linorder}$ of total orders is specified using the usual total
+order axioms. Of course, such axiomatizations are not possible in
+Haskell. Indeed, in Haskell, there is no check that the class $Ord$
+actually consists of total orders only, and hence it would be
+inappropriate to translate it to $\mathit{linorder}$ in Isabelle.
+Instead, we translate to a newly declared Isabelle class $Ord$.  The
+only thing that we assume is that it is a subclass of $pcpo$, because
+all Haskell types are translated to pcpos.  Hence, type classes are
+translated to Isabelle/HOLCF as subclasses of \emph{pcpo} with empty
+axiomatization.  Methods declarations associated with Haskell classes
+are translated to independent function declarations with appropriate
+class annotation on type variables.
+
+
+
+Class instance declarations declare that a particular type belongs to
+a class. In Isabelle, instance declarations generate proof
+obligations, namely that the methods for the type at hand indeed
+satisfy the axioms of the class. Since our translation only generates
+classes without axioms (beyond those of $pcpo$), proofs are trivial
+and proof obligation may be automatically discharged.
+
+
+A Haskell class instance declaration that declares type $T$
+to belong to class $C$ may define the behaviour of $C$'s
+class methods for $T$. The same is possible with
+normal Isabelle constant definitions, if the type of the
+constant (function) is specialised to $T$ in the definition.
+With this, we avoid an explicit handling of dictionaries, as
+described in the static semantics of Haskell \cite{journals/jfp/Faxen02}.
+
+
+%Not all the problems have been solved with
+%respect to arities that may conflict in Isabelle, although they correspond to
+%compatible Haskell instantiations.  
+
+A restriction of Isabelle is that it does not allow for constructor
+classes. Therefore, the same restrictions apply to our
+translation.\footnote{Isabelle does not support multi-parameter
+  classes (used in some Haskell 98 extensions) either.}  \medskip
+
+\noindent Classes
+$$\begin{array}{l}
+  K \quad \Longrightarrow \quad K' 
+\end{array}$$
+
+\noindent Type schemas
+$$\begin{array}{ll} 
+  (\{K \ v\} \ \cup \ ctx) \ \Rightarrow \ \tau & \Longrightarrow 
+  \ (ctx \Rightarrow \tau)'  
+           \ [(v'::s) / (v'::({K'} \cup s))]  \\
+  \{ \ \} \ \Rightarrow \ \tau & \Longrightarrow \ \tau'
+\end{array}$$\\
+
+Haskell type variables are translated to variables of class
+\emph{pcpo}.  Each type is associated to a sort in Isabelle (in
+Haskell, the same concept is called ``kind''), defined by the set of
+the classes of which it is member.  
+\medskip
+
+\noindent Class declarations
+$$\begin{array}{l} class \ K \ where \ (Dec_1; \ldots; Dec_n \rceil) \ 
+  \Longrightarrow \ class \ K' \ \subseteq
+  \ pcpo; \ Dec'_1; \ \ldots; \ Dec'_n \\
+\end{array}$$
+        
+\noindent Class instance definitions
+$$\begin{array}{l}
+instance \ ctx \ \Rightarrow \ K_T \ (T \ v_1 \ \ldots \ v_n) \ where \\ 
+  \qquad \qquad \qquad (f_1::\tau_1 = t_1; \ldots; \ f_n::\tau_n = t_n) \\
+  \qquad \qquad \qquad \qquad \qquad \qquad \qquad 
+  \qquad \qquad \qquad \qquad \Longrightarrow \\
+  \qquad instance \\
+  \qquad \qquad \tau' :: \ K_{T}' \ (\{pcpo\} \ \cup \ \{K':(K \ v_1)
+  \in ctx\}, \\
+   \qquad \qquad \qquad \quad \quad  \ldots, \\
+  \qquad \qquad \qquad \quad \quad 
+         \{pcpo\} \ \cup \ \{K':(K \ v_n) \in ctx\}) \\
+  \qquad \mbox{proof \ obligation}; \\
+  \qquad defs \ f'_{\tau 1} :: (ctx \Rightarrow \tau_1)' = t'_1; \\
+  \qquad \qquad \ldots; \\
+  \qquad \qquad f'_{\tau n} :: (ctx \Rightarrow \tau_n)' = t'_n
+\end{array}$$\\
+
+
+
+
+
+\section{Translation of Function Definitions and Terms}
+
+Terms of built-in type are translated using Isabelle/HOLCF-defined lifting function
+\emph{Def}.  The bottom element $\bot$ is used for undefined terms.
+Isabelle/HOLCF-defined $\mathit{flift1} :: \ ('a \Rightarrow \ 'b::pcpo) \Rightarrow ('a
+\ \mathit{lift} \to \ 'b)$ and $\mathit{flift2} :: \ ('a \Rightarrow \ 'b) \Rightarrow ('a \ \mathit{lift}
+\to \ 'b \ 
+\mathit{lift})$ are used to lift operators, as well as the following, defined in
+\emph{HsHOLCF}.\\
+
+\begin{verbatim}
+lliftbin :: "('a::type => 'b::type => 'c::type) => 
+               ('a lift --> 'b lift --> 'c lift)"
+"lliftbin f == cont2lifted2 (flift1 (%x. flift2 (f x)))"
+\end{verbatim}
+\noindent Boolean values are translated to values of \emph{bool lift} 
+(\emph{tr} in Isabelle/HOLCF) i.e.  \emph{TT}, \emph{FF} and $\bot$, and
+Boolean connectives to the corresponding Isabelle/HOLCF operators.
+Isabelle/HOLCF-defined \emph{If then else fi} and \emph{case} syntax are used
+to translate conditional and case expressions, respectively.  There are
+restrictions, however, on case expressions, due to limitations in the
+translation of patterns; in particular, only simple patterns are allowed (no
+nested ones). On the other hand, Isabelle sensitiveness to the order of
+patterns in case expressions is dealt with. Multiple function definitions are
+translated as definitions based on case expressions. In function definitions
+as well as in case expressions, both wildcards --- not available in Isabelle
+--- and incomplete patterns --- not allowed --- are dealt with by elimination,
+$\bot$ being used as default value in the latter. Only let expressions
+without patterns on the left are dealt with; guarded expressions are
+translated as conditional ones; where expressions and list comprehension are
+not covered.
+
+
+
+$$\begin{array}{l}
+  f :: \phi \qquad \quad \Longrightarrow \qquad 
+  \ consts \ f' \ :: \ \phi' \\
+   \\
+ f \ \overline{x} \ p_1 \ \overline{x}_1 \ = \ t_1; \ 
+  \ldots;
+  \ f \ \overline{x} \ p_n \ \overline{x}_n \ = \ t_n \quad \Longrightarrow \\
+  \qquad (f \ \overline{x} \ = \ case \ y \ of \ (p_1 \to (\backslash
+  \overline{x}_1 \to \ t_1); \ 
+  \ldots; \ p_n (\to \backslash \overline{x}_n \to \ t_n)))' \\
+ \\
+  f \ \overline{x} \ = \ t \qquad \qquad \Longrightarrow \qquad \quad 
+                defs \ f' :: \phi' \ = \ Lam \ \overline{x}'. \ t' \\
+  \qquad \mbox{with} \ f::\phi \ \mbox{not \ occurring \ in} \ t \\
+ \\
+  (f_1 \ \overline{v_1} \ = \ t_1; \ \ldots;
+  \ f_n \ \overline{v_n} \ = \ t_n) \qquad \Longrightarrow \\
+  \qquad fixrec \ f'_1 :: \phi'_1 \ =  
+    \ (Lam \ \overline{v_1}'. \ t'_1)  \\
+  \qquad \quad and \ \ldots \\
+  \qquad \quad and \ f'_n :: \phi'_n \ =
+  \ (Lam \ \overline{v_n}'. \ t'_n) \\
+  \qquad \mbox{with} \ f_1::\phi_1, \ldots, f_n::\phi_n \ 
+  \mbox{mutually \ recursive} \\
+\end{array}$$\\
+
+
+Function declarations use Isabelle keyword \emph{consts}. 
+%
+Non-recursive definitions are translated to standard definitions using
+Isabelle keyword \emph{defs}. Recursive definitions rely on
+Isabelle/HOLCF package \emph{fixrec} which provides nice syntax for
+fixed point definitions, including mutual recursion. Lambda
+abstraction is translated as continuous abstraction for lifted
+function spaces (\emph{Lam}), function application as continuous
+application (the \emph{\$\$} operator), see Sect.~\ref{sec:types}
+above.
+
+\section{Example Proof}
+\label{sec:ex}
+
+We illustrate our translation with a sample proof about the
+compatibility of map and composition.
+The Haskell declarations
+\begin{verbatim}
+comp ::  (b -> c) -> (a -> b) -> a -> c
+comp f g x = f (g x)
+
+map1 :: (a -> b) -> [a] -> [b]
+map1 f [] = []
+map1 f (x:xs) = f x : map1 f xs
+\end{verbatim}
+
+\noindent 
+are translated to
+
+\begin{verbatim}
+consts
+X_comp :: "('b --> 'c) --> ('a --> 'b) --> 'a --> 'c"
+map1 :: "('a --> 'b) --> 'a llist --> 'b llist"
+
+defs
+X_comp_def :
+"(X_comp :: ('b --> 'c) --> ('a --> 'b) --> 'a --> 'c) ==
+ Lam f. Lam g. Lam x. f $$ (g $$ x)"
+
+fixrec "(map1 :: ('a --> 'b) --> 'a llist --> 'b llist) =
+         (Lam qX1.  (Lam qX2. case qX2 of
+             lNil => lNil |
+             op ### $ pX1 $ pX2 =>
+                 llCons $$ (qX1 $$ pX1) $$ (map1 $$ qX1 $$ pX2)))"
+\end{verbatim}
+
+
+\noindent 
+The fixrec definition leads to a bunch of theorems, one for simplification.
+However, the latter makes the Isabelle simplifier loop, and hence needs
+to be replaced with a more suitable simplification theorem:
+\begin{verbatim}
+lemmas map1_simps [simp del]
+lemma map1_simp : "map1 $$ (f::('a --> 'b)) $$ (x::'a llist) =
+    (case x of lNil => lNil | 
+               op ### $ pX1 $ pX2 => 
+                    llCons $$ (f$$pX1)$$ (map1$$f$$pX2))"
+  apply (subst map1_simps)
+  by auto
+\end{verbatim}
+
+\noindent 
+Due to the recursion, this theorem cannot be fed into the simplifier either.
+However, using substitution, it helps in proving the following
+expected lemmas about the behaviour of $map1$:
+
+\begin{verbatim}
+lemma map1_UU [simp] : "map1 $$ f $$ UU = UU"
+  apply (subst map1_simp) 
+  by simp
+
+lemma map1_lNil[simp] : " map1 $$ f $$ lNil = lNil"
+  apply (subst map1_simp) 
+  by simp
+
+lemma map1_cons1[simp] : 
+               "map1 $$ f $$ (op ### $ x $ (xs::'a llist)) =
+                op ### $ (f $$ x) $ (map1 $$ f $$ xs)"
+  apply (subst map1_simp)
+  apply (simp add: cont2lifted2_def)
+done
+\end{verbatim}
+
+\noindent With these, it is now easy to prove, via induction, that map
+distributes over composition:
+\begin{verbatim}
+theorem compMap : 
+   "X_comp $$ (map1 $$ f) $$ (map1 $$ g) $$ x = 
+    map1 $$ (X_comp $$ f $$ g) $$ x"
+  apply (rule llist.ind)
+  back
+  apply (auto simp add: X_comp_def)
+done
+\end{verbatim}
+
+Isabelle/HOLCF also provides a coinduction method for recursive
+domains.
+
+\section{Conclusion and Related Work}
+\label{sec:conclusion}
+
+We provide a shallow embedding of Haskell to Isabelle/HOLCF, which can
+be used for proving properties of Haskell programs.  This translation
+also is the first denotational semantics that has been given to
+Haskell.
+
+The main advantage of our shallow approach is to get as much as
+possible out of the automation currently available in Isabelle,
+especially with respect to type checking. Isabelle/HOLCF in particular
+provides with an expressive semantics covering lazy evaluation, as
+well as with a smart syntax --- also thanks to the \emph{fixrec}
+package. It is interesting to note that Haskell functions and product
+types have to be lifted due to the mixture of eager and lazy evaluation
+that Haskell exhibits due to the presence of the $seq$ function.
+Type classes in Haskell are similar enough to Isabelle's type classes
+such that explicit handling of dictionaries can be avoided.
+
+The main disadvantage of our approach is the lack of type
+constructor classes. Anyway, it is possible to get around the
+obstacle, at least partially, by relying on an axiomatic
+characterisation of monads and on a proof-reuse strategy that actually
+minimises the need for interactive proofs.
+
+Concerning related work, although there have been translations of
+functional languages to first-order systems --- those to FOL of
+Miranda \cite{Thompson95,Thompson89,Thompson95b} and Haskell
+\cite{Thompson92}, both based on large-step operational semantics;
+that of Haskell to Agda implementation of Martin-Loef type theory in
+\cite{Abel} --- still, higher-order logic may be quite helpful in
+order to deal with features such as currying and polymorphism.
+Moreover, higher-order approaches may rely on denotational semantics
+--- as for examples, \cite{Huff} translating Haskell to HOLCF, and
+\cite{Pollack} translating ML to HOL --- allowing for program
+representation closer to specification as well as for proofs
+comparatively more abstract and general.
+
+The translation of Haskell to Isabelle/HOLCF proposed in \cite{Huff}
+uses deep embedding to deal with types.  Haskell types are translated
+to terms, relying on a domain-theoretic modelling of the type system
+at the object level, allowing explicitly for a clear semantics, and
+providing for an implementation that can capture most features,
+including type constructor classes.  In contrast, we provide in the
+case of Isabelle/HOLCF with a translation that follows the lines of a
+denotational semantics under the assumption that type constructors and
+type application in Haskell can be mapped to corresponding
+constructors and built-in application in Isabelle without loss from
+the point of view of behavioural equivalence between programs --- in
+particular, translating Haskell datatypes to Isabelle ones.  Our
+solution gives in general less expressiveness than the deeper approach
+--- however, when we can get it to deal with cases of interest, it
+might make proofs easier.
+
+%On the other hand, the main novelty in our work is
+%to rely on theory morphisms and on their implementation for Isabelle in the
+%package AWE \cite{AWE}, in order to deal with special cases of monadic
+%operator.
+% Currently Hets provides with an extension of the
+%base translation to Isabelle/HOL which uses AWE and covers state monad types
+%inclusive of \emph{do} notation.  Due to present limitations of AWE, this
+%solution is available only for Isabelle/HOL at the moment, although in
+%principle it could work for Isabelle/HOLCF as well.
+
+
+Future work should use this framework for proving properties of
+Haskell programs.  Also, the lacking support of constructor classes should
+be overcome. Currently, Hets already provides some experimental
+translation of constructor classes and monads, also covering \emph{do}
+notation, using theory morphisms as provided by the package AWE
+\cite{AWE}. However, there are (mainly syntactic) problems (with name
+clashes) that currently prevent a proper integration with
+Isabelle/HOLCF. These problems should be solved in the near future.
+
+For monadic programs, we are also planning to use the monad-based
+dynamic Hoare and dynamic logic that already have been formalised in
+Isabelle \cite{Walter05}. Our translation tool from Haskell to
+Isabelle is part of the Heterogeneous Tool Set Hets and can be
+downloaded from \texttt{http://www.dfki.de/sks/hets}. More details
+about the translations can be found in \cite{Tlmm}.
+
+
+%This translation, due to the character of the P-logic
+%typing system, could be more easily carried out relying on some form
+%of universal quantification on type variables, or else further relying
+%on parametrisation.
+
+\subsection*{Acknowledgment}
+This work has been supported by the {\em Deutsche
+  Forschungsgemeinschaft} under grants KR \mbox{1191/5-2} and \mbox{KR
+  1191/7-2 }. We thank Brian Huffmann for help with the Isabelle/HOLCF
+package and Erwin R. Catesbeiana for pointing out an inconsistency.
+
+\bibliographystyle{alpha} \bibliography{case}
+
+\end{document}
+
+\subsection{HOL}
+
+The translation $\omega_s \ :: \ H_s \ \to \ HOL$ from programs in $H_s$
+to theories in Isabelle/HOL extended with AWE can be defined with the
+following set of rules.\\
+
+\noindent Types
+$$\begin{array}{ll}
+  () & \Longrightarrow \ unit \\
+  a & \Longrightarrow \ 'a::\{type\} \\
+  Bool & \Longrightarrow \ boolean \\
+  Integer & \Longrightarrow \ int \\
+  \tau_{1} \to \tau_{2} & \Longrightarrow
+  \ \tau'_{1} \ \Rightarrow \ \tau'_{2} \\
+  (\tau_{1},\tau_{2}) & \Longrightarrow
+  \ (\tau'_{1} * \tau'_{2}) \\
+  {[\tau]} \ & \Longrightarrow \ \tau' \ list \\
+  Maybe \ \tau & \Longrightarrow \ \tau' \ option \\
+  T \ \tau_1 \ \ldots \ \tau_n & \Longrightarrow
+  \ \tau'_1 \ \ldots \ \tau'_n \ T' \\
+  & \quad \mbox{with} \ T \ \mbox{either \ datatype \ or \ defined \ type} \\
+\end{array}$$
+
+\noindent Classes
+$$\begin{array}{ll}
+  Eq & \Longrightarrow \ Eq \\
+  K & \Longrightarrow \ K' 
+\end{array}$$
+
+\noindent Type schemas
+$$\begin{array}{ll} 
+  (\{K \ v\} \ \cup \ ctx) \ \Rightarrow \ \tau & \Longrightarrow 
+  \ (ctx \Rightarrow \tau)'  
+           \ [(v'::s) / (v'::({K'} \cup s))]   \\
+  \{\} \ \Rightarrow \ \tau & \Longrightarrow \ \tau'
+\end{array}$$\\
+
+Here we highlight the main differences the translation to Isabelle/HOLCF and this,
+semantically rather more approximative one to Isabelle/HOL (thereafter simply
+HOL).  Function type, product and list are used to translate the corresponding
+Haskell constructors. Option types are used to translate \emph{Maybe}. Haskell
+datatypes are translated to HOL datatypes. Type variables are of class
+\emph{type}.
+
+Standard lambda-abstraction ($\lambda $) and function application are used
+here, instead of continuous ones. Non-recursive definitions are treated in an
+analogous way as in the translation to Isabelle/HOLCF. However, partial functions and
+particularly case expressions with incomplete patterns are not allowed.
+
+In HOL one has to pay attention to the distinction between \emph{primitive
+  recursive} functions (introduced by the keyword \emph{primrec}) and
+generally recursive ones.  Termination is guaranteed for each primitive
+recursive function by the fact that recursion is based on the datatype
+structure of one of the parameters. In contrast, termination is no trivial
+matter for recursion in general. A strictly decreasing measure needs to be
+association with the parameters. This cannot be dealt with automatically in
+general. Therefore here we restrict translation to primitive recursive
+functions.
+
+Mutual primitive recursion is allowed for under additional restrictions ---
+more precisely, given a set $F$ of functions: 1) all the functions in $F$ are
+recursive in the first argument; 2) all recursive arguments in $F$ are of the
+same type modulo variable renaming; 3) each type variable occurring in the
+type of a function in $F$ already occurs in the type of the first argument.
+The third conditions is a way to ensure that we do not end up with type
+variables which occurs on the right hand-side but not on the left hand-side of
+a definition. In fact, given mutually recursive functions $f_{1}, \ldots,
+f_{n}$ of type $A \rightarrow B_{1}, \ldots, A \rightarrow B_{n}$ after
+variable renaming, they are translated to projections of a new function of
+type $A \rightarrow (B_{1} * \ldots * B_{n})$ which is defined for cases of
+$A$ with products of the corresponding values of $f_{1}, \ldots, f_{n}$. The
+expression $nth_n \ t$ used in the translation rule is simply an informal
+abbreviation for the HOL function, defined in terms of $fst$ and $snd$, which
+extracts the $n$-th projection from a tuple no shorter than $n$.\\
+
+\noindent Terms
+$$\begin{array}{ll}
+  x::\tau & \Longrightarrow \ x'::\tau' \\
+  () & \Longrightarrow \ () \\
+  True & \Longrightarrow \ True \\
+  False & \Longrightarrow \ False \\
+  \&\& & \Longrightarrow \ \& \\
+  || & \Longrightarrow \ | \\
+  not & \Longrightarrow \ Not \\
+  c & \Longrightarrow \ c \\
+  t \in \{+,-,*,div,mod,<,>\} & \Longrightarrow \ t \\
+  negate \ x & \Longrightarrow \ - x   \\
+  {[]} & \Longrightarrow \ {[]} \\
+  t:ts & \Longrightarrow \ t'\#ts' \\
+  head & \Longrightarrow \ hd \\
+  tail & \Longrightarrow \ tl \\
+  == & \Longrightarrow \ hEq \\
+  /= & \Longrightarrow \ hNEq \\
+  Just & \Longrightarrow \ Some \\
+  Nothing & \Longrightarrow \ None \\
+  return & \Longrightarrow \ return \\
+  bind & \Longrightarrow \ mbind \\
+
+  C & \Longrightarrow \ C' \\
+  f & \Longrightarrow \ f' \\
+  \backslash \overline{x} \ \to \ t & \Longrightarrow 
+  \ \lambda \ \overline{x}'. \ t' \\
+  t_1 \ t_2 & \Longrightarrow \ t'_1 \ t'_2 \\
+  (t_1,t_2) & \Longrightarrow \ (t'_1, \ t'_2) \\
+  fst & \Longrightarrow \ fst \\
+  snd & \Longrightarrow \ snd \\
+  let \ (x_1 = t_1; & \\ 
+  \qquad \dots; & \\
+  \qquad x_n = t_n) \quad in \ t & \Longrightarrow   
+     \ let \ (x'_1 = t'_{1}; \ \dots; \ x'_n = t'_{n}) \ in \ t' \\
+  if \ t \ then \ t_1 \ else \ t_2 & \Longrightarrow 
+     \ if \ t' \ then \ t'_1 \ else \ t'_2 \\
+  case \ x \ of \ (p_1 \to t_1; \\
+    \qquad \qquad \ldots; & \\ 
+    \qquad \qquad p_n \to t_n) & \Longrightarrow  
+   \ case \ x' \ p'_1 \Rightarrow t'_1 \ | \ \ldots \ | \ p'_{n} 
+       \Rightarrow t'_n \\
+   & \qquad \mbox{if} \ p'_1, \ldots, p'_n \neq \_ \ 
+              \mbox{is \ a \ complete \ match} \\
+   & case \ x' \ p'_1 \Rightarrow t'_1 \ | \ \ldots \ | \ p'_{n-1}
+          \Rightarrow t'_{n-1} \\ 
+   & \qquad \qquad \qquad | \ q_{1} \Rightarrow t'_n
+          \ | \ \ldots \ | \ q_{k} \Rightarrow t'_n \\
+   & \qquad \mbox{if} \ p_n = \_, \ \mbox{with} \ p'_1, \ldots,
+         p'_{n-1}, q_1, \ldots, q_k \\
+   & \qquad \mbox{complete \ match} 
+\end{array}$$\\
+
+\noindent Declarations
+$$\begin{array}{l} class \ K \ where \ (Dec_1; \ldots; Dec_n \rceil) \ 
+  \Longrightarrow \ class \ K' \ \subseteq 
+         \ type; \ Dec'_1; \ \ldots; \ Dec'_n \\
+  f :: \phi \qquad \qquad \qquad \quad \Longrightarrow
+  \ consts \ f' \ :: \ \phi' \\
+  type \ \tau \ = \ \tau_1 \qquad \qquad \Longrightarrow
+  \ type \ \tau \ = \ \tau'_1 \\
+  (data \ \phi_1 \ = \ C_{11} \ x_1 \ldots x_i
+  \ | \ \ldots \ | \ C_{1p} \ y_1 \ldots y_j; \\
+  \ldots; \\
+  data \ \phi_n \ = \ C_{n1} \ w_1 \ldots w_h
+  \ | \ \ldots \ | \ C_{1q} \ z_1 \ldots z_k) \ \Longrightarrow \\
+  \qquad datatype \ \phi'_1 \ = \ C'_{11} \ x'_1 \ \ldots \ x'_i \ | \ \ldots
+  \ | \ C'_{1p}
+  \ y'_1 \ \ldots \ y'_j \\
+  \qquad and \ \ldots \\
+  \qquad and \ \phi'_n \ = \ C'_{n1} \ w'_1 \ \ldots \ w'_h \ | \ \ldots \ | \ 
+  C'_{nq}
+  \ z'_1 \ \ldots \ z'_k \\
+  \qquad \mbox{where} \ \phi_1, \ \phi_n \ \mbox{are \ mutually \ recursive \ 
+    datatype}
+\end{array}$$
+
+\noindent Definitions
+$$\begin{array}{l} f \ \overline{x} \ p_1 \ \overline{x}_1 \ = \ t_1; \ 
+  \ldots;
+  \ f \ \overline{x} \ p_n \ \overline{x}_n \ = \ t_n \ \Longrightarrow \\
+  \qquad (f \ \overline{x} \ = \ case \ y \ of \ (p_1 \to (\backslash
+  \overline{x}_1 \to \ t_1); \ 
+  \ldots; \ p_n (\to \backslash \overline{x}_n \to \ t_n)))' \\
+  f \ \overline{x} \ = \ t \qquad \qquad \Longrightarrow \ defs \ f' :: \phi'
+  \ 
+  == \ \lambda \ \overline{x}'. \ t' \\
+  \qquad \mbox{with} \ f::\phi \ \mbox{not \ occurring \ in} \ t \\
+
+  f_1 \ \ y_1 \ \overline{x_1} \ =
+  \ t_1; \ \ldots; \ f_n \ y_n \ 
+  \overline{x_n} \ = \ t_n \ \Longrightarrow \\
+  \qquad decl \ f_{new} :: 
+     (\sigma_1(ctx_1) \ \cup \ \ldots \ \cup \ \sigma_n(ctx_n)
+  \ \Rightarrow \\
+  \qquad \qquad \qquad \qquad \sigma_1(\tau_{1a}) \ \to \
+  (\sigma_1(\tau_1), \ldots, \sigma_n(\tau_n)))' \\
+  \qquad primrec \ f_{new} \ sp_1 \ = 
+        \ (\lambda \ \overline{x_1}'. \ t'_1 [y'_1/sp_1], \ldots, \ \lambda \ 
+  \overline{x_n}'. t'_n [y'_n/sp_1]); \\ 
+  \qquad \qquad \qquad \ldots; \\
+  \qquad \qquad \qquad 
+         f_{new} \ sp_k \ = \ (\lambda \ \overline{x_1}'. \ t'_1 
+  [y'_1/sp_k], \ldots,
+  \ \lambda \ \overline{x_n}'. \ t'_n [y'_n/sp_k]); \\
+  \qquad defs \ f_1 \ x \ == \ nth_1 \ (f_{new} \ x); \ \ldots; 
+     \ f_n \ x \ == \ nth_n \ (f_{new} \ x) \\
+  \qquad \mbox{with} \ f_1:: (ctx_1 \Rightarrow \tau_{1a} \to \tau_1), 
+    \ \ldots, \ f_n::(ctx_n \Rightarrow \tau_{na} \to \tau_n) \\ 
+  \qquad \mbox{mutually \ recursive} \\
+
+  instance \ ctx \ \Rightarrow \ K_T \ (T \ v_1 \ \ldots \ v_n) \ where \\ 
+  \qquad \qquad \qquad (f_1::\tau_1 = t_1; \ldots; \ f_n::\tau_n = t_n)
+  \ \Longrightarrow \\
+  \qquad instance \\
+  \qquad \qquad \tau' :: \ K_{T}' \ (\{pcpo\} \ \cup \ \{K':(K \ v_1)
+  \in ctx\}, \\
+  \qquad \qquad \qquad \quad \quad 
+       \ldots, \  \{pcpo\} \ \cup \ \{K':(K \ v_n) \in ctx\}) \\
+  \qquad \qquad \mbox{with \ proof \ obligation}; \\
+  \qquad defs \quad 
+        f'_1 :: (ctx \Rightarrow \tau_1)' == t'_1; \ \ldots; \ f'_n ::
+     (ctx \Rightarrow \tau_n)' == t'_n\\
+
+  instance \ Monad \ \tau \ where \ 
+         (def_{eta}; def_{bind}) \ \Longrightarrow \\
+  \qquad defs \quad def'_{eta}; \ def'_{bind}; \\
+  \qquad t\_instantiate \ Monad \ mapping \ m\_\tau' \\
+  \qquad \qquad \mbox{with \ construction \ and \ proof \ obligations} \\
+  \qquad \mbox{where} \ m_\tau' \ \mbox{is \ defined \ as \ 
+       theory \ morphism \ associating} \\
+  \qquad MonadType.M, \ MonadOpEta.eta, 
+         \ MonadOpBind.bind \\ 
+  \qquad \mbox{to} \ tau', \ def'_{eta}, \ def'_{bind} \ 
+        \mbox{respectively;} 
+\end{array}$$\\
+
+Type classes are translated to subclasses of \emph{type}. An axiomatisation of
+Haskell equality for total functions can be found in \emph{HsHOL}.
+
+$consts$
+$$\begin{array}{ll}
+  heq :: & 'a \ \to \ 'a \ \to \ bool \\
+  hneq :: & 'a \ \to \ 'a \ \to \ bool \\
+\end{array}$$
+
+$axclass \ Eq \ < \ type$ 
+
+$eqAx: heq \ p \ q \ = \ Not \ (hneq \ p \ q)$\\
+
+Given the restriction to total functions, equality on built-in types can be
+defined as HOL equality.
+
+\section{Semantics (for HOLCF)}
+
+Denotational semantics con be given as basis for the translation to Isabelle/HOLCF.
+Essentially, the claim here is that the expressions on the left hand-side of
+the following tables represent the denotational meaning of the Haskell
+expressions on the right hand-side, as well as of the Isabelle/HOLCF expressions to
+which they are translated. The language on the left hand-side is still based
+on Isabelle/HOLCF where type have been extended with abstraction ($\Lambda$) and fixed
+point ($\mu$) in order to represent the denotational meaning of domain
+declarations.\\
+
+$$\begin{array}{ll}
+  \lceil a \rceil & = \ 'a::pcpo \\
+  \lceil () \rceil & = \ unit \ lift \\
+  \lceil Bool \rceil & = \ bool \ lift \\
+  \lceil Integer \rceil & = \ int \ lift \\
+  \lceil \to \rceil & = \ \to \\
+  \lceil (,) \rceil & = \ * \\
+  \lceil [] \rceil & = \ seq \\
+  \lceil Maybe \rceil & = \ maybe \\
+  \lceil T_1 \ T_2 \rceil & = \ \lceil T_1 \rceil \ \lceil T_2 \rceil \\
+%  \lceil TC \rceil & = & \mu X. (\Lambda \ v_1, \ldots, v_n.
+%  \ \lceil \tau_1 \rceil + \ldots + \lceil \tau_{k} \rceil)[X/TC] \\
+%  \mbox{when \ there \ is \ a \ declaration} \ data \ TC \ v_1 \ \ldots \ v_n
+%  \ = \ C_1::\tau_1 | \ldots |
+%  C_k::\tau_k \\
+  \lceil TC_{i} \rceil & = \ let \ F \ = \ \mu \ (X_1*\ldots*X_k). \\ 
+  & \quad ((\Lambda \ v_{11}, \ldots, v_{1m}.  
+    \ \lceil \tau_{11} \rceil + \ldots + \lceil \tau_{1p} \rceil), 
+    \ \ldots, \\
+  & \quad (\Lambda \ v_{k1}, \ldots, v_{kn}. \ \ldots, 
+    \ \lceil \tau_{k1} \rceil + \ldots + \lceil \tau_{kq} \rceil))
+    [X_1/TC_1,\ldots,X_k/TC_k] \\
+  & in \ nth_i(F)  \\
+  \quad \mbox{with} \ 0 < i \leq k, & \mbox{when} \ data \ TC_1 \ v_{11} \ \ldots \ v_{1m} \ = \ C_{11}::\tau_{11}
+      | \ldots | C_{1p}::\tau_{1p}; \\ 
+  & \quad \ldots; \ data \ TC_k \ v_{k1} \ \ldots \ v_{kn} \ = 
+        \ C_{k1}::\tau_{k1} | \ldots |
+  C_{kq}::\tau_{kq} \\
+  & \mbox{are \ mutually \ recursive \ declarations} \\
+\end{array}$$\\
+
+The representation of term denotation is similar to what we get from the
+translation, except that for functions we give the representation of the
+meaning of \emph{fixrec} definitions ($FIX$ is the Isabelle/HOLCF fixed point
+operator).\\
+
+$$\begin{array}{ll}
+  \lceil x::a \rceil & = \ x'::\lceil a \rceil \\
+  \lceil c \rceil & = \ c' \\
+  \lceil \backslash x \ \to \ f \rceil & = \ LAM \ x_{t}. \ \lceil f \rceil \\
+  \lceil (a,b) \rceil & = \ (\lceil a \rceil, \lceil b \rceil) \\
+  \lceil t_1 \ t_2 \rceil & = \ \lceil t_1 \rceil \ \cdot \ 
+  \lceil t_2 \rceil \\
+  \lceil let \ x_{1} \ \dots \ x_{n} \ in \ exp \rceil & = \ let \ \lceil
+  x_{1} \rceil \ \dots \ \lceil x_{n} \rceil \ in \ \lceil exp \rceil \\
+  \lceil f_i \rceil & = \ let \ g \ = 
+    FIX \ (x_1,\ldots,x_n). \ 
+  (\lceil t_1 \rceil, \ldots, \lceil t_{n} \rceil [f_1/x_1,\ldots,f_n/x_n] \\
+   & in \ nth_i (g) \\
+   \quad \mbox{with} \ 0 < i \leq n,
+   & \mbox{where} \ f_1 = t_1, \ f_n = t_n \ \mbox{are \ mutually \ recursive
+  \ definitions}
+% \lceil TyCons \ a_{1} \ldots a_{n} \rceil & = & \lceil a_{1} \rceil
+% \ldots \lceil a_{n} \rceil \ TyCons_{t}
+\end{array}$$
+
+
+\section{Monads with AWE}
+
+A monad is a type constructor with two operations that can be specified
+axiomatically --- \emph{eta} (injective) and \emph{bind} (associative, with
+\emph{eta} as left and right unit) \cite{moggi89}.  Isabelle does not have
+type constructor classes, therefore monads cannot be translated directly. The
+indirect solution that we are pursuing, is to translate monadic types as types
+that satisfy the monadic axioms. This solution can be expressed in terms of
+theory morphisms --- maps between theories, associating signatures to
+signatures and axioms to theorems in ways that preserve operations and
+arities, entailing the definition of maps between theorems. Theory morphisms
+allow for theorems to be moved between theories by translating their proof
+terms, making it possible to implement parametrisation at the theory level
+(see \cite{AWE} for details).  A \emph{parameterised theory} $\mathit{Th}$ has
+a sub-theory $\mathit{Th}_P$ which is the parameter --- this may contain
+axioms, constants and type declarations. Building a theory morphism from
+$\mathit{Th}_P$ to a theory $I$ provides the instantiation of the parameter
+with $I$, and makes it possible to translate the proofs made in the abstract
+setting of $\mathit{Th}$ to the concrete setting of $I$ --- the result being
+an extension of $I$.  AWE is an extension of Isabelle that can assist in the
+construction of theory morphisms \cite{AWE}.
+
+A notion of monad \cite{AWE2} can be built in AWE by defining, on an abstract
+level, a hierarchy of theories culminating in \emph{Monad}, based on the
+declaration of a unary type constructor $M$ (in \emph{MonadType}) with the two
+monad operations (contained in \emph{MonadOpEta} and \emph{MonadOpBind},
+respectively) and the relevant axioms (in \emph{MonadAxms}). To show that a
+specific type constructor forms a monad, we have to construct a theory
+morphism from \emph{MonadAxms} to the specific theory; this involves giving
+specific definitions of the operators, as well as discharging proof
+obligations associated with specific instances of
+the axioms. The following gives an example.  \\
+
+\noindent $data \ LS \ a  \ = \ N \ | \ C \ a \ (LS \ a)$
+
+\noindent $instance \ Monad \ LS \ where$ 
+$$\begin{array}{ll}
+  return \ x & = \ C \ x \ N   \\
+  x \ >>= \ f & = \ case \ x \ of \\
+  & N \ \to \ N  \\
+  & C \ a \ b \ \to \ cnc \ (f \ a) \ (b \ >>= \ f) 
+\end{array}$$
+
+$cnc :: \  LS \ a \ \to \ LS \ a \ \to \ LS \ a $
+$$\begin{array}{ll}
+cnc \ x \ y & = \ case \ x \ of \\
+  & N \ \to \ y \\
+  & C \ w \ z \ \to \ cnc \ z \ (C \ w \ y)
+\end{array}$$
+
+\noindent These definitions are plainly translated to HOL, as follows. Note
+that these are not overloaded definitions. \\
+
+\noindent $datatype \ 'a \ LS \ = \ N \ | \ C \ 'a \ ('a \ LS)$
+
+\noindent $consts $
+$$\begin{array}{ll}
+  return\_LS & :: \ 'a \ \Rightarrow 'a \ LS \\
+  mbind\_LS & :: \ 'a \ LS \ \Rightarrow \ ('a \ \Rightarrow \ 'b \ LS) \ 
+  \Rightarrow \ 'b \ LS \\
+  cnc & :: \ 'a \ LS \ \Rightarrow \ 'a \ LS \ \Rightarrow \ 'a \ LS \\
+\end{array}$$
+
+\noindent $defs $
+$$\begin{array}{l}
+return\_LS\_def : \ return\_LS:: \ ('a \ LS \ \Rightarrow 'a) \ == \
+                \lambda  x. \ C \ x \ N 
+\end{array}$$
+
+\noindent $primrec $
+$$\begin{array}{ll}
+mbind\_LS \ N & = \ \lambda f. \ N \\
+mbind\_LS \ (C \ pX1 \ pX2) & = \ \lambda f. \ cnc \ (f \ pX1) \ (mbind\_LS \ pX2 \ f)
+\end{array}$$
+
+\noindent $primrec $
+$$\begin{array}{ll}
+cnc \  N & = \ \lambda  b. \ b \\
+cnc \ (C \ pX1 \ pX2) & = \ \lambda  b. \ cnc \ pX2 \ (C \ pX1 \ b)
+\end{array}$$
+
+\noindent In order to build up the instantiation of \textit{LS} as a monad,
+here it is defined the morphism $m\_LS$ from \emph{MonadType} to the
+instantiating theory \emph{Tx}, by associating $M$ to $LS$.\\
+
+$thymorph \ m\_LS : \ MonadType \ \longrightarrow \ Tx $
+$$\begin{array}{l}
+  maps \ [('a \ MonadType.M \ \mapsto \ 'a \ Tx.LS)] \\
+  renames: \ [(MonadOpEta.eta \mapsto return\_LS),
+                (MonadOpBind.bind \mapsto mbind\_LS)] \\
+\end{array}$$
+
+\noindent
+Renaming is used in order to avoid name clashes in case of more than one
+monads --- here again, note the difference with overloading. Morphism
+\emph{m\_LS} is then used to instantiate the parameterised theory
+\emph{MonadOps}.\\
+
+\noindent $t\_instantiate \ MonadOps \ mapping \ m\_LS$ \\
+
+\noindent This instantiation gives the declaration of the
+instantiated methods, which may now be defined.\\
+
+\noindent $defs $
+$$\begin{array}{l}
+LS\_eta\_def: \ LS\_eta \ == \ return\_LS \\
+LS\_bind\_def: \ LS\_bind \ == \ mbind\_LS 
+\end{array}$$
+
+\noindent In order to construct a mapping from \emph{MonadAxms} to
+\emph{Tx}, the user needs to prove the monad axioms as HOL lemmas (in this
+case, by straightforward simplification). The translation will print out
+\emph{sorry} instead.
+
+$$\begin{array}{ll}
+lemma \ LS\_lunit : & LS\_bind \ (LS\_eta \ x) \ t \ = \ t \ x \\
+lemma \ LS\_runit : & LS\_bind \ (t:: \ 'a \ LS) \ LS\_eta \ = \ t \\
+lemma \ LS\_assoc : & LS\_bind \ (LS\_bind \ (s:: \ 'a \ LS) \ t) \ u \ = \\
+                    & LS\_bind \ s \ (\lambda  x. \ LS\_bind \ (t \ x) \ u) \\
+lemma \ LS\_eta\_inj : & LS\_eta \ x \ = \ LS\_eta \ y \ \Longrightarrow \ x \ = \ y 
+\end{array}$$
+
+\noindent Now, the morphism from \emph{MonadAxms} to
+\emph{Tx} can be built, and then used to instantiate \emph{Monad}. This gives
+automatically access to the theorems proven in \emph{Monad} and, modulo
+renaming, the monadic syntax which is defined there. \\
+
+$thymorph \ mon\_LS : \ MonadAxms \ \longrightarrow \ Tx $
+$$\begin{array}{ll}
+  maps & [('a \ MonadType.M \ \mapsto \ 'a \ Tx.LS)] \\
+   &  [(MonadOpEta.eta  \ \mapsto \ Tx.LS\_eta), \\
+   &   (MonadOpBind.bind \ \mapsto \ Tx.LS\_bind)]
+\end{array}$$
+$t\_instantiate \ Monad \ mapping \ mon\_LS$\\
+$renames: \ [ \ldots ]$\\
+
+\noindent The \emph{Monad} theory allows for the characterisation of
+single parameter operators. In order to cover other monadic operators, a
+possibility is to build similar theories for type constructors of fixed arity.
+An approach altogether similar to the one shown for HOL could be used, in
+principle, for Isabelle/HOLCF as well.
+
+
+
+\begin{comment}
+Here is a simple example. \\
+
+\noindent $ fn3 \ :: \ AC \ a \ b \to (a \to a) \to AC \ a \ b $
+$$\begin{array}{ll}
+fn3 \ k \ f & = \ case \ k \ of \\
+  & Ct \ x \to Ct \ (f \ x) \\
+  & Rt \ x \ y \to Rt \ (fn4 \ x) \ y \\
+\end{array}$$
+   
+\noindent $ fn4 \ :: \ AC \ a \ b \to AC \ a \ b $
+$$\begin{array}{ll}
+fn4 \ k & = \ case \ k \ of \\ 
+  & Rt \ x \ y \to Rt \ (fn3 \ x \ (\backslash z \to z)) \ y \\
+   & Ct \ x \to Ct \ x \\
+\end{array}$$
+
+\noindent It translates to HOL as follows.\\
+
+\noindent $consts$
+$$\begin{array}{ll} fn3 \ :: & ('a, 'b) \ AC \Rightarrow ('a \Rightarrow
+  'a) \Rightarrow 
+  \ ('a, 'b) \ AC \\
+  fn4 \ :: & ('a, 'b) \ AC \Rightarrow 
+  \ ('a, 'b) \ AC \\
+  fn3\_Xfn4\_X :: & ('a, 'b) \ AC \Rightarrow 
+  \ (('a \Rightarrow 'a) \Rightarrow \\
+  & ('a, 'b) \ AC) * 
+  \ (('a \Rightarrow 'a) \Rightarrow 
+  \ ('a, 'b) \ AC) \\
+\end{array}$$
+
+\noindent $defs$
+$$\begin{array}{lll}
+fn3\_def : & fn3 \ == \ \lambda  k \ f. \ fst \ (( fn3\_Xfn4\_X ::  \\ 
+  & \ ('a, 'b) \ AC \Rightarrow (('a \Rightarrow 'a) \\
+  & \Rightarrow ('a, 'b) \ AC) * ((unit \Rightarrow unit) \Rightarrow \\ 
+  & ('a, 'b) \ AC) ) \ k) \ f \\
+  fn4\_def : & fn4 \ == \ \lambda  k \ f. \ snd \ (( fn3\_Xfn4\_X ::  \\ 
+  & ('a, 'b) \ AC \Rightarrow \\
+  & (('a \Rightarrow 'a) \Rightarrow ('a, 'b) \ AC) * \\ 
+  & (('a \Rightarrow 'a) \Rightarrow ('a, 'b) \ AC) ) \ k) \ f \\
+\end{array}$$
+
+
+\noindent $primrec$ 
+$$\begin{array}{lll}
+fn3\_Xfn4\_X & (Ct \ pX1) \ = & (\lambda  f. \ Ct \ (f \ pX1), \\
+                           &        &  \lambda  f. \ Ct \ pX1) \\
+fn3\_Xfn4\_X & (Rt \ pX1 \ pX2) & =  \\
+  & (\lambda  f. \ Rt \ (snd & (fn3\_Xfn4\_X \ pX1) \ f) \ pX2, \\
+  &  \lambda  f. \ Rt \ (fst & (fn3\_Xfn4\_X \ pX1) \ f) \ pX2) \\
+\end{array}$$
+\end{comment}
+
+
+In the following, we give a definition of the sub-language of Haskell
+$H_c$ that is covered by the translation to Isabelle/HOLCF.\\
+
+\noindent Types
+$$\begin{array}{lll}
+  \tau \ = () \\
+  & Bool \\
+  & Integer & \\
+  & v & \mbox{type \ variable}\\ 
+  & \tau_1 \to \tau_2 & \\
+  & (\tau_1,\tau_2) & \\
+%  & Either \ tau_1 \ tau_2 \\
+  & [\tau] & \\
+  & Maybe \ \tau & \\
+  & T \ \tau_{1} \ \ldots \tau_{n} &  \mbox{either \ datatype \ or \
+  defined \ type} 
+%  & T \ \tau_{1} \ \ldots \ \tau_{n} \qquad \mbox{defined \ type}
+\end{array}$$
+
+\noindent Type classes
+$$\begin{array}{lll}
+  K \ = & Eq & \mbox{with \ default \ methods} \ ==, \ /= \\
+  & K & \mbox{defined \ type \ class} \\
+\end{array}$$
+
+\noindent Contexts
+$$\begin{array}{lll}
+  ctx \ = & \{K \ v\} \ \cup \ ctx & \\
+          & \{\} & \mbox{empty \ context} \\
+\end{array}$$
+
+\noindent Type schemas
+$$\begin{array}{ll}
+  \phi \ = & ctx \Rightarrow \tau \\
+  & \qquad \mbox{where \ all \ variables \ in} \ ctx \ \mbox{are \ in} \ \tau
+\end{array}$$
+
+\noindent Simple patterns
+$$\begin{array}{lll} 
+  sp \ = & \_ & \mbox{wildcard} \\
+    & v & \mbox{variable \ of \ datatype}\\
+    & C \ \overline{v} & \mbox{case \ of \ datatype}
+\end{array}$$
+
+\noindent Terms
+$$\begin{array}{lll} t \ = 
+  & t \in \{True,False,\&\&,||,not\} & \mbox{on \ Boolean} \\
+  & c \in \aleph & \mbox{Integer \ constant} \\
+  & t \in \{+,*,-,div,mod,negate,<,>\} & \mbox{on \ Integer} \\
+  & t \in \{:,head,tail\} & \mbox{on list} \\
+  & t \in \{==,\ /=\} & \mbox{on \ equality \ types} \\
+  & t \in \{Just,Nothing\} & \mbox{on \ \emph{maybe} \ types} \\
+  & t \in \{fst,snd\} & \mbox{on \ pairs} \\
+  & (,) & \\
+  & x & \mbox{variable} \\ 
+  & f & \mbox{function \ symbol} \\
+  & C & \mbox{data \ constructor} \\  
+  & if \ t \ then \ t_1 \ else \ t_2 \\
+  & case \ x \ of \ (sp_{1} \to t_1; \ \ldots; \ sp_{n} \to t_n) \\
+  & let \ (x_1 = t_1; \ \ldots; \ x_n = t_n) \ in \ t 
+\end{array}$$
+
+\noindent Declarations
+$$\begin{array}{ll}
+  Decl \ = & type \ T \ \overline{v} \ = \ \tau \\
+  & data \ ctx \ \Rightarrow \ T \ \overline{v} \ =
+  \ C_{1} \ \overline{x}_1 \ | \ \ldots \ | \ C_{k} \ \overline{x}_k \\
+%  & \qquad \mbox{with} \ {\overline{x}}_1, {\overline{x}}_k \ \subseteq \ 
+%  \overline{v} \\
+  & ctx \ \Rightarrow \ f \ :: \ \tau \\
+  & class \ K \ 
+  where \ (f_{1}:: \tau_{1}; \ldots; f_{n}::\tau_{n}) \\
+  & \qquad \mbox{where} \ \tau_{1}, \tau_{n} \ 
+  \mbox{have \ only \ one \ type \  variable} 
+\end{array}$$
+
+\noindent Definitions
+$$\begin{array}{ll}
+  Def \ = & f \ \overline{v} \ = \ t \\
+  & f \ \overline{v}_{1} \ sp_1 \ {\overline{w}}_{1} \ = \ t_1; \ \ldots;
+  \ f \ \overline{v}_{n} \ sp_n \ {\overline{w}}_{n} \ = \ t_n \\
+  & instance \ ctx \Rightarrow K \ \tau \ where \ 
+  (f_1 = t_1; \ldots; \ f_n = t_n) \\
+  & \qquad \mbox{where} \ f_1, \ldots, f_n \ \mbox{are \ methods \ of} \ K
+\end{array}$$\\
+
+
+\subsection{HOL}
+
+In contrast, the following gives a definition of the Haskell sub-language
+$H_s$ that is covered by the translation to HOL.\\
+
+\noindent Types, Type classes, Contexts, Type schemas, Simple patterns,
+Declarations 
+
+ \emph{as before}\\
+
+\noindent Type constructor classes 
+
+ $Monad$\\
+
+\noindent Terms
+$$\begin{array}{lll} t \ = 
+  & () & \\
+  & t \in \{True,False,\&\&,||,not\} & \mbox{on \ Boolean} \\
+  & c \in \aleph & \mbox{Integer \ constant} \\
+  & t \in \{+,*,-,div,mod,negate,<,>\} & \mbox{on \ Integer} \\
+  & t \in \{:,head,tail\} & \mbox{on list} \\
+  & t \in \{==,\ /=\} & \mbox{on \ equality \ types} \\
+  & t \in \{Just,Nothing\} & \mbox{on \ Maybe} \\
+  & t \in \{return,bind\} & \mbox{on \ monadic \ types} \\
+  & t \in \{fst,snd\} & \mbox{on \ pairs} \\
+  & (,) & \\
+  & x & \mbox{variable} \\ 
+  & f & \mbox{function \ symbol} \\
+  & C & \mbox{data \ constructor} \\
+  & if \ t \ then \ t_1 \ else \ t_2 \\
+  & case \ x \ of \ (sp_{1} \to t_1; \ \ldots; \ sp_{n} \to t_n) \\
+  & \qquad \mbox{with} \ sp_1, \ldots, sp_n \ \mbox{complete \ match} \\
+  & let \ (x_1 = t_1; \ \ldots; \ x_n = t_n) \ in \ t 
+\end{array}$$
+
+\noindent Definitions
+$$\begin{array}{ll}
+  Def \ = & f \ \overline{v} \ = \ t \\
+  & \qquad \mbox{where} \ f \ \mbox{is \ totally \ defined \ and \ primitive
+    \ recursive} \\
+  & f \ \overline{v}_1 \ sp_1 \ \overline{w}_1 \ = \ t_1; \ \ldots;
+  \ f \ \overline{v}_n \ sp_n \ \overline{w}_n \ = \ t_n \\
+  & \qquad \mbox{where} \ f \ \mbox{is \ totally \ defined \ and \ primitive
+    \ recursive} \\
+  & f_1 \ v_1::\tau \ \overline{w_1} \ = \ t_1; \ ldots; \ 
+  f_n \ v_n::\tau \ \overline{w_n} \ = \ t_n \\
+  & \qquad \mbox{where} \ f_1::\phi_1, \ldots, f_n::\phi_n \ \mbox{are \ 
+    totally \ defined, \ mutually} \\
+  & \qquad \mbox{primitive \ recursive \ in \ the \ first \ argument, \ and \ 
+    forall} \\
+  & \qquad 0 < i \leq n \ \mbox{there \ exists \ type 
+                                     \ variable \ renaming} \ 
+  \sigma_i \ \mbox{such} \\
+  & \qquad \mbox{that} \ \tau_1 = \sigma_i(\tau_i) \ \mbox{and \ all \ the \ 
+    variables \ in} \ \phi_i \ \mbox{appear \ in} \ \tau_i \\
+  & instance \ ctx \Rightarrow K \ \tau \ where \ 
+  (f_1 = t_1; \ldots; \ f_n = t_n) \\
+  & \qquad \mbox{where} \ f_1, \ldots, f_n \ \mbox{are \ totally \ defined, \ 
+    primitive \ recursive} \\
+  & \qquad \mbox{methods \ of} \ K
+\end{array}$$\\
+
+
+
+\noindent Terms
+$$\begin{array}{ll}
+  x::\tau & \Longrightarrow \ x'::\tau' \\
+  () & \Longrightarrow \ Def \ () \\
+  True & \Longrightarrow \ TT \\
+  False & \Longrightarrow \ FF \\
+  \&\& & \Longrightarrow \ trand \\
+  || & \Longrightarrow \ tror \\
+  not & \Longrightarrow \ neg \\
+  c & \Longrightarrow \ Def \ c \\
+  t \in \{+,-,*,div,mod,<,>\} & \Longrightarrow \ fliftbin \ t \\
+  negate & \Longrightarrow \ flift2 \ -   \\
+  {[]} & \Longrightarrow \ nil \\
+  t:ts & \Longrightarrow \ t'\#\#ts' \\
+  head & \Longrightarrow \ HD \\
+  tail & \Longrightarrow \ TL \\
+  == & \Longrightarrow \ hEq \\
+  /= & \Longrightarrow \ hNEq \\
+  Just & \Longrightarrow \ return \\
+  Nothing & \Longrightarrow \ fail \\
+
+  C & \Longrightarrow \ C' \\
+  f & \Longrightarrow \ f' \\
+  \backslash \overline{x} \ \to \ t & \Longrightarrow 
+  \ LAM \ \overline{x}'. \ t' \\
+  t_1 \ t_2 & \Longrightarrow \ t'_1 \ \cdot \ t'_2 \\
+  (t_1,t_2) & \Longrightarrow \ (t'_1, \ t'_2) \\
+  fst & \Longrightarrow \ cfst \\
+  snd & \Longrightarrow \ csnd \\
+  let \ (x_1 = t_1; & \\ 
+  \qquad \dots; & \\
+  \qquad x_n = t_n) \quad in \ t & \Longrightarrow   
+     \ let \ (x'_1 = t'_{1}; \ \dots; \ x'_n = t'_{n}) \ in \ t' \\
+  if \ t \ then \ t_1 \ else \ t_2 & \Longrightarrow 
+     \ If \ t' \ then \ t'_1 \ else \ t'_2 \ fi \\
+  case \ x \ of \ (p_1 \to t_1; & \\
+    \qquad \qquad \ldots; & \\ 
+    \qquad \qquad p_n \to t_n) & \Longrightarrow  
+   \ case \ x' \ p'_1 \Rightarrow t'_1 \ | \ \ldots \ | \ p'_{n} 
+       \Rightarrow t'_n \\
+   & \qquad \mbox{if} \ p'_1, \ldots, p'_n \neq \_ \ 
+              \mbox{is \ a \ complete \ match} \\
+   & case \ x' \ p'_1 \Rightarrow t'_1 \ | \ \ldots \ | \ p'_{n-1}
+          \Rightarrow t'_{n-1} \\ 
+   & \qquad \qquad \qquad | \ q_{1} \Rightarrow t'_n
+          \ | \ \ldots \ | \ q_{k} \Rightarrow t'_n \\
+   & \qquad \mbox{if} \ p_n = \_, \ \mbox{with} \ p'_1, \ldots,
+         p'_{n-1}, q_1, \ldots, q_k \\
+   & \qquad \mbox{complete \ match} \\
+   & case \ x' \ p'_{1} \Rightarrow t'_1 \ | \ \ldots \ | \ p'_n
+  \Rightarrow t'_n \\
+   & \qquad \qquad \qquad | \ q_{1} \Rightarrow \bot \ 
+           | \ \ldots q_{k} \Rightarrow \bot \\
+   & \qquad \mbox{with} \ p'_1, \ldots, p'_{n}, q_1, \ldots, q_k \ 
+      \mbox{complete \ match} 
+\end{array}$$\\

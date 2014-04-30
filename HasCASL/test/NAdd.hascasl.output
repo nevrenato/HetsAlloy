@@ -1,0 +1,22 @@
+type  Nat
+      %% ::= 0 | suc (pre :? Nat)
+type  Nadd < Nat -> Nat
+type  Nat < Nadd
+types
+Nadd : Type;
+Nat : Type;
+gn_t1[Nadd] : +Type -> Type;
+gn_t2[gn_t1[Nadd]] : -Type -> +Type -> Type;
+gn_t3[Nat] : +Type -> Type;
+gn_t4[gn_t3[Nat]] : -Type -> +Type -> Type
+types
+Nat < Nadd;
+gn_t2[gn_t1[Nadd]] < __->__;
+gn_t3[Nat] < gn_t1[Nadd];
+gn_t4[gn_t3[Nat]] < gn_t2[gn_t1[Nadd]]
+types
+Nadd := gn_t1[Nadd] Nat;
+gn_t1[Nadd] := gn_t2[gn_t1[Nadd]] Nat;
+gn_t3[Nat] := gn_t4[gn_t3[Nat]] Nat
+3.6-3.8: ### Hint: redeclared type 'Nat'
+3.6-3.8: *** Error: cyclic alias type 'Nat'

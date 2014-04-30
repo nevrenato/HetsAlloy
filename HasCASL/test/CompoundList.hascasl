@@ -1,0 +1,4 @@
+type List[Elem]
+op c : List[Elem]
+op c :?List[Elem]
+op c : ? List[Elem] : Type

@@ -1,0 +1,104 @@
+%!TEX root = main.tex
+
+In this section we explain how the Maude specifications introduced in
+\Hets are parsed in order to obtain a term following the abstract syntax
+described in
+the previous section. We are able to implement this parsing in Maude
+itself thanks to Maude metalevel \cite[Chapter 14]{maude-book}, a
+module that allows the programmer to use Maude entities such as modules, equations,
+or rules as usual data by efficiently implementing the \emph{reflective}
+capabilities of rewriting logic \cite{ClavelMeseguerPalomino07}.
+
+The function \verb"haskellify" receives a module (the first parameter
+stands for the original module, while the second one contains the
+flattened one) and returns a list of quoted identifiers creating an
+object of type \verb"Spec", that can be read by Haskell since this data
+type derives the class \verb"Read":
+
+{\codesize
+\begin{verbatim}
+  op haskellify : Module Module -> QidList .
+  ceq haskellify(M, M') = 
+      'SpecMod '`( 'Module haskellifyHeader(H) ' ' 
+      '`[ haskellifyImports(IL) comma(IL, SS)
+          haskellifySorts(SS) comma(IL, SS, SSDS)
+          haskellifySubsorts(SSDS) comma(IL, SS, SSDS, ODS)
+          haskellifyOpDeclSet(M', ODS) comma(IL, SS, SSDS, ODS, MAS)
+          haskellifyMembAxSet(M', MAS) comma(IL, SS, SSDS, ODS, MAS, EqS)
+          haskellifyEqSet(M', EqS) '`] '`) '\n '@#$endHetsSpec$#@ '\n
+    if fmod H is IL sorts SS . SSDS ODS MAS EqS endfm := M .
+\end{verbatim}
+}
+
+This function prints the keyword \verb"SpecMod" and uses the \verb"haskellify"
+auxiliary functions to print the different parts of the module.
+The functions \verb"comma" introduce a comma whenever it is necessary.
+Since all the ``haskellify'' functions are very similar, we describe
+them by using \verb"haskellifyImports" as example. This function traverses
+all the imports in the list and applies the auxiliary function
+\verb"haskellifyImport" to each of them:
+
+{\codesize
+\begin{verbatim}
+  op haskellifyImports : ImportList -> QidList .
+  eq haskellifyImports(nil) = nil .
+  eq haskellifyImports(I IL) = 'ImportStmnt ' '`( haskellifyImport(I) '`)
+                               comma(IL) haskellifyImports(IL) .
+\end{verbatim}
+}
+
+This auxiliary function distinguishes between the importation modes,
+using the appropriate keyword for each of them:
+
+{\codesize
+\begin{verbatim}
+  op haskellifyImport : Import -> QidList .
+  eq haskellifyImport(protecting ME .) = 'Protecting haskellifyME(ME) .
+  eq haskellifyImport(including ME .) = 'Including haskellifyME(ME) .
+  eq haskellifyImport(extending ME .) = 'Extending haskellifyME(ME) .
+\end{verbatim}
+}
+
+\noindent where \verb"haskellifyME" is in charge of printing the 
+module expression. When it is just an identifier, it prints it 
+preceded by the word \verb"ModId":
+
+{\codesize
+\begin{verbatim}
+  op haskellifyME : ModuleExpression -> QidList .
+  eq haskellifyME(Q) = ' '`( 'ModExp ' '`( 'ModId qid2token(Q) '`) '`) ' .
+\end{verbatim}
+}
+
+The summation module expression recursively prints the summands, and uses
+the keyword \verb"SummationModExp" to indicate the type of module expression:
+
+{\codesize
+\begin{verbatim}
+  eq haskellifyME(ME + ME') = ' '`( 'SummationModExp haskellifyME(ME) 
+                              haskellifyME(ME')  '`) ' .
+\end{verbatim}
+}
+
+To print a renaming we recursively apply \verb"haskellifyME" for the inner
+module expression and then we use the auxiliary function \verb"haskellifyMaps" to 
+print the renamings. In this case we use the constant \verb"no-module" as argument
+because it will only be used when parsing mappings from views, since it may
+be needed to parse terms:
+
+{\codesize
+\begin{verbatim}
+  eq haskellifyME(ME * (RNMS)) = ' '`( 'RenamingModExp haskellifyME(ME) 
+                                 '`[ haskellifyMaps(no-module, no-module, RNMS) '`]  '`) ' .
+\end{verbatim}
+}
+
+Finally, an instantiation is printed by using an auxiliary function \verb"haskellifyPL"
+in charge of the parameters:
+
+{\codesize
+\begin{verbatim}
+  eq haskellifyME(ME {PL}) = ' '`( 'InstantiationModExp haskellifyME(ME) 
+                             '`[ haskellifyPL(PL)  '`]  '`) ' .
+\end{verbatim}
+}

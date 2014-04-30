@@ -1,0 +1,73 @@
+class Functor < Type -> Type
+class Monad < Functor
+type  List : Monad
+vars  a, b : Type
+var   m : Monad
+op    fail : m a
+op    return : a -> m a
+var   f : Functor
+op    fmap : (a -> b) -> f a -> f b
+op    empty : List a
+type  Set : Functor
+op    emptySet : Set a
+. fail = "";
+op    map : (a -> b) -> List a -> List b
+op    __bind__ : m a * (a -> m b) -> m b
+var   g : a -> b
+var   x : m a
+. fmap g = map g
+. fmap g x = x bind \ y : a .! return (g y);
+classes
+Functor < Type -> Type;
+Monad < Type -> Type
+class
+Monad < Functor
+types
+List : Monad;
+Set : Functor
+vars
+a : Type %(var_1)%;
+b : Type %(var_2)%;
+f : Functor %(var_4)%;
+m : Monad %(var_3)%
+op __bind__ : forall a : Type; b : Type; m : Monad
+              . m a * (a -> m b) -> m b
+op empty : forall a : Type . List a
+op emptySet : forall a : Type . Set a
+op fail : forall a : Type; m : Monad . m a
+op fmap : forall a : Type; b : Type; f : Functor
+          . (a -> b) -> f a -> f b
+op map : forall a : Type; b : Type . (a -> b) -> List a -> List b
+op return : forall a : Type; m : Monad . a -> m a
+vars
+g : a -> b;
+x : m a
+. fail = ""
+forall a : Type; b : Type; g : a -> b . fmap g = map g
+forall a : Type; b : Type; m : Monad; g : a -> b; x : m a
+. fmap g x = x bind \ y : a .! return (g y)
+7.5: ### Hint: is type variable 'a'
+7.8: ### Hint: is type variable 'b'
+9.5: ### Hint: is type variable 'm'
+15.5: ### Hint: is type variable 'f'
+25.3-25.10: ### Hint:
+constrain 'Set : Monad' is unprovable of '(op fail : forall a : Type; m : Monad . m a)
+= (op emptySet : forall a : Type . Set a)'
+  known kinds are: {Functor}
+25.8: *** Error: no typing for 'fail = emptySet'
+27.8: *** Error:
+in term '(op fail : forall a : Type; m : Monad . m a)
+= (op empty : forall a : Type . List a)'
+ are uninstantiated type variables
+'[_v13_a]'
+31.15-31.17: ### Hint:
+no kind found for 'm a'
+  expected: {Cpo}
+     found: {Type}
+31.15-31.17: ### Hint:
+no kind found for 'm a'
+  expected: {Cppo}
+     found: {Type}
+33.7: ### Hint: not a class 'a'
+33.7: ### Hint: not a class 'b'
+33.23: ### Hint: not a kind 'm a'

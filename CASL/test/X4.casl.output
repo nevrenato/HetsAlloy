@@ -1,0 +1,7 @@
+(sorts Int, Nat, s
+ sorts Nat < Int
+ op 0 : Nat
+ op __-__ : Nat * Nat -> Int,
+ [forall v1 : Nat . def v1 - 0])
+8.8: ### Hint: known variable shadowed 'a'
+6.5: ### Warning: unused variable 'a'

@@ -1,0 +1,47 @@
+free type Tree a ::= Leaf a | Node (Tree a) a | EmptyLeaf
+free type Nat ::= Zero | Suc Nat
+op    caseTree : forall a . Tree Nat -> Tree Nat
+forall h : Tree Nat; n : Nat; t : Tree Nat
+. caseTree t
+  = case t of
+    EmptyLeaf -> EmptyLeaf |
+    Leaf n -> EmptyLeaf |
+    Node EmptyLeaf n -> EmptyLeaf |
+    Node (Node h n) n -> h |
+    Node (Leaf n) n -> Leaf n;
+types
+Nat : Type;
+Tree : Type -> Type
+op EmptyLeaf : forall a : Type . Tree a %(constructor)%
+op Leaf : forall a : Type . a -> Tree a %(constructor)%
+op Node : forall a : Type . Tree a -> a -> Tree a %(constructor)%
+op Suc : Nat -> Nat %(constructor)%
+op Zero : Nat %(constructor)%
+op caseTree : Tree Nat -> Tree Nat
+free type Tree(a : Type) ::=
+          EmptyLeaf | Leaf (a) | Node (Tree a) (a)     %(ga_Tree)%
+free type Nat ::= Suc (Nat) | Zero %(ga_Nat)%
+forall t : Tree Nat
+. caseTree t
+  = case t of
+    EmptyLeaf -> EmptyLeaf |
+    Leaf n -> EmptyLeaf |
+    Node EmptyLeaf n -> EmptyLeaf |
+    Node (Node h n) n -> h |
+    Node (Leaf n) n -> Leaf n
+1.18: *** Error: unknown type variable 'a'
+4.23: *** Error: unknown type variable 'a'
+4.27-4.44: ### Warning:
+ignoring unused variable(s)
+  a in
+'Tree Nat -> Tree Nat'
+6.9: ### Hint: not a kind 'Tree Nat'
+7.9: ### Hint: not a class 'Nat'
+7.16: ### Hint: not a kind 'Tree Nat'
+10.27: ### Hint: rebound variable 'n'
+11.37: ### Hint: rebound variable 'n'
+12.33: ### Hint: rebound variable 'h'
+12.35: ### Hint: rebound variable 'n'
+12.37: ### Hint: rebound variable 'n'
+13.33: ### Hint: rebound variable 'n'
+13.36: ### Hint: rebound variable 'n'

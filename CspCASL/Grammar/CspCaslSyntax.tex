@@ -1,0 +1,348 @@
+\documentclass{article}
+
+\usepackage{url}
+\newcommand{\kw}[1]{{\bf #1}}
+
+\title{CspCASL syntax description}
+\author{Christian Maeder}
+
+
+\begin{document}
+
+\maketitle
+
+CspCASL is designed as CASL extension with additional channel and process
+items as parts of basic specifications, see
+\url{http://www.informatik.uni-bremen.de/cofi/CASL-RM.pdf}, Part II.
+
+The only support for structural specifications is given by the \kw{data}
+keyword, that can be viewed as a special case for an extended specification
+given by the \kw{then} keyword. (See
+\url{http://www.informatik.uni-bremen.de/agbkb/forschung/formal_methods/CoFI/HetCASL/HetCASL-Summary.pdf},
+Section 2.2.3 Data Specifications)
+
+\begin{verbatim}
+logic CASL
+spec s = ...
+
+logic CspCSL
+spec c = data s
+  ...
+\end{verbatim}
+
+can also be written as:
+
+\begin{verbatim}
+logic CASL
+spec s = ...
+
+logic CspCSL
+spec c = s then
+  ...
+\end{verbatim}
+
+The missing parts (indicated by the dots above), can be any sequence of basic
+CspCASL or CASL items. Sort, operation and predicate items can be freely mixed
+with channel or process items.
+
+\section{Basic CspCASL Items}
+
+As in CASL basic items are introduced by a (singular or plural) keyword
+followed by list of items of the same kind that are separated by semicolons,
+where a final semicolon is optional. A new item keyword, like \kw{var},
+\kw{sort} or \kw{channel}, starts a new item list. (The plural \kw{processes}
+is currently not supported as keyword.)
+
+Similar to the CASL grammar, we adopt the following convention:
+\begin{itemize}
+\item Nonterminal symbols are written as uppercase words, possibly hyphenated,
+e.g.~BASIC-ITEMS.
+\item Terminal symbols (possibly quoted) are written as either lowercase
+  words, e.g.~channel; or sequences of special characters that do not clash
+  with the metasymbols ::=, $|$, or ‘...’.
+\item A final optional semicolon is written as ;/
+\item Repetitions are indicated by ellipsis ‘...’, e.g. ID ,..., ID indicate
+  one or more IDs separated by commas in the latter case.
+\item Alternative sequences are separated by vertical bars
+\item A vertical bar followed by ellipsis hint at alternatives that
+  are not shown.
+\end{itemize}
+
+\subsection{Channel Items}
+
+Channels are associated to sorts to control the communication. Many different
+channels may communicate data of the same sort. Channels with the same name
+but over a different sort are considered as different. Such channels (within
+alphabets or event sets) must be qualified with their sort for
+disambiguation.
+
+\begin{verbatim}
+BASIC-ITEMS     ::= channel CHANNEL-ITEM ;...; CHANNEL-ITEM ;/
+                  | channels CHANNEL-ITEM ;...; CHANNEL-ITEM ;/
+                  | ...
+
+CHANNEL-ITEM    ::= CHANNEL ,..., CHANNEL : SORT
+
+CHANNEL         ::= SORT-ID
+\end{verbatim}
+
+It is also possible to use the same names for channel and sorts. Again
+channels must be qualified then, later on. However, in practice, it is not
+recommended to exploit overloading extensively.
+
+\subsection{Process Items}
+
+Processes may be declared or defined (or both at the same time) by process items.
+
+\begin{verbatim}
+BASIC-ITEMS     ::= process PROCESS-ITEM ;...; PROCESS-ITEM ;/
+                  | ...
+
+PROCESS-ITEM    ::= PROCESS-NAME PROCESS-PROFILE
+                  | PROCESS-NAME PROCESS-HEAD = PROCESS
+                  | PROCESS-NAME = PROCESS
+
+PROCESS-NAME    ::= SORT-ID
+
+PROCESS-PROFILE ::= ( SORT ,..., SORT ) : ALPHABET
+                  | : ALPHABET
+
+PROCESS-HEAD    ::= ( VAR ,..., VAR )
+                  | ( ARG-DECL ;...; ARG-DECL) : ALPHABET
+                  | : ALPHABET
+
+ALPHABETT       ::= SORT-OR-CHANNEL ,..., SORT-OR-CHANNEL
+                  | { SORT-OR-CHANNEL ,..., SORT-OR-CHANNEL }
+                  | { }
+
+SORT-OR-CHANNEL ::= SORT
+                  | CHANNEL
+                  | CHANNEL : SORT
+\end{verbatim}
+
+A mere process declaration introduces a process name, possibly with sorted
+arguments, and a communication alphabet (starting with a colon sign).
+
+Process names may be overloaded as long as the argument sorts are sufficiently
+different (considering subsorting) to disambiguate the names later within
+process expressions.
+
+Proper mixfix identifiers (containing places) are not allowed as process
+names, in order to avoid confusion with the CspCASL builtin infix operators.
+However, compound identifiers like those for sorts and channel are legal.
+
+A process definition is an equation that defines the process depending on its
+input variables (that must all be different).
+
+Such an equation can be seen as a special process formula. Just like
+operations or predicates in CASL, also processes can be declared and defined
+simultaneously, if sorted variables (possibly none) and the communication
+alphabet is supplied.
+
+Alphabets or event sets are just comma separated sets of sorts or
+channels, that may also be empty.
+
+It remains to describe the process expression that may occur on the left hand
+side of a process equation.
+
+\subsection{Processes}
+
+Processes are basically composed of more primitive processes. The most
+primitive processes are:
+
+\begin{verbatim}
+PROCESS         ::= "SKIP"
+                  | "STOP"
+                  | "DIV"
+                  | "RUN" ( EVENT-SET )
+                  | "CHAOS" ( EVENT-SET )
+                  | ...
+
+EVENT-SET       ::= ALPHABET
+\end{verbatim}
+
+Then, it is possible to invoke a process (declared earlier) with concrete
+argument terms.
+
+\begin{verbatim}
+PROCESS         ::= PROCESS-CALL
+                  | ...
+
+PROCESS-CALL    ::= PROCESS-SYMB
+                  | PROCESS-SYMB ( TERM ,..., TERM )
+
+PROCESS-SYMB    ::= PROCESS-NAME
+                  | ( process PROCESS-NAME PROCESS-PROFILE )
+\end{verbatim}
+
+Processes can be slightly modified by hiding (regarding an event set) or by
+renaming using an unary total or partial function or a binary predicate.
+
+\begin{verbatim}
+PROCESS         ::= PROCESS \ EVENT-SET
+                  | PROCESS [[ RENAMING ]]
+                  | ...
+
+RENAMING        ::= RENAME ,..., RENAME
+
+RENAME          ::= ID
+                  | op ID
+                  | pred ID
+                  | op ID : SORT -> SORT
+                  | op ID : SORT ->? SORT
+                  | pred ID : SORT * SORT
+                  | ID : SORT -> SORT
+                  | ID : SORT ->? SORT
+                  | ID : SORT * SORT
+\end{verbatim}
+
+Processes can be invoked depending on conditions or events.
+
+\begin{verbatim}
+PROCESS         ::= if FORMULA then PROCESS else PROCESS
+                  | EVENT -> PROCESS
+                  | TERM -> PROCESS
+                  | ...
+
+EVENT           ::= CHANNEL ? VAR :: SORT
+                  | CHANNEL ! VAR :: SORT
+                  | CHANNEL ! TERM
+\end{verbatim}
+
+Two processes can be invoked sequentially. (Instead of a single semicolon also
+a double semicolon ;; may be used as alternative operator to avoid possible
+conflicts regarding basic items.)
+
+\begin{verbatim}
+PROCESS         ::= PROCESS ; PROCESS
+                  | ...
+\end{verbatim}
+
+Next, we have the external and internal choice between two processes.
+
+\begin{verbatim}
+PROCESS         ::= PROCESS [] PROCESS
+                  | PROCESS |~| PROCESS
+                  | ...
+\end{verbatim}
+
+There are also two corresponding prefix choice operators.
+\begin{verbatim}
+PROCESS         ::= [] VAR :: SORT -> PROCESS
+                  | |~| VAR :: SORT -> PROCESS
+                  | ...
+\end{verbatim}
+
+Finally, there are four kinds for parallel invocations of two processes,
+attributed with generalized, alphabetized, synchronous and interleaved,
+respectively.
+
+\begin{verbatim}
+PROCESS         ::= PROCESS [| EVENT-SET |] PROCESS
+                  | PROCESS [ EVENT-SET || EVENT-SET ] PROCESS
+                  | PROCESS || PROCESS
+                  | PROCESS ||| PROCESS
+                  | ...
+\end{verbatim}
+
+Generalized and alphabetized parallel are regarded as (just larger) infix
+operators, that also may be written using $|[$ and $]|$ as brackets. (The
+double bar between the two event sets within alphabetized parallel may also be
+a single bar.)
+
+The grammar given above is quite ambigouos, therefore some precedence rules
+and associativities for infix operators will follow. For explicit grouping
+parentheses may be used.
+
+\begin{verbatim}
+PROCESS         ::= ( PROCESS )
+                  | ...
+\end{verbatim}
+
+The four parallel infix operators bind weakest, followed by the two infix
+choice operators, followed by sequential composition. All infix operators
+associate to the right.
+
+\begin{verbatim}
+  p1 ; p2 ; p3 [] p4 |~| p5 || p6 [] p7 ; p8 ||| p9
+\end{verbatim}
+
+is parsed as:
+
+\begin{verbatim}
+  ((p1 ; (p2 ; p3)) [] (p4 |~| p5)) || ((p6 [] (p7 ; p8)) ||| p9)
+\end{verbatim}
+
+Prefix operators like the prefix choices or the event processes (using \verb|->|)
+bind stronger than infixes and yet stronger bind the postfix operators for
+hiding and renaming.
+
+\begin{verbatim}
+  t -> [] v :: s -> p \ s [[ r ]]
+\end{verbatim}
+
+is parsed as:
+
+\begin{verbatim}
+  t -> ([] v :: s -> ((p \ s) [[ r ]]))
+\end{verbatim}
+
+Strongest binding are the primitive processes and process calls.
+
+For conditional if-then-else processes the keywords serve as brackets and the
+final process (following else) extends as far to the right as possible.
+
+\section{Concrete Syntax}
+
+\input{concrete_syntax.tex}
+
+The symbol extensions for structured specifications, like for renaming or hiding,
+are the following:
+
+\begin{verbatim}
+SOME-SYMB-KINDS ::= channel
+                  | channels
+                  | process
+                  | ...
+
+SYMB            ::= ID PROCESS-PROFILE
+                  | ID : TYPE
+                  | ID
+
+TYPE            ::= SORT
+                  | ...
+\end{verbatim}
+
+Note, that \verb|ID : SORT| might be highly ambiguous without symbol kind, as
+it could be a constant, a predicate, a channel or a process without arguments
+and with the given sort as communication alphabet.
+
+\section{Abbreviated Abstract Syntax}
+
+The abstract syntax abstracts from the concrete terminals by just using
+constructors (lowercase words) and components (non-terminals). * and + denote
+the repetition of components any number of times, at least once for +.
+
+This abstract syntax is abbreviated in the sense that rules with several
+alternatives are not restricted to only enumerate simple non-terminals.
+(An expansion would need more non-terminals.)
+
+\input{abbrev_syntax.tex}
+
+In the abbreviated syntax for structured specifications, the process profile
+can be moved into the symbol type.
+
+\begin{verbatim}
+SYMB-KIND       ::= channel-kind
+                  | process-kind
+                  | ...
+
+SYMB            ::= ID
+                  | qual-id ID TYPE
+
+TYPE            ::= channel-type SORT
+                  | process-type PROCESS-PROFILE
+                  | ...
+\end{verbatim}
+
+\end{document}

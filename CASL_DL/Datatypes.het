@@ -1,0 +1,148 @@
+
+library CASL_DL_Datatypes version 0.1
+
+%date 09.02.2006
+%authors Klaus Luettich <luettich@tzi.de>
+
+%number __@@__
+%string emptyString, __:@:__
+
+logic CASL
+
+spec BooleanLiteral =
+%[--%% Basic Spec Begin %%--]%
+     sort boolean < DATA 
+     op True,False:boolean
+end
+
+spec IntegerLiteral =
+     sort nonNegativeInteger < integer;
+	  integer < DATA
+     ops 1,2,3,4,5,6,7,8,9,0 : nonNegativeInteger;
+	 __@@__ : nonNegativeInteger * nonNegativeInteger 
+	        -> nonNegativeInteger;
+	 - __ : integer -> integer
+     sort positiveInteger = { y : nonNegativeInteger 
+			      . not y = 0}; %(posInt_def)%
+	  nonPositiveInteger < integer;
+	  negativeInteger < nonPositiveInteger
+     ops 0 : nonPositiveInteger     
+     . 0 @@ 0 = 0 %(zero_eq)%
+     forall x : nonNegativeInteger
+     . 0 @@ x = x %(no_preceeding_zeros)%
+
+spec StringLiteral =
+  sorts Char; string < DATA
+  free type string ::= emptyString | __:@:__ (Char;string)
+  ops  ' ' : Char;             %(DL_printable_32)%
+       '!' : Char;             %(DL_printable_33)%
+       '\"' : Char;            %(DL_printable_34)%
+       '#' : Char;             %(DL_printable_35)%
+       '$' : Char;             %(DL_printable_36)%
+       '%' : Char;             %(DL_printable_37)%
+       '&' : Char;             %(DL_printable_38)%
+       '\'' : Char;            %(DL_printable_39)%
+       '(' : Char;             %(DL_printable_40)%
+       ')' : Char;             %(DL_printable_41)%
+       '*' : Char;             %(DL_printable_42)%
+       '+' : Char;             %(DL_printable_43)%
+       ',' : Char;             %(DL_printable_44)%
+       '-' : Char;             %(DL_printable_45)%
+       '.' : Char;             %(DL_printable_46)%
+       '/' : Char;             %(DL_printable_47)%
+       '0' : Char;             %(DL_printable_48)%
+       '1' : Char;             %(DL_printable_49)%
+       '2' : Char;             %(DL_printable_50)%
+       '3' : Char;             %(DL_printable_51)%
+       '4' : Char;             %(DL_printable_52)%
+       '5' : Char;             %(DL_printable_53)%
+       '6' : Char;             %(DL_printable_54)%
+       '7' : Char;             %(DL_printable_55)%
+       '8' : Char;             %(DL_printable_56)%
+       '9' : Char;             %(DL_printable_57)%
+       ':' : Char;             %(DL_printable_58)%
+       ';' : Char;             %(DL_printable_59)%
+       '<' : Char;             %(DL_printable_60)%
+       '=' : Char;             %(DL_printable_61)%
+       '>' : Char;             %(DL_printable_62)%
+       '?' : Char;             %(DL_printable_63)%
+       '@' : Char;             %(DL_printable_64)%
+       'A' : Char;             %(DL_printable_65)%
+       'B' : Char;             %(DL_printable_66)%
+       'C' : Char;             %(DL_printable_67)%
+       'D' : Char;             %(DL_printable_68)%
+       'E' : Char;             %(DL_printable_69)%
+       'F' : Char;             %(DL_printable_70)%
+       'G' : Char;             %(DL_printable_71)%
+       'H' : Char;             %(DL_printable_72)%
+       'I' : Char;             %(DL_printable_73)%
+       'J' : Char;             %(DL_printable_74)%
+       'K' : Char;             %(DL_printable_75)%
+       'L' : Char;             %(DL_printable_76)%
+       'M' : Char;             %(DL_printable_77)%
+       'N' : Char;             %(DL_printable_78)%
+       'O' : Char;             %(DL_printable_79)%
+       'P' : Char;             %(DL_printable_80)%
+       'Q' : Char;             %(DL_printable_81)%
+       'R' : Char;             %(DL_printable_82)%
+       'S' : Char;             %(DL_printable_83)%
+       'T' : Char;             %(DL_printable_84)%
+       'U' : Char;             %(DL_printable_85)%
+       'V' : Char;             %(DL_printable_86)%
+       'W' : Char;             %(DL_printable_87)%
+       'X' : Char;             %(DL_printable_88)%
+       'Y' : Char;             %(DL_printable_89)%
+       'Z' : Char;             %(DL_printable_90)%
+       '[' : Char;             %(DL_printable_91)%
+       '\\' : Char;            %(DL_printable_92)%
+       ']' : Char;             %(DL_printable_93)%
+       '^' : Char;             %(DL_printable_94)%
+       '_' : Char;             %(DL_printable_95)%
+       '`' : Char;             %(DL_printable_96)%
+       'a' : Char;             %(DL_printable_97)%
+       'b' : Char;             %(DL_printable_98)%
+       'c' : Char;             %(DL_printable_99)%
+       'd' : Char;            %(DL_printable_100)%
+       'e' : Char;            %(DL_printable_101)%
+       'f' : Char;            %(DL_printable_102)%
+       'g' : Char;            %(DL_printable_103)%
+       'h' : Char;            %(DL_printable_104)%
+       'i' : Char;            %(DL_printable_105)%
+       'j' : Char;            %(DL_printable_106)%
+       'k' : Char;            %(DL_printable_107)%
+       'l' : Char;            %(DL_printable_108)%
+       'm' : Char;            %(DL_printable_109)%
+       'n' : Char;            %(DL_printable_110)%
+       'o' : Char;            %(DL_printable_111)%
+       'p' : Char;            %(DL_printable_112)%
+       'q' : Char;            %(DL_printable_113)%
+       'r' : Char;            %(DL_printable_114)%
+       's' : Char;            %(DL_printable_115)%
+       't' : Char;            %(DL_printable_116)%
+       'u' : Char;            %(DL_printable_117)%
+       'v' : Char;            %(DL_printable_118)%
+       'w' : Char;            %(DL_printable_119)%
+       'x' : Char;            %(DL_printable_120)%
+       'y' : Char;            %(DL_printable_121)%
+       'z' : Char;            %(DL_printable_122)%
+       '{' : Char;            %(DL_printable_123)%
+       '|' : Char;            %(DL_printable_124)%
+       '}' : Char;            %(DL_printable_125)%
+       '~' : Char;            %(DL_printable_126)%
+%[--%% Basic Spec End %%--]%
+end
+
+spec DL_Literal = StringLiteral 
+and IntegerLiteral 
+and BooleanLiteral
+then free type DATA ::= sorts string,integer,boolean
+end
+
+from Basic/Numbers get Int
+view Int_implements_IntegerLiteral : IntegerLiteral to 
+     { Int
+       then %def
+       sort nonPositiveInteger = {i:Int . i <= 0};
+            negativeInteger = {i : nonPositiveInteger . i < 0}
+       } =
+     integer |-> Int, positiveInteger |-> Pos, nonNegativeInteger |-> Nat

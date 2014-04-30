@@ -1,0 +1,47 @@
+logic LF
+spec SP1 =
+  o : type.
+  ded : o -> type.
+  i : type.
+  p : o.
+  q : o = p.
+  f : i -> o.
+
+  . ded q
+end
+
+spec SP2 =
+  o : type.
+  p : o.
+  a : o = p.
+  q = p.
+end
+
+spec SP = SP1 and SP2
+
+spec SP' = SP then
+  b : o.
+
+  .ded b
+end
+
+spec SP3 =
+nat : type.
+t : nat.
+l : nat.
+end
+
+spec SP4 =
+nat : type.
+Nat : type.
+p : nat.
+plus : nat -> nat -> nat.
+end
+
+view V1 : SP3 to SP4 = t |-> plus p p
+
+spec SP5 = SP hide p
+
+spec SP6 = SP reveal q
+
+spec SP7 = SP3 with nat |-> Nat, t |-> l

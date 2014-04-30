@@ -1,0 +1,21 @@
+spec Nat =
+  free type Nat ::= 0 | suc(Nat)
+then
+  sorts t < s
+then
+  op c:s
+end
+
+logic CspCASL
+
+spec hugo = data Nat      
+  channels
+    n,m: s;
+    k,l: t
+  process
+   A : s
+   B : s
+   A = n!x -> P \ n
+   B = |~| x::t -> P[[c]]
+   %% Q ; P(c) ; Q ; P(c)
+end    

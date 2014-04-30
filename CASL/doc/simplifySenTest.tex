@@ -1,0 +1,241 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{german}
+\usepackage{isolatin1}
+\usepackage{amssymb}
+\usepackage{epsfig}
+\usepackage{moreverb}
+
+\setlength{\textwidth}{16cm}
+\setlength{\topmargin}{-1cm}
+\setlength{\evensidemargin}{0cm}
+\setlength{\oddsidemargin}{0cm}
+\setlength{\textheight}{24cm}
+
+% skip between paragraphs
+\setlength{\parskip}{1ex}
+% ... and no indentation at start of a new paragraph
+\setlength{\parindent}{0ex}
+\pagestyle{plain}
+\thispagestyle{plain}
+
+\begin{document}
+\part*{Test}
+\section*{Numbers.Nat}
+\begin{verbatim}
+sorts Nat, Pos
+sorts Pos < Nat
+op 0 : Nat
+op 1 : Nat
+op 1 : Pos
+op 2 : Nat
+op 3 : Nat
+op 4 : Nat
+op 5 : Nat
+op 6 : Nat
+op 7 : Nat
+op 8 : Nat
+op 9 : Nat
+op __! : Nat -> Nat
+op __*__ : Nat * Nat -> Nat
+op __*__ : Pos * Pos -> Pos
+op __+__ : Nat * Nat -> Nat
+op __+__ : Nat * Pos -> Pos
+op __+__ : Pos * Nat -> Pos
+op __-!__ : Nat * Nat -> Nat
+op __-?__ : Nat * Nat ->? Nat
+op __/?__ : Nat * Nat ->? Nat
+op __@@__ : Nat * Nat -> Nat
+op __^__ : Nat * Nat -> Nat
+op __div__ : Nat * Nat ->? Nat
+op __mod__ : Nat * Nat ->? Nat
+op max : Nat * Nat -> Nat
+op min : Nat * Nat -> Nat
+op pre : Nat ->? Nat
+op suc : Nat -> Nat
+op suc : Nat -> Pos
+pred __<__ : Nat * Nat
+pred __<=__ : Nat * Nat
+pred __>__ : Nat * Nat
+pred __>=__ : Nat * Nat
+pred even : Nat
+pred odd : Nat
+
+
+forall X1:Nat . pre(suc(X1)) = X1 %(ga_selector_pre)%
+
+forall X1:Nat; Y1:Nat
+    . suc(X1) = suc(Y1) <=> X1 = Y1 %(ga_injective_suc)%
+
+forall Y1:Nat . not 0 = suc(Y1) %(ga_disjoint_0_suc)%
+
+not def pre(0) %(ga_selector_undef_pre_0) %
+
+generated{sort Nat; op 0 : Nat;
+                    op suc : Nat -> Nat} %(ga_generated_Nat)%
+
+1 = suc(0) %(1_def_Nat)%
+
+2 = suc(1) %(2_def_Nat)%
+
+3 = suc(2) %(3_def_Nat)%
+
+4 = suc(3) %(4_def_Nat)%
+
+5 = suc(4) %(5_def_Nat)%
+
+6 = suc(5) %(6_def_Nat)%
+
+7 = suc(6) %(7_def_Nat)%
+
+8 = suc(7) %(8_def_Nat)%
+
+9 = suc(8) %(9_def_Nat)%
+
+forall m:Nat; n:Nat . m @@ n = (m * suc(9)) + n %(decimal_def)%
+
+forall x:Nat; y:Nat . x + y = y + x %(ga_comm___+__)%
+
+forall x:Nat; y:Nat; z:Nat
+    . x + (y + z) = (x + y) + z %(ga_assoc___+__)%
+
+forall x:Nat . x + 0 = x %(ga_right_unit___+__)%
+
+forall x:Nat . 0 + x = x %(ga_left_unit___+__)%
+
+forall x:Nat; y:Nat . x * y = y * x %(ga_comm___*__)%
+
+forall x:Nat; y:Nat; z:Nat
+    . x * (y * z) = (x * y) * z %(ga_assoc___*__)%
+
+forall x:Nat . x * 1 = x %(ga_right_unit___*__)%
+
+forall x:Nat . 1 * x = x %(ga_left_unit___*__)%
+
+forall x:Nat; y:Nat . min(x, y) = min(y, x) %(ga_comm_min)%
+
+forall x:Nat; y:Nat; z:Nat
+    . min(x, min(y, z)) = min(min(x, y), z) %(ga_assoc_min)%
+
+forall x:Nat; y:Nat . max(x, y) = max(y, x) %(ga_comm_max)%
+
+forall x:Nat; y:Nat; z:Nat
+    . max(x, max(y, z)) = max(max(x, y), z) %(ga_assoc_max)%
+
+forall x:Nat . max(x, 0) = x %(ga_right_unit_max)%
+
+forall x:Nat . max(0, x) = x %(ga_left_unit_max)%
+
+forall m, n, r, s, t:Nat . 0 <= n %(leq_def1_Nat)%
+
+forall m, n, r, s, t:Nat . not suc(n) <= 0 %(leq_def2_Nat)%
+
+forall m, n, r, s, t:Nat
+    . suc(m) <= suc(n) <=> m <= n %(leq_def3_Nat)%
+
+forall m, n, r, s, t:Nat . m >= n <=> n <= m %(geq_def_Nat)%
+
+forall m, n, r, s, t:Nat
+    . m < n <=> m <= n /\ not m = n %(less_def_Nat)%
+
+forall m, n, r, s, t:Nat . m > n <=> n < m %(greater_def_Nat)%
+
+forall m, n, r, s, t:Nat . even(0) %(even_0_Nat)%
+
+forall m, n, r, s, t:Nat . even(suc(m)) <=> odd(m) %(even_suc_Nat)%
+
+forall m, n, r, s, t:Nat . odd(m) <=> not even(m) %(odd_def_Nat)%
+
+forall m, n, r, s, t:Nat . 0 ! = 1 %(factorial_0)%
+
+forall m, n, r, s, t:Nat
+    . suc(n) ! = suc(n) * n ! %(factorial_suc)%
+
+forall m, n, r, s, t:Nat . 0 + m = m %(add_0_Nat)%
+
+forall m, n, r, s, t:Nat . suc(n) + m = suc(n + m) %(add_suc_Nat)%
+
+forall m, n, r, s, t:Nat . 0 * m = 0 %(mult_0_Nat)%
+
+forall m, n, r, s, t:Nat
+    . suc(n) * m = (n * m) + m %(mult_suc_Nat)%
+
+forall m, n, r, s, t:Nat . m ^ 0 = 1 %(power_0_Nat)%
+
+forall m, n, r, s, t:Nat
+    . m ^ suc(n) = m * (m ^ n) %(power_suc_Nat)%
+
+forall m, n, r, s, t:Nat
+    . min(m, n) = m when m <= n else n %(min_def_Nat)%
+
+forall m, n, r, s, t:Nat
+    . max(m, n) = n when m <= n else m %(max_def_Nat)%
+
+forall m, n, r, s, t:Nat
+    . n -! m = 0 if m > n %(subTotal_def1_Nat)%
+
+forall m, n, r, s, t:Nat
+    . n -! m = n -? m if m <= n %(subTotal_def2_Nat)%
+
+forall m, n, r, s, t:Nat . def m -? n <=> m >= n %(sub_dom_Nat)%
+
+forall m, n, r, s, t:Nat . m -? n = r <=> m = r + n %(sub_def_Nat)%
+
+forall m, n, r, s, t:Nat
+    . def m /? n <=> not n = 0 /\ m mod n = 0 %(divide_dom_Nat)%
+
+forall m, n, r, s, t:Nat . not def m /? 0 %(divide_0_Nat)%
+
+forall m, n, r, s, t:Nat
+    . (m /? n = r <=> m = r * n) if n > 0 %(divide_Pos_Nat)%
+
+forall m, n, r, s, t:Nat
+    . def m div n <=> not n = 0 %(div_dom_Nat)%
+
+forall m, n, r, s, t:Nat
+    . m div n = r <=>
+          exists s:Nat . m = (n * r) + s /\ s < n %(div_Nat)%
+
+forall m, n, r, s, t:Nat
+    . def m mod n <=> not n = 0 %(mod_dom_Nat)%
+
+forall m, n, r, s, t:Nat
+    . m mod n = s <=>
+          exists r:Nat . m = (n * r) + s /\ s < n %(mod_Nat)%
+
+forall m, n, r, s, t:Nat
+    . (r + s) * t = (r * t) + (s * t) %(distr1_Nat)%
+
+forall m, n, r, s, t:Nat
+    . t * (r + s) = (t * r) + (t * s) %(distr2_Nat)%
+
+forall p:Nat . (p in Pos) <=> p > 0
+
+1 = suc(0) %(1_as_Pos_def)%
+
+forall m, n, r, s:Nat . min(m, 0) = 0 %(min_0)%
+
+forall m, n, r, s:Nat
+    . m = ((m div n) * n) + (m mod n) if not n = 0 %(div_mod_Nat)%
+
+forall m, n, r, s:Nat
+    . m ^ (r + s) = (m ^ r) * (m ^ s) %(power_Nat)%
+
+\end{verbatim}
+
+\section*{sorts $s < t$}
+\begin{verbatim}
+sorts s, t
+sorts s < t
+op c : s
+op d : s
+op d : t
+op f : s -> t
+op f : t -> t
+
+
+def f(c)
+
+def f((op d : s))
+\end{verbatim}
+\end{document}

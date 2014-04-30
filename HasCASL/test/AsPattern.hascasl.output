@@ -1,0 +1,8 @@
+type  a
+op    f : a -> a
+program f (v @ _ : a) = v;
+type
+a : Type
+op f : a -> a
+program f (v @ _) = v %(pe_f)%
+3.8-3.13: ### Hint: repeated declaration of 'f' with type 'a -> a'

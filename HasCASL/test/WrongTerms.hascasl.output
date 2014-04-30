@@ -1,0 +1,156 @@
+parse error at 1.2:
+unexpected end of input
+expecting "\\", "'" or "\""
+
+parse error at 2.2:
+unexpected end of input
+expecting "\\" or "\""
+
+parse error at 3.2:
+unexpected end of input
+expecting "%", "=e=", "=", id/literal, "{", "[", "(", "if", "when", "forall", "exists!", "exists", "\\", "case", "let" or "}"
+
+parse error at 4.2:
+unexpected end of input
+expecting "%", "=e=", "=", id/literal, "{", "[", "(", "if", "when", "forall", "exists!", "exists", "\\", "case", "let" or "]"
+
+parse error at 5.2:
+unexpected end of input
+expecting "%", "=e=", "=", id/literal, "{", "[", "(", "if", "when", "forall", "exists!", "exists", "\\", "case", "let", "var", "op", "fun", "pred" or ")"
+
+parse error at 6.1:
+unexpected "}"
+expecting "%", "=e=", "=", id/literal, "{", "[", "(", "if", "when", "forall", "exists!", "exists", "\\", "case" or "let"
+
+parse error at 7.1:
+unexpected "]"
+expecting "%", "=e=", "=", id/literal, "{", "[", "(", "if", "when", "forall", "exists!", "exists", "\\", "case" or "let"
+
+parse error at 8.1:
+unexpected ")"
+expecting "%", "=e=", "=", id/literal, "{", "[", "(", "if", "when", "forall", "exists!", "exists", "\\", "case" or "let"
+
+parse error at 9.2:
+unexpected keyword "."
+expecting id/literal
+
+parse error at 10.1:
+unexpected "_"
+expecting "%", "=e=", "=", id/literal, "{", "[", "(", "if", "when", "forall", "exists!", "exists", "\\", "case" or "let"
+
+parse error at 11.2:
+unexpected keyword ":"
+expecting id/literal
+
+parse error at 12.3:
+unexpected keyword ":?"
+expecting id/literal
+
+parse error at 13.1:
+unexpected ","
+expecting "%", "=e=", "=", id/literal, "{", "[", "(", "if", "when", "forall", "exists!", "exists", "\\", "case" or "let"
+
+parse error at 14.1:
+unexpected ";"
+expecting "%", "=e=", "=", id/literal, "{", "[", "(", "if", "when", "forall", "exists!", "exists", "\\", "case" or "let"
+
+parse error at 15.2:
+unexpected ","
+expecting "%", "=e=", "=", id/literal, "{", "[", "(", "if", "when", "forall", "exists!", "exists", "\\", "case", "let", "var", "op", "fun", "pred" or ")"
+
+parse error at 16.4:
+unexpected ")"
+expecting "%", "=e=", "=", id/literal, "{", "[", "(", "if", "when", "forall", "exists!", "exists", "\\", "case", "let", "var", "op", "fun" or "pred"
+
+parse error at 17.3:
+unexpected keyword "as"
+expecting id/literal
+
+parse error at 18.2:
+unexpected keyword ":"
+expecting id/literal
+
+parse error at 19.3:
+unexpected keyword "in"
+expecting id/literal
+
+parse error at 20.15:
+unexpected ")"
+expecting "__", "[" or ":"
+
+parse error at 21.9:
+unexpected keyword "<"
+expecting simple-id
+
+parse error at 22.15:
+unexpected '?'
+
+parse error at 23.15:
+unexpected '?'
+
+parse error at 24.15:
+unexpected '?'
+
+parse error at 25.15:
+unexpected '?'
+
+parse error at 26.9:
+unexpected "a"
+expecting "{", "[", "__", "%", "," or ":"
+
+parse error at 27.15:
+unexpected keyword ".!" or '!'
+expecting casl sign or "."
+
+parse error at 28.15:
+unexpected keyword ".!" or '!'
+expecting casl sign or "."
+
+parse error at 29.10:
+unexpected "a"
+expecting "{", "[", "__", "%", "," or ":"
+
+parse error at 30.16:
+unexpected keyword ".!" or '!'
+expecting casl sign or "."
+
+parse error at 31.5:
+unexpected keyword "pred"
+expecting id/literal
+
+parse error at 32.4:
+unexpected keyword "var"
+expecting id/literal
+
+parse error at 33.3:
+unexpected keyword "op"
+expecting id/literal
+
+parse error at 34.6:
+unexpected keyword "and"
+expecting id/literal
+
+parse error at 35.5:
+unexpected keyword "then"
+expecting id/literal
+
+parse error at 36.8:
+unexpected keyword "then"
+expecting id/literal
+
+parse error at 37.3:
+unexpected end of input
+expecting casl char, "_", "%", "=e=", "=", id/literal, "{", "[", "(", "if", "when", "forall", "exists!", "exists", "\\", "case" or "let"
+
+parse error at 38.10:
+unexpected end of input
+expecting casl char, "_", "%", "=e=", "=", id/literal, "{", "[", "(", "if", "when", "forall", "exists!", "exists", "\\", "case" or "let"
+
+parse error at 39.13:
+unexpected end of input
+expecting casl char, "_", "%", "=e=", "=", id/literal, "{", "[", "(", "if", "when", "forall", "exists!", "exists", "\\", "case" or "let"
+
+parse error at 40.12:
+unexpected keyword "@"
+expecting casl sign
+

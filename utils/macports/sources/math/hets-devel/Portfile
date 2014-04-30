@@ -1,0 +1,59 @@
+# $Id$
+
+PortSystem 1.0 
+name            hets-devel
+version         0.98
+categories      math
+maintainers     nomaintainer
+platforms       darwin
+
+description     The heterogeneous tool set (HETS)
+long_description    \
+        The central idea of the Heterogeneous Tool Set (HETS) \
+        is to provide a general framework for formal methods \
+        integration and proof management. \
+
+fetch.type      svn
+svn.url         https://svn-agbkb.informatik.uni-bremen.de/Hets/trunk
+
+universal_variant no
+
+conflicts       hets
+
+depends_build   bin:ghc:ghc
+depends_lib     port:hets-lib \
+                port:hs-platform-fgl \
+                port:hs-platform-cabal
+depends_run     port:uDrawGraph
+
+# Take me to your sources:
+set worksrcdir trunk
+
+# skip phase configure (there is no ./configure)
+use_configure no
+
+pre-build {
+    # we probably shouldn't do this but there's no port for Haskell's xml
+    ui_msg "Calling cabal"
+    ui_msg "    update"
+    system "exec ${prefix}/bin/cabal update"
+    ui_msg "    install xml"
+    system "exec ${prefix}/bin/cabal --global --prefix=${prefix} install xml"
+    ui_msg "cabal finished"
+
+    ui_msg "now building ${name}"
+    # DEACTIVATED make depend only works on tarballs created with 'make release'
+    # run make depend && make
+    #set build.cmd "${build.cmd} depend && ${build.cmd}"
+}
+
+# for compatibility with hets-devel:
+set hets_name      hets
+
+destroot {
+    xinstall -d ${destroot}${prefix}/lib/${hets_name}
+    xinstall -m 755 -W ${worksrcpath} ${hets_name} ${destroot}${prefix}/lib/${hets_name}/
+    xinstall -m 755 -W ${worksrcpath}/utils/macports hets_script ${destroot}${prefix}/bin/
+    move ${destroot}${prefix}/bin/hets_script ${destroot}${prefix}/bin/${hets_name}
+}
+

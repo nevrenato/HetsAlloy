@@ -1,0 +1,44 @@
+vars  a : Type; b < a
+op    twice2(f : a ->? b) (x : a) : ? b = f (f x);
+op    twice3 : (a ->? b) * a ->? b =
+      \ (f : a ->? b, x : a) . f (f x);
+op    twice : (a ->? b) -> a ->? b = \ (f)(x : a) . f (f x);
+vars  f : a ->? b; x : a
+. twice f x = f (f x);
+vars
+a : Type %(var_1)%;
+b < a : Type %(var_2)%
+op twice : forall a : Type; b < a : Type . (a ->? b) -> a ->? b
+           %[ =
+           \ f : a ->? b; x : a
+           . (var f : a ->? b) ((var f : a ->? b) (var x : a)) ]%
+op twice2 : forall a : Type; b < a : Type . (a ->? b) -> a ->? b
+            %[ =
+            \ f : a ->? b; x : a
+            . (var f : a ->? b) ((var f : a ->? b) (var x : a)) ]%
+op twice3 : forall a : Type; b < a : Type . (a ->? b) * a ->? b
+            %[ =
+            \ ((var f : a ->? b), (var x : a))
+            . (var f : a ->? b) ((var f : a ->? b) (var x : a)) ]%
+vars
+f : a ->? b;
+x : a
+forall a : Type; b < a : Type; f : a ->? b; x : a
+. twice2 f x = f (f x)
+forall a : Type; b < a : Type
+. twice3 = \ (f : a ->? b, x : a) . f (f x)
+forall a : Type; b < a : Type
+. twice = \ (f : a ->? b)(x : a) . f (f x)
+forall a : Type; b < a : Type; f : a ->? b; x : a
+. twice f x = f (f x)
+1.6: ### Hint: is type variable 'a'
+5.14-5.20: ### Hint:
+no kind found for 'a ->? b'
+  expected: {Cpo}
+     found: {Type}
+5.14-5.20: ### Hint:
+no kind found for 'a ->? b'
+  expected: {Cppo}
+     found: {Type}
+9.7: ### Hint: not a kind 'a ->? b'
+9.20: ### Hint: not a class 'a'

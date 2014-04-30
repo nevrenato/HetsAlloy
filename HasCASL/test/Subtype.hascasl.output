@@ -1,0 +1,134 @@
+vars  a : -Type; b : +Type
+types i a b, Inj a b < a -> b
+vars  a : Type; b < a
+op    twice : (a ->? b) -> (a ->? b)
+type  F a b
+      %% should be illegal here
+vars  f : a ->? b; x : a
+. twice f x = f (f x);
+vars  a : Type; b : Type
+type  Inj a b = {f : a -> b . forall x, y : a . f x = f y => x = y}
+vars  a, b : Type; a < b
+op    down : b ->? a
+vars  y : b; x : a
+. down y = x;
+op    up : a -> b
+. down (up x : b) = x
+. def (down y : a) => up (down y : a) = y;
+vars  c : Type; b < c
+var   x : a
+. up (up x : b) = (up x : c)
+. up (x : a) = (x : b);
+vars  c, d, e, f : Type; c < e; d < f
+forall f : e -> f . (up f : e ->? f) = \ x : e . f x;
+forall f : e ->? d . (up f : c ->? f) = \ x : c . up (f (up x));
+forall x : c; y : d
+. (up (x, y) : e * f) = (up x, up y)
+. forall f : e -> d . (up f : c -> f) = \ x : c .! f (up x);
+types
+F : Type -> Type -> Type;
+Inj : -Type -> +Type -> Type;
+i : -Type -> +Type -> Type
+types
+Inj < __->__;
+i < __->__
+vars
+a < b : Type %(var_24)%;
+b < c : Type %(var_42)%;
+c < e : Type %(var_57)%;
+d < f : Type %(var_58)%;
+e : Type %(var_55)%;
+f : Type %(var_56)%
+op down : forall b : Type; a < b : Type . b ->? a
+op twice : forall a : Type; b < a : Type . (a ->? b) -> a ->? b
+op up : forall b : Type; a < b : Type . a -> b
+vars
+f : a ->? b;
+x : a;
+y : b
+forall a : Type; b < a : Type; f : a ->? b; x : a
+. twice f x = f (f x)
+forall a : Type; b : Type
+. forall f : a -> b
+  . (f in Inj a b) <=> forall x, y : a . f x = f y => x = y
+forall a < b : Type; b : Type; x : a; y : b . down y = x
+forall a < b : Type; b : Type; x : a . down (up x : b) = x
+forall a < b : Type; b : Type; y : b
+. def (down y : a) => up (down y : a) = y
+forall a < b : Type; b < c : Type; c : Type; x : a
+. up (up x : b) = (up x : c)
+forall a < b : Type; b < c : Type; c : Type; x : a . up x = (x : b)
+forall e : Type; f : Type; f : e -> f
+. (up f : e ->? f) = \ x : e . f x
+forall c < e : Type; d < f : Type; e : Type; f : Type; f : e ->? d
+. (up f : c ->? f) = \ x : c . up (f (up x))
+forall c < e : Type; d < f : Type; e : Type; f : Type; x : c; y : d
+. (up (x, y) : e * f) = (up x, up y)
+forall c < e : Type; d < f : Type; e : Type; f : Type
+. forall f : e -> d . (up f : c -> f) = \ x : c .! f (up x)
+1.6: ### Hint: is type variable 'a'
+1.16: ### Hint: is type variable 'b'
+2.8: ### Hint: rebound type variable 'a'
+2.10: ### Hint: rebound type variable 'b'
+3.6: ### Hint: is type variable 'a'
+3.6: ### Hint: rebound type variable 'a'
+3.15: ### Hint: rebound type variable 'b'
+7.7: ### Hint: not a kind 'a ->? b'
+7.19: ### Hint: not a class 'a'
+10.6: ### Hint: is type variable 'a'
+10.6: ### Hint: rebound type variable 'a'
+10.15: ### Hint: is type variable 'b'
+10.15: ### Hint: rebound type variable 'b'
+11.17: ### Hint: rebound variable 'f'
+11.37: ### Hint: not a class 'a'
+11.40: ### Hint: not a class 'a'
+11.36: ### Hint: rebound variable 'x'
+11.6-11.8: ### Hint: redeclared type 'Inj'
+11.22-11.23: ### Hint: repeated supertype '__->__'
+13.6: ### Hint: is type variable 'a'
+13.6: ### Hint: rebound type variable 'a'
+13.9: ### Hint: is type variable 'b'
+13.9: ### Hint: rebound type variable 'b'
+13.18: ### Hint: rebound type variable 'a'
+15.7: ### Hint: not a class 'b'
+15.13: ### Hint: not a class 'a'
+15.12: ### Hint: rebound variable 'x'
+22.6: ### Hint: is type variable 'c'
+22.15: ### Hint: rebound type variable 'b'
+24.6: ### Hint: not a class 'a'
+24.5: ### Hint: rebound variable 'x'
+28.6: ### Hint: is type variable 'c'
+28.6: ### Hint: rebound type variable 'c'
+28.9: ### Hint: is type variable 'd'
+28.12: ### Hint: is type variable 'e'
+28.15: ### Hint: is type variable 'f'
+28.15: ### Warning:
+type variable does not shadow normal variable 'f'
+28.24: ### Hint: rebound type variable 'c'
+28.31: ### Hint: rebound type variable 'd'
+29.9: ### Hint: not a class 'e'
+29.9: ### Hint: not a class 'f'
+29.8: ### Hint: rebound variable 'f'
+29.8: ### Warning: variable also known as type variable 'f'
+29.39: ### Hint: rebound variable 'x'
+30.9: ### Hint: not a kind 'e ->? d'
+30.8: ### Hint: rebound variable 'f'
+30.8: ### Warning: variable also known as type variable 'f'
+30.40: ### Hint: rebound variable 'x'
+31.9: ### Hint: not a class 'c'
+31.8: ### Hint: rebound variable 'x'
+31.15: ### Hint: not a class 'd'
+31.14: ### Hint: rebound variable 'y'
+31.33: ### Hint:
+no kind found for 'e'
+  expected: {Cpo}
+     found: {Type}
+31.33: ### Hint:
+no kind found for 'e'
+  expected: {Cppo}
+     found: {Type}
+33.11: ### Hint: not a class 'e'
+33.11: ### Hint: not a class 'd'
+33.10: ### Hint: rebound variable 'f'
+33.10: ### Warning: variable also known as type variable 'f'
+33.40: ### Hint: rebound variable 'x'

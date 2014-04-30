@@ -1,0 +1,31 @@
+
+library SyntaxTest
+
+logic CASL_DL
+
+spec X0 = {}
+
+spec X1 = 
+     sort T1,T2, T3 
+     pred R1 : T1 * T2
+     pred R1 : Thing * Thing
+     op i1 : T2
+     forall x : T1
+     . x in T3 <=> minCardinality[(pred R1: T1 * T2)](x,10)
+     . forall x : Thing
+       . x in T3 <=> minCardinality[R1](x,3,T1)
+     . R1(x as T1,i1)
+end
+
+spec X2 =
+     sort S1 
+     pred R : S1 * Thing
+     forall x : S1
+     . x in S1 <=> cardinality[R](x,2)
+
+spec X3 =
+     sort C1, C2 < C3
+
+spec X4 =
+     sort X < X1; X < X2; X2 < X5
+

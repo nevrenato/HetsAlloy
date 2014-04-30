@@ -1,0 +1,37 @@
+Result {diags = [], maybeResult = Just (metamodel MetamodelWModel {
+datatype String
+abstract class Classifier{
+property name[0,*] : String
+}
+class ClassextendsClassifier {
+property attr[0,*] : Attribute
+property asoc[0,*] : Association oppositeOf class
+}
+class AssociationextendsClassifier {
+property class[0,*] : Class oppositeOf asoc
+}
+class Attribute{
+property kind[0,*] : String
+}
+}
+
+model ClassModel conformsTo MetamodelWModel {
+object A : Class
+object B : Class
+object integer : String
+object attr1 : Attribute
+object attr2 : Attribute
+object asoc : Association
+object attr1Kind : String
+object attr2Kind : String
+object aName : String
+object bName : String
+link attr(A,attr1)
+link attr(B,attr2)
+link name(A,aName)
+link name(B,bName)
+link kind(attr1,attr1Kind)
+link kind(attr2,attr2Kind)
+link asoc(A,asoc)
+link asoc(B,asoc)
+},ExtSign {plainSign = Sign {types = fromList [TypeClass {name = "Association", kind = ClassKind},TypeClass {name = "Attribute", kind = ClassKind},TypeClass {name = "Class", kind = ClassKind},TypeClass {name = "Classifier", kind = ClassKind},TypeClass {name = "String", kind = DataTypeKind}], typeRel = fromList [(TypeClass {name = "Association", kind = ClassKind},fromList [TypeClass {name = "Classifier", kind = ClassKind}]),(TypeClass {name = "Class", kind = ClassKind},fromList [TypeClass {name = "Classifier", kind = ClassKind}])], abstractClasses = fromList [TypeClass {name = "Classifier", kind = ClassKind}], roles = fromList ["_","asoc","attr","class","kind","name"], properties = fromList [PropertyT {sourceRole = "_", sourceType = TypeClass {name = "Attribute", kind = ClassKind}, targetRole = "kind", targetType = TypeClass {name = "String", kind = DataTypeKind}},PropertyT {sourceRole = "_", sourceType = TypeClass {name = "Class", kind = ClassKind}, targetRole = "attr", targetType = TypeClass {name = "Attribute", kind = ClassKind}},PropertyT {sourceRole = "_", sourceType = TypeClass {name = "Classifier", kind = ClassKind}, targetRole = "name", targetType = TypeClass {name = "String", kind = DataTypeKind}},PropertyT {sourceRole = "asoc", sourceType = TypeClass {name = "Association", kind = ClassKind}, targetRole = "class", targetType = TypeClass {name = "Class", kind = ClassKind}},PropertyT {sourceRole = "class", sourceType = TypeClass {name = "Class", kind = ClassKind}, targetRole = "asoc", targetType = TypeClass {name = "Association", kind = ClassKind}}], instances = fromList [("A",TypeClass {name = "Class", kind = ClassKind}),("B",TypeClass {name = "Class", kind = ClassKind}),("aName",TypeClass {name = "String", kind = DataTypeKind}),("asoc",TypeClass {name = "Association", kind = ClassKind}),("attr1",TypeClass {name = "Attribute", kind = ClassKind}),("attr1Kind",TypeClass {name = "String", kind = DataTypeKind}),("attr2",TypeClass {name = "Attribute", kind = ClassKind}),("attr2Kind",TypeClass {name = "String", kind = DataTypeKind}),("bName",TypeClass {name = "String", kind = DataTypeKind}),("integer",TypeClass {name = "String", kind = DataTypeKind})], links = fromList [LinkT {sourceVar = "A", targetVar = "aName", property = PropertyT {sourceRole = "_", sourceType = TypeClass {name = "Classifier", kind = ClassKind}, targetRole = "name", targetType = TypeClass {name = "String", kind = DataTypeKind}}},LinkT {sourceVar = "A", targetVar = "asoc", property = PropertyT {sourceRole = "class", sourceType = TypeClass {name = "Class", kind = ClassKind}, targetRole = "asoc", targetType = TypeClass {name = "Association", kind = ClassKind}}},LinkT {sourceVar = "A", targetVar = "attr1", property = PropertyT {sourceRole = "_", sourceType = TypeClass {name = "Class", kind = ClassKind}, targetRole = "attr", targetType = TypeClass {name = "Attribute", kind = ClassKind}}},LinkT {sourceVar = "B", targetVar = "asoc", property = PropertyT {sourceRole = "class", sourceType = TypeClass {name = "Class", kind = ClassKind}, targetRole = "asoc", targetType = TypeClass {name = "Association", kind = ClassKind}}},LinkT {sourceVar = "B", targetVar = "attr2", property = PropertyT {sourceRole = "_", sourceType = TypeClass {name = "Class", kind = ClassKind}, targetRole = "attr", targetType = TypeClass {name = "Attribute", kind = ClassKind}}},LinkT {sourceVar = "B", targetVar = "bName", property = PropertyT {sourceRole = "_", sourceType = TypeClass {name = "Classifier", kind = ClassKind}, targetRole = "name", targetType = TypeClass {name = "String", kind = DataTypeKind}}},LinkT {sourceVar = "attr1", targetVar = "attr1Kind", property = PropertyT {sourceRole = "_", sourceType = TypeClass {name = "Attribute", kind = ClassKind}, targetRole = "kind", targetType = TypeClass {name = "String", kind = DataTypeKind}}},LinkT {sourceVar = "attr2", targetVar = "attr2Kind", property = PropertyT {sourceRole = "_", sourceType = TypeClass {name = "Attribute", kind = ClassKind}, targetRole = "kind", targetType = TypeClass {name = "String", kind = DataTypeKind}}}]}, nonImportedSymbols = fromList []},[])}

@@ -1,0 +1,257 @@
+
+fth FREENESS is
+ pr BOOL .
+ 
+ sort Foo .
+ 
+ eq true and true = true .
+endfth
+
+view Freeness from FREENESS to BOOL is
+ sort Foo to Bool .
+endv
+
+mod TALK_TEST is
+ sorts A B C D E .
+ subsort A < B .
+ subsort A < C .
+ subsort D < E .
+ 
+ op f : A B -> C [comm assoc] .
+ op a : -> A [ctor] .
+ op b : -> B [ctor] .
+ op c : -> C [ctor] .
+ op d : -> D [ctor] .
+ op e : -> E [ctor] .
+ 
+ mb b : A .
+ 
+ vars X Y : B .
+ 
+ ceq f(X, Y) = X if X = Y .
+ rl [d] : d => e .
+ rl f(X, Y) => Y .
+endm
+
+fth ALPHA_ASSOC is
+ sort Foo .
+ op f : Foo Foo -> Foo [ctor assoc] .
+endfth
+
+fmod OTHER_ALPHA_ASSOC is
+ sort Elt .
+ op g : Elt Elt -> Elt [ctor] .
+ 
+ vars E1 E2 E3 : Elt .
+ 
+ eq g(E1, g(E2, E3)) = g(g(E1, E2), E3) [nonexec] .
+endfm
+
+fth LAST_FREENESS_THEORY is
+ sort Elt .
+endfth
+
+fmod LAST_FREENESS_TEST{X :: LAST_FREENESS_THEORY} is
+ sort List .
+ subsort X$Elt < List .
+ 
+ op nil : -> List [ctor] .
+ op __ : List List -> List [ctor assoc id: nil] .
+endfm
+
+view VALPHA from ALPHA_ASSOC to OTHER_ALPHA_ASSOC is
+ sort Foo to Elt .
+ op f to g .
+endv
+
+fmod MY_LIST is
+ pr NAT .
+ 
+ sorts List .
+ subsort Nat < List .
+ 
+ op nil : -> List [ctor] .
+ op __ : List List -> List [ctor assoc id: nil] .
+ 
+ var L : List .
+ var E : Nat .
+ 
+ op reverse : List -> List .
+ eq reverse(nil) = nil .
+ eq reverse(E L) = reverse(L) E .
+endfm
+
+fth TLIST is
+ pr NAT .
+ 
+ sorts List2  .
+ subsort Nat < List2 .
+ 
+ op nil : -> List2 [ctor] .
+ op __ : List2 List2 -> List2 [ctor assoc id: nil] .
+ 
+ var L : List2 .
+ var E : Nat .
+ 
+ op reverse : List2 -> List2 .
+ eq reverse(reverse(L)) = L .
+ 
+endfth
+
+view V22 from TLIST to MY_LIST is
+ sort List2 to List .
+endv
+
+fmod MY_LIST_OPS is
+ pr MY_LIST .
+endfm
+
+fth ASSOC-OP is
+ sort Elt .
+
+ op __ : Elt Elt -> Elt [ctor assoc] .
+endfth
+
+fth ANOTHER-ASSOC-OP is
+ sort Foo .
+ 
+ op _._ : Foo Foo -> Foo [ctor] .
+ 
+ vars F1 F2 F3 : Foo .
+ 
+ eq F1 . (F2 . F3) = (F1 . F2) . F3 .
+endfth
+
+view ASSOC from ASSOC-OP to ANOTHER-ASSOC-OP is
+ sort Elt to Foo .
+ op __ to _._ .
+endv
+
+fmod TEST is
+ sorts A B C .
+ subsort A < B .
+ sorts D E F .
+ subsort D < F .
+ subsort D < E .
+ 
+ op a : -> A .
+ op b : -> B .
+ op c : -> B .
+ 
+ op f : A -> B .
+ op g : A A -> B .
+ op h : A A -> A [assoc comm id: a] .
+ 
+ vars X Y : A .
+ 
+ eq f(a) = b .
+ eq f(X) = c [owise] .
+ 
+ eq g(a,X) = b .
+ eq g(X, Y) = c [owise] .
+ 
+ ceq h(a, a) = a
+  if true /\ not false .
+endfm
+
+fmod TEST2 is
+ sorts C D .
+ subsort C < D .
+ 
+ op c : -> C .
+ op d : -> D .
+ 
+ op {_} : C -> C .
+ 
+ op g : C -> D .
+ 
+ eq g(c) = d .
+endfm
+
+fmod TEST3 is
+ pr TEST + (TEST2 * (sort C to CC, sort D to DD, op g to gg)) .
+ 
+ op x : -> CC .
+endfm
+
+fth TEST4 is
+ sort Foo .
+ 
+ ops a b : -> Foo .
+ op f : Foo -> Foo .
+endfth
+
+fmod TEST5{X :: TEST4 * (sort Foo to Faa)} is
+ sort Test5 .
+ 
+ op c : -> Test5 .
+endfm
+
+view VNat from TRIV * (sort Elt to Elt2) to NAT * (sort Nat to Naaaaat) is
+ sort Elt2 to Naaaaat .
+endv
+
+view V1 from TRIV to BOOL is
+ sort Elt to Bool .
+endv
+
+fmod TEST6{X :: TRIV} is
+ sort Foo6 .
+endfm
+
+fmod TEST7 is
+ ex TEST .
+ pr (TEST6 * (sort Foo6 to Fooooo6)){V1} .
+endfm
+
+fth TEST8 is
+ sorts Foo Faa .
+ op update : Foo -> Faa .
+endfth
+
+view V2 from TEST8 to BOOL is
+ sort Foo to Bool .
+ sort Faa to Bool .
+ 
+ op update(X:Foo) to term _or_(true, X:Bool) .
+endv
+
+fmod MYLIST is
+ pr NAT .
+
+ sorts List .
+ subsort Nat < List .
+
+ op nil : -> List [ctor] .
+ op __ : List List -> List [ctor assoc id: nil] .
+
+ var L : List .
+ var E : Nat .
+
+ op reverse : List -> List .
+ eq reverse(nil) = nil .
+ eq reverse(E L) = reverse(L) E .
+endfm
+
+fth TH is 
+ pr NAT .
+
+ sorts List .
+ subsort Nat < List .
+
+ op nil : -> List [ctor] .
+ op __ : List List -> List [ctor assoc id: nil] .
+
+ var L : List .
+ var E : Nat .
+
+ op reverse : List -> List .
+ eq reverse(reverse(L)) = L .
+endfth
+
+view IDEM from TH to MYLIST is
+ sort List to List .
+ op nil to nil .
+ op __ to __ .
+ op reverse to reverse .
+endv

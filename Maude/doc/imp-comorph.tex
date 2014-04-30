@@ -1,0 +1,486 @@
+%!TEX root = main.tex
+
+We show in this section how the comorphism
+from Maude to \CASL described in Section \ref{sec:comoprh} is implemented.
+The function in charge of computing the comorphism is
+\verb"maude2casl", that returns the \CASL signature and sentences
+given the Maude signature and sentences:
+
+{\codesize
+\begin{verbatim}
+maude2casl :: MSign.Sign -> [Named MSentence.Sentence] -> (CSign.CASLSign, 
+                                                           [Named CAS.CASLFORMULA])
+\end{verbatim}
+}
+
+This function splits the work into different stages:
+
+\begin{itemize}
+
+\item
+The function \verb"rewPredicates" generates the \verb"rew" predicates for
+each sort to simulate the rewrite rules in the Maude specification.
+
+\item
+The function \verb"rewPredicatesSens" creates the formulas associated to
+the \verb"rew" predicates created above, stating that they are reflexive
+and transitive.
+
+\item
+The \CASL operators are obtained from the Maude operators:
+
+\begin{itemize}
+\item
+The function \verb"translateOps" splits the Maude operator map
+into a tuple of \CASL operators and \CASL associative operators,
+(which are required for parsing purposes).
+
+\item
+Since \CASL does not allow the definition
+of polymorphic operators, these operators are removed from the map
+with \verb"deleteUniversal" and for each one of these Maude operators we
+create a set of \CASL operators with all the possible profiles with
+\verb"universalOps".
+
+\end{itemize}
+
+\item \CASL sentences are obtained from the Maude sentences and from
+predefined \CASL libraries:
+
+\begin{itemize}
+\item In the computation of the \CASL formulas we split Maude sentences in
+equations defined without the \verb"owise" attribute, equations defined
+with \verb"owise", and the rest of statements with the function
+\verb"splitOwiseEqs".
+\item The equations defined without the \verb"owise" attribute are
+translated as universally quantified equations, as shown in Section
+\ref{sec:comoprh}, with \verb"noOwiseSen2Formula".
+\item Equations with the \verb"owise" attribute are translated using
+a negative existential quantification, as we will show later, with
+the function \verb"owiseSen2Formula". This function requires as additional
+parameter the definition of the formulas defined without the \verb"owise"
+attribute, in order to state that the equations defined with \verb"owise"
+are applied when the rest of possible equations cannot.
+\item The rest of statements, namely memberships and rules, are translated
+with the function \verb"mb_rl2formula".
+\item There are some built-in operators in Maude that are not defined by
+means of equations. To allow the user to reason about them we provide
+some libraries with the definitions of these operators as \CASL formulas,
+obtained with \verb"loadLibraries".
+\end{itemize}
+
+\item Finally, the \CASL symbols are created:
+
+\begin{itemize}
+\item The kinds are translated to symbols with \verb"kinds2syms".
+\item The operators are translated with \verb"ops2symbols".
+\item The symbol predicates are obtained with \verb"preds2syms".
+\end{itemize}
+
+\end{itemize}
+
+{\codesize
+\begin{verbatim}
+maude2casl msign nsens = (csign { CSign.sortSet = cs,
+                            CSign.sortRel = sbs',
+                            CSign.opMap = cops',
+                            CSign.assocOps = assoc_ops,
+                            CSign.predMap = preds,
+                            CSign.declaredSymbols = syms }, new_sens)
+   where csign = CSign.emptySign ()
+         ss = MSign.sorts msign
+         ss' = Set.map sym2id ss
+         mk = kindMapId $ MSign.kindRel msign
+         sbs = MSign.subsorts msign
+         sbs' = maudeSbs2caslSbs sbs mk
+         cs = Set.union ss' $ kindsFromMap mk
+         preds = rewPredicates cs
+         rs = rewPredicatesSens cs
+         ops = deleteUniversal $ MSign.ops msign
+         ksyms = kinds2syms cs
+         (cops, assoc_ops, _) = translateOps mk ops
+         cops' = universalOps cs cops $ booleanImported ops
+         rs' = rewPredicatesCongSens cops'
+         pred_forms = loadLibraries (MSign.sorts msign) ops
+         ops_syms = ops2symbols cops'
+         (no_owise_sens, owise_sens, mbs_rls_sens) = splitOwiseEqs nsens
+         no_owise_forms = map (noOwiseSen2Formula mk) no_owise_sens
+         owise_forms = map (owiseSen2Formula mk no_owise_forms) owise_sens
+         mb_rl_forms = map (mb_rl2formula mk) mbs_rls_sens
+         preds_syms = preds2syms preds
+         syms = Set.union ksyms $ Set.union ops_syms preds_syms
+         new_sens = concat [rs, rs', no_owise_forms, owise_forms,
+                            mb_rl_forms, pred_forms]
+\end{verbatim}
+}
+
+The \verb"rew" predicates are declared with the function
+\verb"rewPredicates", that traverses the set of sorts applying
+the function \verb"rewPredicate":
+
+{\codesize
+\begin{verbatim}
+rewPredicates :: Set.Set Id -> Map.Map Id (Set.Set CSign.PredType)
+rewPredicates = Set.fold rewPredicate Map.empty
+\end{verbatim}
+}
+
+This function defines a binary predicate using as identifier the constant
+\verb"rewID" and the sort as type of the arguments:
+
+{\codesize
+\begin{verbatim}
+rewPredicate :: Id -> Map.Map Id (Set.Set CSign.PredType)
+                -> Map.Map Id (Set.Set CSign.PredType)
+rewPredicate sort m = Map.insertWith (Set.union) rewID ar m
+   where ar = Set.singleton $ CSign.PredType [sort, sort]
+\end{verbatim}
+}
+
+Once these predicates have been declared, we have to introduce
+formulas to state their properties. The function \verb"rewPredicatesSens"
+accomplishes this task by traversing the set of sorts and applying
+\verb"rewPredicateSens":
+
+{\codesize
+\begin{verbatim}
+rewPredicatesSens :: Set.Set Id -> [Named CAS.CASLFORMULA]
+rewPredicatesSens = Set.fold rewPredicateSens []
+\end{verbatim}
+}
+
+This function generates the formulas for each sort:
+
+{\codesize
+\begin{verbatim}
+rewPredicateSens :: Id -> [Named CAS.CASLFORMULA] -> [Named CAS.CASLFORMULA]
+rewPredicateSens sort acc = ref : trans : acc
+        where ref = reflSen sort
+              trans = transSen sort
+\end{verbatim}
+}
+
+We describe the formula for the reflexivity, being the formula for the
+transitivity analogous. A new variable of the required sort is created with
+the auxiliary function \verb"newVar", then the qualified predicate
+name is created with the \verb"rewID" constant and applied to the
+variable. Finally, the formula is named with the prefix \verb"rew_refl_"
+followed by the name of the sort:
+
+{\codesize
+\begin{verbatim}
+reflSen :: Id -> Named CAS.CASLFORMULA
+reflSen sort = makeNamed name $ quantifyUniversally form
+        where v = newVar sort
+              pred_type = CAS.Pred_type [sort, sort] nullRange
+              pn = CAS.Qual_pred_name rewID pred_type nullRange
+              form = CAS.Predication pn [v, v] nullRange
+              name = "rew_refl_" ++ show sort
+\end{verbatim}
+}
+
+The function \verb"translateOps" traverses the map of Maude operators,
+applying to each of them the function \verb"translateOpDeclSet":
+
+{\codesize
+\begin{verbatim}
+translateOps :: IdMap -> MSign.OpMap -> OpTransTuple
+translateOps im = Map.fold (translateOpDeclSet im) (Map.empty, Map.empty, Set.empty)
+\end{verbatim}
+}
+
+Since the values in the Maude operator map are sets of operator declarations
+the auxiliary function \verb"translateOpDeclSet" has to traverse these sets, applying
+\verb"translateOpDecl" to each operator declaration:
+
+{\codesize
+\begin{verbatim}
+translateOpDeclSet :: IdMap -> MSign.OpDeclSet -> OpTransTuple -> OpTransTuple
+translateOpDeclSet im ods tpl = Set.fold (translateOpDecl im) tpl ods
+\end{verbatim}
+}
+
+The function \verb"translateOpDecl" receives an operator declaration,
+that consists of all the operators declared with the same profile at
+the kind level. The function traverses these operators, transforming
+them into \CASL operators with the function \verb"ops2pred" and returning
+a tuple containing the operators, the associative operators, and the
+constructors:
+
+{\codesize
+\begin{verbatim}
+translateOpDecl :: IdMap -> MSign.OpDecl -> OpTransTuple -> OpTransTuple
+translateOpDecl im (syms, ats) (ops, assoc_ops, cs) = case tl of
+                      [] -> (ops', assoc_ops', cs')
+                      _ -> translateOpDecl im (syms', ats) (ops', assoc_ops', cs')
+      where sym = head $ Set.toList syms
+            tl = tail $ Set.toList syms
+            syms' = Set.fromList tl
+            (cop_id, ot, _) = fromJust $ maudeSym2CASLOp im sym
+            cop_type = Set.singleton ot
+            ops' = Map.insertWith (Set.union) cop_id cop_type ops
+            assoc_ops' = if any MAS.assoc ats
+                         then Map.insertWith (Set.union) cop_id cop_type assoc_ops
+                         else assoc_ops
+            cs' = if any MAS.ctor ats
+                  then Set.insert (Component cop_id ot) cs
+                  else cs
+\end{verbatim}
+}
+
+As said above, Maude equations that are not defined with the \verb"owise"
+attribute are translated to \CASL with \verb"noOwiseSen2Formula". This
+function extracts the current equation from the named sentence, translates
+it with \verb"noOwiseEq2Formula" and creates a new named sentence
+with the resulting formula:
+
+{\codesize
+\begin{verbatim}
+noOwiseSen2Formula ::  IdMap -> Named MSentence.Sentence -> Named CAS.CASLFORMULA
+noOwiseSen2Formula im s = s'
+       where MSentence.Equation eq = sentence s
+             sen' = noOwiseEq2Formula im eq
+             s' = s { sentence = sen' }
+\end{verbatim}
+}
+
+The function \verb"noOwiseEq2Formula" distinguishes whether the equation
+is conditional or not. In both cases, the Maude terms in the equation
+are translated into \CASL terms with \verb"maudeTerm2caslTerm", and a
+strong equation is used to create a formula. If the equation has no
+conditions this formula is universally quantified and returned as result,
+while if it has conditions each of them generates a formula and their
+conjunction, computed with \verb"conds2formula", will be used as premise
+of the equality formula:
+
+{\codesize
+\begin{verbatim}
+noOwiseEq2Formula :: IdMap -> MAS.Equation -> CAS.CASLFORMULA
+noOwiseEq2Formula im (MAS.Eq t t' [] _) = quantifyUniversally form
+      where ct = maudeTerm2caslTerm im t
+            ct' = maudeTerm2caslTerm im t'
+            form = CAS.Strong_equation ct ct' nullRange
+noOwiseEq2Formula im (MAS.Eq t t' conds@(_:_) _) = quantifyUniversally form
+      where ct = maudeTerm2caslTerm im t
+            ct' = maudeTerm2caslTerm im t'
+            conds_form = conds2formula im conds
+            concl_form = CAS.Strong_equation ct ct' nullRange
+            form = createImpForm conds_form concl_form
+\end{verbatim}
+}
+
+\verb"maudeTerm2caslTerm" is defined for each Maude term:
+
+\begin{itemize}
+
+\item Variables are translated into qualified \CASL variables, and their
+type is translated to the corresponding type in \CASL:
+
+{\codesize
+\begin{verbatim}
+maudeTerm2caslTerm :: IdMap -> MAS.Term -> CAS.CASLTERM
+maudeTerm2caslTerm im (MAS.Var q ty) = CAS.Qual_var q ty' nullRange
+        where ty' = maudeType2caslSort ty im
+\end{verbatim}
+}
+
+\item Constants are translated as functions applied
+to the empty list of arguments:
+
+{\codesize
+\begin{verbatim}
+maudeTerm2caslTerm im (MAS.Const q ty) = CAS.Application op [] nullRange
+        where name = token2id q
+              ty' = maudeType2caslSort ty im
+              op_type = CAS.Op_type CAS.Total [] ty' nullRange
+              op = CAS.Qual_op_name name op_type nullRange
+\end{verbatim}
+}
+
+\item The application of an operator to a list of terms is translated
+into another application, translating recursively the arguments into
+valid \CASL terms:
+
+{\codesize
+\begin{verbatim}
+maudeTerm2caslTerm im (MAS.Apply q ts ty) = CAS.Application op tts nullRange
+        where name = token2id q
+              tts = map (maudeTerm2caslTerm im) ts
+              ty' = maudeType2caslSort ty im
+              types_tts = getTypes tts
+              op_type = CAS.Op_type CAS.Total types_tts ty' nullRange
+              op = CAS.Qual_op_name name op_type nullRange
+\end{verbatim}
+}
+
+\end{itemize}
+
+The conditions are translated into a conjunction with \verb"conds2formula",
+that traverses the conditions applying \verb"cond2formula" to each of them,
+and then creates the conjunction of the obtained formulas:
+
+{\codesize
+\begin{verbatim}
+conds2formula :: IdMap -> [MAS.Condition] -> CAS.CASLFORMULA
+conds2formula im conds = CAS.Conjunction forms nullRange
+        where forms = map (cond2formula im) conds
+\end{verbatim}
+}
+
+\begin{itemize}
+
+\item Both equality and matching conditions are translated into
+strong equations:
+
+{\codesize
+\begin{verbatim}
+cond2formula :: IdMap -> MAS.Condition -> CAS.CASLFORMULA
+cond2formula im (MAS.EqCond t t') = CAS.Strong_equation ct ct' nullRange
+       where ct = maudeTerm2caslTerm im t
+             ct' = maudeTerm2caslTerm im t'
+cond2formula im (MAS.MatchCond t t') = CAS.Strong_equation ct ct' nullRange
+       where ct = maudeTerm2caslTerm im t
+             ct' = maudeTerm2caslTerm im t'
+\end{verbatim}
+}
+
+\item Membership conditions are translated into \CASL memberships by translating
+the term and the sort:
+
+{\codesize
+\begin{verbatim}
+cond2formula im (MAS.MbCond t s) = CAS.Membership ct s' nullRange
+      where ct = maudeTerm2caslTerm im t
+            s' = token2id $ getName s
+\end{verbatim}
+}
+
+\item Rewrite conditions are translated into formulas by using both terms
+as arguments of the corresponding \verb"rew" predicate: 
+
+{\codesize
+\begin{verbatim}
+cond2formula im (MAS.RwCond t t') = CAS.Predication pred_name [ct, ct'] nullRange
+       where ct = maudeTerm2caslTerm im t
+             ct' = maudeTerm2caslTerm im t'
+             ty = token2id $ getName $ MAS.getTermType t
+             kind = Map.findWithDefault (errorId "rw cond to formula") ty im
+             pred_type = CAS.Pred_type [kind, kind] nullRange
+             pred_name = CAS.Qual_pred_name rewID pred_type nullRange
+\end{verbatim}
+}
+
+\end{itemize}
+
+The equations defined with the \verb"owise" attribute are translated
+with \verb"owiseSen2Formula", that traverses them and applies
+\verb"owiseEq2Formula" to the inner equation:
+
+{\codesize
+\begin{verbatim}
+owiseSen2Formula ::  IdMap -> [Named CAS.CASLFORMULA] -> Named MSentence.Sentence 
+                     -> Named CAS.CASLFORMULA
+owiseSen2Formula im owise_forms s = s'
+       where MSentence.Equation eq = sentence s
+             sen' = owiseEq2Formula im owise_forms eq
+             s' = s { sentence = sen' }
+\end{verbatim}
+}
+
+This function receives all the formulas defined without the \verb"owise"
+attribute and, for each formula with the same operator in the lefthand
+side as the current equation (obtained with \verb"getLeftApp"), it
+generates with \verb"existencialNegationOtherEqs" a negative existential
+quantification stating that the arguments do not match or the condition
+does not hold that is used as premise of the equation:
+
+{\codesize
+\begin{verbatim}
+owiseEq2Formula :: IdMap -> [Named CAS.CASLFORMULA] -> MAS.Equation -> CAS.CASLFORMULA
+owiseEq2Formula im no_owise_form eq = form
+      where (eq_form, vars) = noQuantification $ noOwiseEq2Formula im eq
+            (op, ts, _) = fromJust $ getLeftApp eq_form
+            ex_form = existencialNegationOtherEqs op ts no_owise_form
+            imp_form = createImpForm ex_form eq_form
+            form = CAS.Quantification CAS.Universal vars imp_form nullRange
+\end{verbatim}
+}
+
+%The rest of Maude sentences are translated in a similar way to the one
+%shown for the conditions above.
+%The rest of the sentences generated in the comorphism are obtained
+%from external libraries with the function \verb"readLib". We describe
+%below how sentences defining the behavior of the natural numbers are
+%loaded: once the library is obtained, we transform the theory sentences
+%into named sentences with \verb"toNamedList" and then we ``coerce''
+%them with \verb"coerceSens" to indicate that they are \CASL sentences.
+%Finally, the sentence about the generators is filtered and the result
+%returned:
+
+%{\codesize
+%\begin{verbatim}
+%loadNaturalNatSens :: [Named CAS.CASLFORMULA]
+%loadNaturalNatSens = 
+%       let lib = head $ unsafePerformIO $ readLib "Maude/MaudeNumbers.casl"
+%       in case lib of
+%           G_theory lid _ _ thSens _ -> let sens = toNamedList thSens
+%                                        in do
+%                                            sens' <- coerceSens lid CASL "" sens
+%                                            filter (not . ctorCons) sens'
+%\end{verbatim}
+%}
+
+The translation from sorts, operators, and predicates to symbols
+works in a similar way to the transformations shown above, so we only
+describe  how the predicate symbols are obtained. The function
+\verb"preds2syms" traverses the map of predicates and inserts each
+obtained symbol into the set with \verb"pred2sym":
+
+{\codesize
+\begin{verbatim}
+preds2syms :: Map.Map Id (Set.Set CSign.PredType) -> Set.Set CSign.Symbol
+preds2syms = Map.foldWithKey pred2sym Set.empty
+\end{verbatim}
+}
+
+This function traverses the set of predicate types and creates the
+symbol corresponding to each one with \verb"createSym4id":
+
+{\codesize
+\begin{verbatim}
+pred2sym :: Id -> Set.Set CSign.PredType -> Set.Set CSign.Symbol -> Set.Set CSign.Symbol
+pred2sym pn spt acc = Set.fold (createSym4id pn) acc spt
+\end{verbatim}
+}
+
+\verb"createSym4id" generates the symbol and inserts it into the
+accumulated set:
+
+{\codesize
+\begin{verbatim}
+createSym4id :: Id -> CSign.PredType -> Set.Set CSign.Symbol -> Set.Set CSign.Symbol
+createSym4id pn pt acc = Set.insert sym acc
+      where sym = CSign.Symbol pn $ CSign.PredAsItemType pt
+\end{verbatim}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

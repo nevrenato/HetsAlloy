@@ -1,0 +1,43 @@
+logic Fpl
+spec SimpleRawTreeWithOp =
+ sorts Nat free with 0 | succ(Nat)
+       Tree free with empty | node(Tree, Nat, Tree)
+ ops empty : Tree
+     node : Tree * Nat * Tree -> Tree
+     num : Nat -> Nat
+     fun sum(t:Tree):Nat =
+       let fun plus(x:Nat, n:Nat):Nat =
+           case x of 0 => n | succ(m) => succ(plus(m,n))
+       in case t of empty => 0
+                  | node(t1,n,t2) => plus(plus(num(n),sum(t1)), sum(t2))
+     fun eq (t1: Tree, t2 : Tree) : Bool =
+         if t1 = t2 then true else false
+     fun snd (t1: Tree, t2 : Tree) : Tree = case eq(t1, t2) of
+         true => t1 | false => t2
+
+   . forall t1: Tree, t2 : Tree . eq(t1, t2) = true
+
+  ops one : Nat -> Nat
+      two, __two__ : Nat * Nat -> Bool
+      __onepost, preone__ : Nat -> Bool
+
+
+   var n1, n2 : Nat
+   . fun one(n : Nat) : Nat = one(n)
+   . let fun two(m1, m2 : Nat) : Bool = two(m1, m2) in two(n1, n2) = true
+   . let fun __onepost(n : Nat) : Bool = __onepost(n) in n1 onepost = true
+   . let fun preone__(n : Nat) : Bool = preone n in preone__(n1) = true
+   . let fun __two__(m1, m2 : Nat) : Bool = __two__(m1, m2) in n1 two n2 = true
+   . let fun __two__(m1, m2 : Nat) : Bool = n1 two n2 in __two__(n1, n2)
+   . fun ;;(n : Nat) : Nat = ;;(n)
+   . fun ||(n : Nat) : Nat = ||(n)
+   . let m = n1 in m = n2
+%%   . snd(empty, empty)
+   . eq(empty, empty)
+%[
+   sort Nat free with 1
+   sort Nat free with 0
+   sort Nat free with succ(Nat)?
+   sort Pos
+   sort Nat free with sort Pos
+]%

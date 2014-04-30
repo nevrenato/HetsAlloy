@@ -1,0 +1,22 @@
+logic DFOL
+
+spec SP1 = 
+s, t1 :: Sort
+end
+
+spec SP2 = SP1 then
+t :: Sort
+end
+
+spec SP3 = SP1 then
+t :: Sort
+end
+
+spec SP4 = SP1 then
+t :: Sort
+end
+
+spec SP5 = SP1 then
+t :: Sort
+end
+

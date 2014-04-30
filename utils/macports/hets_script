@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+#
+# Setting environment variables
+# and starting Hets
+#
+
+export HETS_LIB=`dirname $0`/../lib/hets/hets-lib
+
+`dirname $0`/../lib/hets/hets $@

@@ -1,0 +1,1 @@
+ghc --make -Wall -i..:../ghc wrap.hs -o wrap

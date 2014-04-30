@@ -1,0 +1,117 @@
+\documentclass{article}
+
+\parindent 0pt
+\parskip 5pt
+
+\begin{document}
+
+\title{CASL basic items}
+
+\author{C. Maeder}
+
+\maketitle
+
+\section{Preliminaries}
+
+see the documentation for HetCATS and Common
+
+\section{Compiling the CASL parser}
+
+\texttt{cd HetCATS/CASL} and call \texttt{./ghc-call} (a script that contains
+all necessary ghc options and parameters). An alternative is to call
+\texttt{gmake capa} in the top directory.
+
+This creates a binary called \texttt{capa} that can parse (and pretty
+print) ``Basic Specification with Subsorts'' of the CASL Summary
+version 1.0.1 \\ (www.brics.dk/Projects/CoFI/Documents/CASL/Summary/).
+
+Structured specifications (see \texttt{Static/hetpa.hs}) must be parsed by the
+heterogenous parser.
+
+Note: if module \texttt{AS\_Basic\_CASL} can not be found, then
+\texttt{AS\_Basic\_CASL.hs} was not ``drifted'' (i.e., derived from
+\texttt{AS\_Basic\_CASL.der.hs}). 
+
+Also \texttt{Common/AS\_Annotation.hs} must have been drifted.
+
+\section{Testing}
+
+A test call might be: 
+
+\texttt{./capa < test/BasicSpec.casl}
+
+The binary \texttt{capa} is also used to test various parsers. Test cases are
+given as \texttt{*.casl} files in the \texttt{test} subdirectory. Calling
+\texttt{./runcheck.sh ../capa} performs many tests and compares the results
+with corresponding \texttt{*.output} files.
+
+Alternatively a test can be run using \texttt{runhugs}. For this the
+file \texttt{capa.lhs} is executable and the test can be run
+by \texttt{./runcheck.sh ../capa.lhs}.
+
+\texttt{Wrong*.casl} files contain wrong CASL code and should produce
+error messages. Apart from extra tests, correct (\texttt{Bla.casl})
+and wrong files (\texttt{WrongBla.casl}) are tested. If a \texttt{diff}
+with the expected output fails, then also the number of
+``\texttt{error}'' occurrences (in the produced output) is counted. For a
+successful comparison a ``\texttt{passed}'' is emitted.
+
+Calling ``\texttt{./runcheck.sh ../capa set}'' will update the
+\texttt{*.output} files (and a subsequent \texttt{./runcheck.sh ../capa} should
+always pass). 
+
+Alternatively, all checks can be preformed by \texttt{make check}. Output
+files will be overwritten by \texttt{make output}. With \texttt{cvs up} or
+\texttt{cvs diff} changes can be compared to checked-in versions of the output
+files.
+
+\section{Source files in \texttt{HetCATS/CASL}}
+
+\begin{description}
+\item[AS\_Basic\_CASL.der.hs] defines the abstract syntax tree for CASL
+\item[Formula.hs] parsers \texttt{term} and \texttt{formula}
+\item[Latin.hs] used by \texttt{Static.hs}
+\item[LiteralFuns.hs] used by \texttt{Print\_AS\_Basic.hs}
+\item[Logic\_CASL.hs] contains the instance for the class \texttt{Logic.Logic}
+\item[MixfixParser.hs] uses precedence and associativity to resolve
+  mixfix terms (and formulae). Also \%list, \%string, \%number and
+  \%floating annotations are resolved
+\item[Morphism.hs] symbol and morphism stuff for \texttt{Logic}
+\item[OpItem.hs] parsers \texttt{opItem} and \texttt{predItem}
+\item[Parse\_AS\_Basic.hs] supplies the top-level parsers \texttt{basicSpec,
+  basicItems, dotFormulae} and \texttt{sigItems}
+\item[Print\_AS\_Basic.hs] pretty prints data types of
+  \texttt{AS\_Basic\_CASL.hs}
+\item[RunMixfixParser.hs] is a driver to test the mixfix
+  analysis
+\item[RunStaticAna.hs] is an additional driver to test the static 
+  analysis (call \texttt{capa analysis < file})  
+\item[Sign.hs] (unused) was the analysed abstract syntax 
+\item[SortItem.hs] parsers \texttt{sortItem} and \texttt{datatype} (requires
+  \texttt{Formula.hs} for subsort definitions)
+\item[Static.hs] (unused) implements the static analysis
+\item[StaticAna.hs] implements a simple static analysis
+\item[Sublogic.hs] used by \texttt{Logic\_CASL.hs}
+\item[Sublogics.hs] older version
+\item[SymbolAnalysis] (unused) 
+\item[SymbolParser.hs] parses symbols and symbol maps that are not needed for
+  basic specs but for heterogeneous structured specifications
+  (\texttt{Logic\_CASL.hs}). These parsers do not deal with annotations,
+  currently
+\item[capa.lhs] is the main module that simply lists the test parsers
+  and is executable for hugs
+\end{description}
+
+
+\section{Remarks}
+
+The \texttt{MixfixParser} only operates on \texttt{FORMULA} and
+\texttt{TERM} from \texttt{AS\_Basic\_CASL} and not on
+types in \texttt{Sign.hs}. 
+
+Type checking (considering subtypes and overloading) of terms and
+formulae is still missing. The static analysis currently collects the bare
+signature and the subsort relation.
+
+\end{document}
+

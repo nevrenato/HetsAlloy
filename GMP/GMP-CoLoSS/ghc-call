@@ -1,0 +1,1 @@
+ghc --make -XTypeSynonymInstances -XIncoherentInstances -XUndecidableInstances -XTypeOperators -XScopedTypeVariables -XMultiParamTypeClasses -XFunctionalDependencies -XFlexibleInstances -XOverlappingInstances -XFlexibleContexts -XExistentialQuantification -fcontext-stack=150 Main.hs -o main

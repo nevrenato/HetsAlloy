@@ -1,0 +1,20 @@
+parse error at 1.10:
+unexpected " "
+expecting casl sign
+
+parse error at 2.6:
+unexpected keyword "<"
+expecting id
+
+parse error at 3.17:
+unexpected " "
+expecting casl sign
+
+parse error at 4.12:
+unexpected list of type arguments
+expecting casl char, "_", "%", "+", "-", ",", ":" or "<"
+
+parse error at 5.12:
+unexpected list of type arguments
+expecting casl char, "_", "%", "+", "-", ",", ":" or "<"
+

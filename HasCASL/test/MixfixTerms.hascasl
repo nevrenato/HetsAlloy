@@ -1,0 +1,40 @@
+- a !
+a + a
+not a = a
+not a + a
+not s a + a 
+not s(n) <= 0 
+def s(n) <= 0 
+not a => b
+not s a => s b
+def a = b
+10 * b(n div 10)
+10 when n < 10 else 10 * b(n div 10)
+m(m,n) = m when m <= n else n
+(i div p < j div q <=> i * q < j * p )
+f + -f = f
+-f + -f + -f = -f + -f + -f
+f a none a but f a
+f a one a done
+f a --> f a
+s(a) <= 0 
+not if if a then b else c then b else c
+a when exists a:(). true else b
+(a * b) ::: a b = a ::: b
+f (- b) 
+a = b <=> b = a
+a - b = b - a
+(a => b) = (b if a)
+(a ::: b) + (a ::: b)
+(a + b) ::: (a + b)
+a =e= b
+(a =e= b) = (a =e= b)
+(a = b) =e= (a = b)
+- forall a:() . true /\ exists b:() . false
+if exists a:(). 1 then exists a:(). 1 else 0
+exists a:(). (true if true)
+(exists a:(). true) if true
+not p = not q
+def not a = a 
+a = not a
+a + def a

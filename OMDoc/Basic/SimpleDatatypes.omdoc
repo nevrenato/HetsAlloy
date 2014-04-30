@@ -1,0 +1,409 @@
+<?xml version='1.0' ?>
+<omdoc version="1.6" name="Basic/SimpleDatatypes">
+  <theory name="Boolean" meta="http://cds.omdoc.org/logics/casl/casl.omdoc?casl">
+    <constant name="Boolean" role="type">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="sort" />
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="False" role="object">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="Boolean" />
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="Not__" role="object">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="funtype" />
+            <om:OMS name="Boolean" />
+            <om:OMS name="Boolean" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <notation for="??Not__" role="constant">
+      <text value="Not" />
+    </notation>
+    <notation for="??Not__" role="application" fixity="pre" precedence="3" />
+    <constant name="True" role="object">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="Boolean" />
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="__And__" role="object">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="funtype" />
+            <om:OMS name="Boolean" />
+            <om:OMS name="Boolean" />
+            <om:OMS name="Boolean" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <notation for="??__And__" role="constant">
+      <text value="And" />
+    </notation>
+    <notation for="??__And__" role="application" fixity="in" precedence="2" />
+    <constant name="__Or__" role="object">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="funtype" />
+            <om:OMS name="Boolean" />
+            <om:OMS name="Boolean" />
+            <om:OMS name="Boolean" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <notation for="??__Or__" role="constant">
+      <text value="Or" />
+    </notation>
+    <notation for="??__Or__" role="application" fixity="in" precedence="1" />
+    <constant name="%()%ST:Boolean%()%Boolean" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="subsortof" />
+            <om:OMS name="Boolean" />
+            <om:OMS name="Boolean" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="ga_disjoint_True_False" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="not" />
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+              <om:OMS name="True" />
+              <om:OMS name="False" />
+            </om:OMA>
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <adt>
+      <sortdef name="Boolean" type="free">
+        <constructor name="False" />
+        <constructor name="True" />
+      </sortdef>
+    </adt>
+    <constant name="Not_False" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+            <om:OMA>
+              <om:OMS name="Not__" />
+              <om:OMS name="False" />
+            </om:OMA>
+            <om:OMS name="True" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="Not_True" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+            <om:OMA>
+              <om:OMS name="Not__" />
+              <om:OMS name="True" />
+            </om:OMA>
+            <om:OMS name="False" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="And_def1" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+            <om:OMA>
+              <om:OMS name="__And__" />
+              <om:OMS name="False" />
+              <om:OMS name="False" />
+            </om:OMA>
+            <om:OMS name="False" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="And_def2" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+            <om:OMA>
+              <om:OMS name="__And__" />
+              <om:OMS name="False" />
+              <om:OMS name="True" />
+            </om:OMA>
+            <om:OMS name="False" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="And_def3" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+            <om:OMA>
+              <om:OMS name="__And__" />
+              <om:OMS name="True" />
+              <om:OMS name="False" />
+            </om:OMA>
+            <om:OMS name="False" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="And_def4" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+            <om:OMA>
+              <om:OMS name="__And__" />
+              <om:OMS name="True" />
+              <om:OMS name="True" />
+            </om:OMA>
+            <om:OMS name="True" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="Or_def" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Boolean" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Boolean" />
+                </om:OMATP>
+                <om:OMV name="y" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+              <om:OMA>
+                <om:OMS name="__Or__" />
+                <om:OMV name="x" />
+                <om:OMV name="y" />
+              </om:OMA>
+              <om:OMA>
+                <om:OMS name="Not__" />
+                <om:OMA>
+                  <om:OMS name="__And__" />
+                  <om:OMA>
+                    <om:OMS name="Not__" />
+                    <om:OMV name="x" />
+                  </om:OMA>
+                  <om:OMA>
+                    <om:OMS name="Not__" />
+                    <om:OMV name="y" />
+                  </om:OMA>
+                </om:OMA>
+              </om:OMA>
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+  </theory>
+  <theory name="RichBoolean__T" meta="http://cds.omdoc.org/logics/casl/casl.omdoc?casl">
+    <structure name="gn_imp_2" from="RelationsAndOrders.omdoc?ExtBooleanAlgebra">
+      <open name="0" as="False" />
+      <open name="1" as="True" />
+      <open name="Elem" as="Boolean" />
+      <open name="__&lt;__" as="__&lt;__" />
+      <open name="__&lt;=__" as="__&lt;=__" />
+      <open name="__&gt;__" as="__&gt;__" />
+      <open name="__&gt;=__" as="__&gt;=__" />
+      <open name="__cap__" as="__And__" />
+      <open name="__cup__" as="__Or__" />
+      <open name="compl__" as="compl__" />
+    </structure>
+    <structure name="gn_imp_1" from="?Boolean">
+      <conass name="Boolean">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="Boolean" />
+        </OMOBJ>
+      </conass>
+      <conass name="False">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="False" />
+        </OMOBJ>
+      </conass>
+      <open name="Not__" as="Not__" />
+      <conass name="True">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="True" />
+        </OMOBJ>
+      </conass>
+      <conass name="__And__">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="__And__" />
+        </OMOBJ>
+      </conass>
+      <conass name="__Or__">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="__Or__" />
+        </OMOBJ>
+      </conass>
+    </structure>
+    <notation for="??Not__" role="constant">
+      <text value="Not" />
+    </notation>
+    <notation for="??Not__" role="application" fixity="pre" precedence="3" />
+    <notation for="??__%3C__" role="constant">
+      <text value="&lt;" />
+    </notation>
+    <notation for="??__%3C__" role="application" fixity="in" precedence="3" />
+    <notation for="??__%3C=__" role="constant">
+      <text value="&lt;=" />
+    </notation>
+    <notation for="??__%3C=__" role="application" fixity="in" precedence="3" />
+    <notation for="??__%3E__" role="constant">
+      <text value="&gt;" />
+    </notation>
+    <notation for="??__%3E__" role="application" fixity="in" precedence="3" />
+    <notation for="??__%3E=__" role="constant">
+      <text value="&gt;=" />
+    </notation>
+    <notation for="??__%3E=__" role="application" fixity="in" precedence="3" />
+    <notation for="??__And__" role="constant">
+      <text value="And" />
+    </notation>
+    <notation for="??__And__" role="application" fixity="in" precedence="2" />
+    <notation for="??__Or__" role="constant">
+      <text value="Or" />
+    </notation>
+    <notation for="??__Or__" role="application" fixity="in" precedence="1" />
+    <notation for="??compl__" role="constant">
+      <text value="compl" />
+    </notation>
+    <notation for="??compl__" role="application" fixity="pre" precedence="3" />
+    <constant name="%()%ST:Boolean%()%Boolean" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="subsortof" />
+            <om:OMS name="Boolean" />
+            <om:OMS name="Boolean" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+  </theory>
+  <theory name="RichBoolean" meta="http://cds.omdoc.org/logics/casl/casl.omdoc?casl">
+    <structure name="gn_imp_3" from="?RichBoolean__T">
+      <open name="Boolean" as="Boolean" />
+      <open name="False" as="False" />
+      <open name="Not__" as="Not__" />
+      <open name="True" as="True" />
+      <open name="__&lt;__" as="__&lt;__" />
+      <open name="__&lt;=__" as="__&lt;=__" />
+      <open name="__&gt;__" as="__&gt;__" />
+      <open name="__&gt;=__" as="__&gt;=__" />
+      <open name="__And__" as="__And__" />
+      <open name="__Or__" as="__Or__" />
+      <open name="compl__" as="compl__" />
+    </structure>
+    <notation for="??Not__" role="constant">
+      <text value="Not" />
+    </notation>
+    <notation for="??Not__" role="application" fixity="pre" precedence="0" />
+    <notation for="??__%3C__" role="constant">
+      <text value="&lt;" />
+    </notation>
+    <notation for="??__%3C__" role="application" fixity="in" precedence="0" />
+    <notation for="??__%3C=__" role="constant">
+      <text value="&lt;=" />
+    </notation>
+    <notation for="??__%3C=__" role="application" fixity="in" precedence="0" />
+    <notation for="??__%3E__" role="constant">
+      <text value="&gt;" />
+    </notation>
+    <notation for="??__%3E__" role="application" fixity="in" precedence="0" />
+    <notation for="??__%3E=__" role="constant">
+      <text value="&gt;=" />
+    </notation>
+    <notation for="??__%3E=__" role="application" fixity="in" precedence="0" />
+    <notation for="??__And__" role="constant">
+      <text value="And" />
+    </notation>
+    <notation for="??__And__" role="application" fixity="in" precedence="0" />
+    <notation for="??__Or__" role="constant">
+      <text value="Or" />
+    </notation>
+    <notation for="??__Or__" role="application" fixity="in" precedence="0" />
+    <notation for="??compl__" role="constant">
+      <text value="compl" />
+    </notation>
+    <notation for="??compl__" role="application" fixity="pre" precedence="0" />
+    <constant name="%()%ST:Boolean%()%Boolean" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="subsortof" />
+            <om:OMS name="Boolean" />
+            <om:OMS name="Boolean" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+  </theory>
+  <view name="gn_vn_0" from="RelationsAndOrders.omdoc?BooleanAlgebra" to="?Boolean">
+    <conass name="0">
+      <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+        <om:OMS name="False" />
+      </OMOBJ>
+    </conass>
+    <conass name="1">
+      <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+        <om:OMS name="True" />
+      </OMOBJ>
+    </conass>
+    <conass name="Elem">
+      <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+        <om:OMS name="Boolean" />
+      </OMOBJ>
+    </conass>
+    <conass name="__cap__">
+      <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+        <om:OMS name="__And__" />
+      </OMOBJ>
+    </conass>
+    <conass name="__cup__">
+      <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+        <om:OMS name="__Or__" />
+      </OMOBJ>
+    </conass>
+  </view>
+</omdoc>

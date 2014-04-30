@@ -1,0 +1,18 @@
+parse error at 1.9:
+unexpected ")"
+expecting casl char, "_", "%", "," or ":"
+
+parse error at 2.8:
+unexpected "="
+expecting "{", "[", "__", "%", ",", "<=>", "(" or ":"
+
+parse error at 3.8:
+unexpected ")"
+expecting "%" or words
+
+parse error at 4.12:
+unexpected '#'
+
+parse error at 5.9:
+unexpected '?'
+

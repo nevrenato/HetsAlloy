@@ -1,0 +1,41 @@
+types S, T
+type  Binary < S * S -> T
+vars  a, b : Type; a < b
+op    down : b ->? a
+vars  y : b; x : a
+. down y = x;
+types Nat < Int;
+      Inj < Int -> Int
+types
+Binary : Type;
+Inj : Type;
+Int : Type;
+Nat : Type;
+S : Type;
+T : Type;
+gn_t1[Binary] : +Type -> Type;
+gn_t10[gn_t9[Inj]] : -Type -> +Type -> Type;
+gn_t2[gn_t1[Binary]] : -Type -> +Type -> Type;
+gn_t9[Inj] : +Type -> Type
+types
+Nat < Int;
+gn_t10[gn_t9[Inj]] < __->__;
+gn_t2[gn_t1[Binary]] < __->__
+types
+Binary := gn_t1[Binary] T;
+Inj := gn_t9[Inj] Int;
+gn_t1[Binary] := gn_t2[gn_t1[Binary]] (S * S);
+gn_t9[Inj] := gn_t10[gn_t9[Inj]] Int
+vars
+a < b : Type %(var_5)%;
+b : Type %(var_4)%
+op down : forall b : Type; a < b : Type . b ->? a
+vars
+x : a;
+y : b
+forall a < b : Type; b : Type; x : a; y : b . down y = x
+3.6: ### Hint: is type variable 'a'
+3.9: ### Hint: is type variable 'b'
+3.18: ### Hint: rebound type variable 'a'
+5.7: ### Hint: not a class 'b'
+5.13: ### Hint: not a class 'a'

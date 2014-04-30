@@ -1,0 +1,24 @@
+logic RelScheme
+
+spec RelScheme =
+  Tables
+    person(key id:pointer, name:string)
+    author_of(person, paper:pointer)
+    paper(key id:pointer,title:string,published_in:pointer)
+    journal(key id:pointer,name:string,impact_factor:float)
+  
+  Relationships
+    author_of[person]      -> person[id]  one_to_many
+    author_of[paper]       -> paper[id]   one_to_many
+    paper[published_in]    -> journal[id] one_to_many
+
+then
+  Tables
+    appendix(key paper:pointer, author: integer)
+    index_of(key paper:pointer) 
+
+then
+  Relationships
+    index_of[paper] -> paper[id] one_to_one
+
+end

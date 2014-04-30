@@ -1,0 +1,148 @@
+general:
+pToken, oBraceT, etc. do not allow to be followed by (a line-comment)
+annotations. Call wrapAnnos if needed.
+
+report other uninspected annotations
+
+haddockify code
+
+proper type terms as supertypes are reduced to subtypes of higher kind
+and a type synonym for the subtype that (now) must not occur
+elsewhere.
+
+Four function- and (many) product type names are builtin in order to
+construct type applications.  The unit type is a separate type (and
+not the empty product).
+
+class names are not considered for mapping (Morphism.hs) 
+
+class- and type names are kept disjoint
+
+
+
+datatypes:
+
+Data types result in special data type sentences that imply the usual
+equations, only selector equations are generated (so
+that they may become program equations)
+
+Operations (constructors) in DatatypeDefns are not renamed (selectors
+are also not renamed in DatatypeSens, because they are not used)
+
+
+
+types: 
+
+Make sure that no supertypes are declared for type synonyms. 
+
+Cyclic atomic supertypes are rejected.
+
+Improve error messages for further (or repeated) non-atomic subtype
+declarations for the same sybtype. 
+
+In MinType the equality of terms and the overload relation of their
+types is not properly computed!
+
+The supertype relation is not checked in isSubEnv and diffEnv
+(AsToLe).
+
+sentences need to be generated for subtype definitions!
+
+
+
+terms: 
+
+the order of types in instance lists is given by the order of the
+variables that needed to be declared before!
+
+polymorphic (and constrained) let bindings are not supported
+yet.
+
+checking for a legal let-Pattern (a variable applied to arguments) for
+executable terms (ProgEq.hs).
+
+redeclarations of builtin identifiers are forbidden and ignored. Do
+not allow to redeclare "__ __"!
+
+terms in sentences (from formulas) are not quantified
+over global variables. (AsToLe.hs)
+
+exhaustive and overlapping patterns are not checked for several
+program equations or case patterns. (Merge.hs?)
+
+Sentences for attributes comm, assoc, unit are not generated yet.
+Generate a sentence for OpDefns (the currently generated lambda terms
+cannot be read back in by CASL).
+
+MixAna only recognizes unknown variables and thus cannot check for shadowing
+
+Unify alone handles lazy types 
+
+The removal of types for printing can be refined (propagated to the
+arguments)
+
+Currently the output is ie. "even (0)" but "even 0" would be better if it
+must not be CASL.
+
+
+
+CASL:
+Maybe in CASL.Morphism.compose the target(m1) only needs to be a
+subsignature of the source(m2) (as for HasCASL)
+
+
+
+Hatchet/Haskell:
+conversion HsSyn and AHsSyn is stupid
+
+AxiomBinds are not renamed 
+
+PrintModuleInfo is entirely faked and unusable for showing a Haskell
+theory that was directly read in (from a .het file with Haskell code in
+curly braces.)
+
+for logic Hatchet static analysis is not executed because its result
+is unused (also parser error messages are poor)
+
+
+
+Haskell:
+formulas are not translated to P-Logic Axioms
+
+class and instance stuff is filtered out in Haskell/HatAna (as
+conflict with the prelude)
+
+free types with subtypes components get too few constructors (and
+become disjoint types, see HasCASL/Secd.het)
+
+Programatica's output of decorated modules is not legal haskell
+wrt. inserted dictionaries
+
+
+
+Static/AnalysisLibrary:
+duplicate code at "outputStdout" and "hasErrors"
+
+ugly "showDiags{,1}" at "IO (Maybe" 
+
+
+
+HasCASL2IsabelleHOL:
+transTotalLambda went wrong in HasCASL/Functions.het
+let goes wrong in HasCASL/State.het.
+if types of bound variables are printed, 
+  type variables are wrongly represented
+generated and plain types lead to runtime errors!
+Generate an induction axiom and data type equations
+
+
+
+Logic/Logic:
+comparing symbol sets with (symbol-) equality may be a problem
+
+legal_obj (Logic.hs) is currently unused 
+signatures should be always legal by construction
+
+Design a comand line interface to trigger various outputs and
+translations (without daVinci!) to allow for profiling 
+

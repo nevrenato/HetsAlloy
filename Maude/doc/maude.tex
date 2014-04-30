@@ -1,0 +1,551 @@
+%!TEX root = main.tex
+
+As mentioned in the introduction, Maude modules are executable rewriting logic specifications.
+Rewriting logic \cite{Meseguer92-tcs} is a logic of change very suitable
+for the specification of concurrent systems that is parameterized
+by an underlying equational logic, for which Maude uses \emph{membership
+equational logic} \cite{BouhoulaJouannaudMeseguer00,Meseguer97},
+which, in addition to equations, allows the statement of membership
+axioms characterizing the elements of a sort. In the following sections we
+present both logics and how their specifications are represented as Maude modules.
+
+\subsection{Membership equational logic} \label{mel-section}
+
+A \emph{signature} in membership equational logic is a triple $(K,\Sigma, S)$
+(just $\Sigma$ in the following),\
+with $K$ a set of {\em kinds},
+$\Sigma = \{\Sigma_{k_1\ldots k_n,k}\}_{(k_1\ldots k_n,k)\in K^{*}\times K}$ a
+many-kinded signature, and $S =
+\{S_{k}\}_{k\in K}$ a pairwise disjoint $K$-kinded family of sets of
+\emph{sorts}.
+The kind of a sort $s$ is denoted by $[s]$.
+We write $T_{\Sigma,k}$ and $T_{\Sigma,k}(X)$ to denote respectively the set
+of ground
+$\Sigma$-terms with kind $k$ and of $\Sigma$-terms with kind $k$ over variables
+in $X$, where $X = \{ x_1:k_1, \dots, x_n:k_n\}$ is a set of $K$-kinded
+variables.
+Intuitively, terms with a kind but without a sort represent undefined or error
+elements.
+
+The atomic formulas of membership equational logic are either \emph{equations}
+$t = t'$, where $t$ and $t'$ are $\Sigma$-terms of the same kind, or
+\emph{membership axioms} of the form $t : s$, where the term $t$
+has kind $k$ and $s \in S_k$.
+\emph{Sentences} are universally-quantified Horn clauses of the
+form $(\forall X)\, A_0 \Leftarrow A_1 \wedge \ldots \wedge A_n$,
+where each $A_i$ is  either an equation or a membership axiom, and $X$ is a
+set of $K$-kinded variables containing all the variables in the $A_i$.
+A \emph{specification} is a pair $(\Sigma,E)$, where $E$ is a set
+of sentences in membership equational logic over the signature $\Sigma$.
+
+Models of membership equational logic specifications are
+\emph{$\Sigma$-algebras} $\model$ consisting of a set $A_k$ for each kind $k \in K$,
+a function $A_f : A_{k_1}\times \dots \times A_{k_n} \longrightarrow A_k$ for each 
+operator $f \in \Sigma_{k_1 \dots k_n, k}$, and
+a subset $A_s \subseteq A_k$ for each sort $s\in S_k$. The meaning
+$\den{t}$ of a term $t$ in an algebra $\model$ is inductively defined as usual.
+Then, an algebra $\model$ satisfies an equation $t = t'$  (or the equation holds
+in the algebra), denoted $\model \models t = t'$, when both terms have the same meaning:
+$\den{t} = \den{t'}$. In the same way, satisfaction of a membership is defined as:
+$\model \models t : s$ when $\den{t} \in A_s$.
+
+A membership equational logic specification $(\Sigma,E)$ has an initial model 
+$\mathcal{T}_{\Sigma/E}$ whose elements
+are $E$-equivalence classes of terms $[t]$.
+We refer to \cite{BouhoulaJouannaudMeseguer00,Meseguer97} for a detailed presentation of
+$(\Sigma,E)$-algebras,
+sound and complete deduction rules, as well as the construction of
+initial and free algebras.
+
+Since the membership equational logic specifications that we consider are assumed
+to satisfy the executability requirements of confluence, termination, and 
+sort-decreasingness, their equations $t=t'$ can be oriented from left to right,
+$t \rightarrow t'$. Such a statement holds in an algebra, denoted 
+$\model \models t \rightarrow t'$, exactly when $\model \models t = t'$, i.e., when
+$\den{t} = \den{t'}$. Moreover, under those assumptions an equational condition $u = v$
+in a conditional equation can be checked by finding a common term $t$ such
+that $u \rightarrow t$ and $v \rightarrow t$. Since these are \emph{executability}
+requirements they are not necessary for using \Hets; in fact, these are some of
+the properties we expect to check in the near future.
+
+\subsection{Maude functional modules} \label{maudefmod}
+
+Maude functional modules \cite[Chapter 4]{maude-book}, introduced 
+with syntax \texttt{fmod ...\ endfm}, are executable membership
+equational specifications and their semantics is given by the corresponding
+initial membership algebra in the class of algebras satisfying the specification.
+
+In a functional module we can declare sorts (by means of keyword
+\texttt{sort}(\texttt{s})); subsort relations between sorts
+(\texttt{subsort}); operators (\texttt{op}) for building values of these
+sorts, giving the sorts of their arguments and result, and which may have
+attributes such as being associative (\texttt{assoc}) or commutative
+(\texttt{comm}), for example; memberships (\texttt{mb}) asserting that a term
+has a sort; and equations (\texttt{eq}) identifying terms.  
+Both memberships and equations can be conditional (\texttt{cmb} and \texttt{ceq}).
+
+Maude does automatic kind inference from the sorts declared by the user and
+their subsort relations.  Kinds are \emph{not} declared explicitly, and
+correspond to the connected components of the subsort relation.
+The kind corresponding to a sort \texttt{s} is denoted \texttt{[s]}.
+For example, if we have sorts \texttt{Nat} for natural numbers and \texttt{NzNat} 
+for nonzero natural numbers with a subsort \texttt{NzNat < Nat}, then 
+\texttt{[NzNat]} = \texttt{[Nat]}.
+
+An operator declaration like
+
+{\codesize
+\begin{verbatim}
+ op _div_ : Nat NzNat -> Nat .
+\end{verbatim}
+}
+
+\noindent
+is logically understood as a declaration at the kind level
+
+{\codesize
+\begin{verbatim}
+ op _div_ : [Nat] [Nat] -> [Nat] .
+\end{verbatim}
+}
+
+\noindent
+together with the conditional membership axiom
+
+{\codesize
+\begin{verbatim}
+ cmb N div M : Nat if N : Nat and M : NzNat .
+\end{verbatim}
+}
+
+A subsort declaration \texttt{NzNat < Nat} is logically understood as
+the conditional membership axiom
+
+{\codesize
+\begin{verbatim}
+ cmb N : Nat if N : NzNat .
+\end{verbatim}
+}
+
+\subsection{Rewriting logic}
+
+Rewriting logic extends equational logic by introducing the notion of \emph{rewrites} 
+corresponding to
+transitions between states; that is, while equations are interpreted as equalities and therefore
+they are symmetric, rewrites denote changes which can be irreversible. 
+
+A rewriting logic specification, or \emph{rewrite theory}, has the form
+$\mathcal{R} = (\Sigma,E,R)$, where $(\Sigma,E)$ is an equational specification
+and $R$ is a set of \emph{rules} as described below. From this definition,
+one can see that rewriting logic is built on top of equational logic, so
+that rewriting logic is parameterized
+with respect to the version of the underlying equational logic; in our
+case, Maude uses membership equational logic, as described in the
+previous sections. A rule in $R$ has the general conditional
+form\footnote{There is no need for the condition listing first equations,
+then  memberships, and then rewrites: this is just a notational
+abbreviation, they can be listed in any order.} 
+\[
+(\forall X) \; t \Rightarrow t' \Leftarrow \bigwedge_{i=1}^{n} u_i = u'_i \wedge
+                      \bigwedge_{j=1}^{m}  v_j : s_j \wedge
+                      \bigwedge_{k=1}^{l} w_k \Rightarrow w'_k
+\]
+where the head is a rewrite and the conditions can be equations,
+memberships, and rewrites; both sides of a rewrite must have the same kind. 
+From these rewrite rules, one can deduce rewrites of the form
+$t \Rightarrow t'$ by means of general deduction rules introduced
+in \cite{Meseguer92-tcs} (for a generalization see also \cite{BruniMeseguer06}).
+
+Models of rewrite theories are called \emph{$\mathcal{R}$-systems}.
+Such systems are defined as categories that possess a
+$(\Sigma,E)$-algebra structure, together with a natural transformation
+for each rule in the set $R$. More intuitively, the idea is that we have a
+$(\Sigma,E)$-algebra, as described in Section~\ref{mel-section}, with
+transitions between the elements in each set $A_k$; moreover, these
+transitions must satisfy several additional requirements, including that
+there are identity transitions for each element, that transitions can
+be sequentially composed, that the operations in the signature $\Sigma$
+are also appropriately defined for the transitions, and that we have
+enough transitions corresponding to the rules in $R$. Then, if we keep in
+this context the notation $\model$ to denote an $\mathcal{R}$-system, a
+rewrite $t \Rightarrow t'$ is satisfied by $\model$, 
+denoted $\model \models t \Rightarrow t'$, when there is a transition
+$\den{t} \rightarrow_\model \den{t'}$ in the system between the
+corresponding meanings of both sides of the rewrite, where $\rightarrow_\model$
+will be our notation for such transitions. 
+
+The rewriting logic deduction rules introduced in \cite{Meseguer92-tcs}
+are sound and complete with respect to this notion of model. Moreover,
+they can be used to build initial and free models; see \cite{Meseguer92-tcs}
+for details.
+
+\subsection{Maude system modules}
+
+Maude system modules \cite[Chapter 6]{maude-book}, introduced with
+syntax \texttt{mod ...\ endm}, are executable rewrite 
+theories and their semantics is given by the initial system in the class of 
+systems corresponding to the rewrite theory.  A system module can contain all the
+declarations of a functional module and, in addition, declarations for
+rules (\texttt{rl}) and conditional rules (\texttt{crl}).
+
+The executability requirements for equations and memberships in a system
+module are the same as those of functional modules, namely, confluence,
+termination, and sort-decreasingness. With respect to rules, the satisfaction
+of all the conditions in a conditional rewrite rule is attempted sequentially 
+from left to right, solving rewrite conditions by means of search; 
+for this reason, we can have new variables in such conditions but they
+must become instantiated along this process of solving from left to right
+(see \cite{maude-book} for details). Furthermore, the strategy followed
+by Maude in rewriting with rules is to compute the normal form of a term
+with respect to the equations before applying a rule. This strategy is
+guaranteed not to miss any rewrites when the rules are \emph{coherent}
+with respect to the equations \cite{eq-rl-rwl,maude-book}. In a way
+quite analogous to confluence, this coherence requirement means that, given
+a term $t$, for each rewrite of it using a rule in $R$ to some term $t'$,
+if $u$ is the normal form of $t$ with respect to the equations and
+memberships in $E$, then there is a rewrite of $u$ with some rule in
+$R$ to a term $u'$ such that $u' =_E t'$ (that is, the equation $t' = u'$
+can be deduced from $E$).
+
+\subsection{Advanced features}\label{subsec:adv_feat}
+
+In addition to the modules presented thus far, we present in this section
+some other Maude features that will be used throughout this paper. More
+information on these topics can be found in \cite{maude-book}.
+
+\subsubsection{Module operations}
+
+To ease the specification of large systems, Maude provides several
+mechanisms to structure its modules. We describe in this section these
+procedures, that will be used later to build the development graphs.
+
+Maude modules can import other modules in three different modes:
+\begin{itemize}
+\item
+The \verb"protecting" mode (abbreviated as \verb"pr") indicates that \emph{no
+junk and no confusion} can be added to the imported module, where junk refers to
+new terms in canonical form while confusion implies that different canonical
+terms in the initial module are made equal by equations in the imported module.
+
+\item
+The \verb"extending" mode (abbreviated as \verb"ex") indicates that junk is
+allowed but confusion is forbidden.
+
+\item
+The \verb"including" mode (abbreviated as \verb"inc") allows both
+junk and confusion.
+
+\end{itemize}
+
+More specifically, these importation modes do not import modules but
+\emph{module expressions} that, in addition to a single module identifier,
+can be:
+
+\begin{itemize}
+\item
+A summation of two module expressions $\mathit{ME}_1 \,\verb"+"\,\mathit{ME}_2$,
+which creates a new module that includes all the information in its summands.
+
+\item
+A renaming $\mathit{ME} \,\verb"*"\, \verb"("\mathit{Renaming}\verb")"$, where 
+$\mathit{Renaming}$ is a list of renamings. They can be renaming of sorts:
+
+$$
+\verb"sort"\; \mathit{sort}_1\; \verb"to"\; \mathit{sort}_2\; \verb"."
+$$
+
+of operators, distinguishing whether it renames all the operators
+with the given identifier (when the attributes are modified, only
+\verb"prec", \verb"gather", and \verb"format" are allowed)
+
+$$
+\verb"op"\; \mathit{id}_1\; \verb"to"\; \mathit{id}_2\; \verb"."
+$$
+\vspace{-3ex}
+$$
+\verb"op"\; \mathit{id}_1\; \verb"to"\; \mathit{id}_2\; \verb"[" \mathit{atts} \verb"]"
+\;  \verb"."
+$$
+
+\noindent or it renames the operators of the given arity:
+
+$$
+\verb"op"\; \mathit{id}_1 : \mathit{arity}\; \verb"->" \; \mathit{coarity}\;
+\verb"to"\; \mathit{id}_2\; \verb"."
+$$
+\vspace{-3ex}
+$$
+\verb"op"\; \mathit{id}_1 : \mathit{arity}\; \verb"->" \; \mathit{coarity}\;
+\verb"to"\; \mathit{id}_2\; \verb"[" \mathit{atts} \verb"]" \; \verb"."
+$$
+
+or of labels:
+
+$$
+\verb"label"\; \mathit{label}_1\; \verb"to"\; \mathit{label}_2\; \verb"."
+$$
+
+\end{itemize}
+
+\subsubsection{Theories}\label{subsec:theories}
+
+Theories are used to declare module interfaces, namely the syntactic
+and semantic properties to be satisfied by the actual parameter modules
+used in an instantiation. As for modules, Maude supports two different types
+of theories: functional theories and system theories, with the same structure
+of their module counterparts, but with a different semantics. Functional
+theories  are declared with the keywords \verb"fth ... endfth", and
+system theories with the keywords \verb"th ... endth". Both of them can
+have sorts, subsort relationships, operators, variables, membership axioms,
+and equations, and can import other theories or modules. System theories can
+also have rules. Although there is no restriction on the operator attributes
+that can be used in a theory, there are some subtle restrictions and
+issues regarding the mapping of such operators (see Section
+\ref{subsec:views}).
+%
+Like functional modules, functional theories are membership equational
+logic theories, but they do not need to be Church-Rosser and terminating.
+%and  therefore some or all of their statements may be declared with the
+%\verb"nonexec" attribute and can only be executed in a controlled way.
+
+For example, we can define a theory for some processes. First, we indicate
+that a sort for processes is required:
+
+{\codesize
+\begin{verbatim}
+fth PROCESS is
+ pr BOOL .
+
+ sort Process .
+\end{verbatim}
+}
+
+Then, we state that two operators, one updating the processes and another
+one checking whether a process has finished, have to be defined:
+ 
+{\codesize
+\begin{verbatim}
+ op update : Process -> Process .
+ op finished : Process -> Bool .
+\end{verbatim}
+}
+
+Finally, we define an operator \verb"_<_" over processes that is required
+to be irreflexive and transitive:
+
+{\codesize
+\begin{verbatim}
+ vars X Y Z : Process .
+ 
+ op _<_ : Process Process -> Bool .
+ eq X < X = false [nonexec label irreflexive] .
+ ceq X < Z = true if X < Y /\ Y < Z [nonexec label transitive] .
+endfth
+\end{verbatim}
+}
+
+\subsubsection{Views}\label{subsec:views}
+
+We use views to specify how a particular target module or theory
+satisfies a source theory. In general, there may be several ways in which 
+such requirements might be satisfied by the target module or
+theory; that is, there can be many different views, each specifying a
+particular interpretation of the source theory in the target.
+In the definition of a view we have to indicate its name, the source
+theory, the target module or theory, and the mapping of each sort and
+operator in the source theory. The source and target of a
+view can be any module expression, with the source module expression
+evaluating to a theory and the target module expression evaluating to a
+module or a theory.
+Each view declaration has an associated set of proof obligations, namely, for
+each axiom in the source theory it should be the case that the axiom's
+translation by the view holds true in the target. Since the target can
+be a module interpreted initially, verifying such proof obligations may
+in general require inductive proof techniques. Such proof obligations
+are not discharged or checked by the system. 
+
+The mappings allowed in views are:
+
+\begin{itemize}
+
+\item
+Mappings between sorts:
+
+$$
+\verb"sort"\; \mathit{sort}_1\; \verb"to"\; \mathit{sort}_2\; \verb"."
+$$
+
+\item
+Mappings between operators, where the user can specify the arity and coarity
+of the operators to disambiguate them:
+
+$$
+\verb"op"\; \mathit{id}_1\; \verb"to"\; \mathit{id}_2\; \verb"."
+$$
+\vspace{-3ex}
+$$
+\verb"op"\; \mathit{id}_1 : \mathit{arity}\; \verb"->" \; \mathit{coarity}\;
+\verb"to"\; \mathit{id}_2\; \verb"."
+$$
+
+\item
+In addition to these mappings, the user can map a term $\mathit{term}_1$, that
+can only be a single operator applied to variables, to any term $\mathit{term}_2$
+in the target module, where the sorts of the variables in the first term have been
+translated by using the sort mappings. Note that in that case the arity of the
+operator in the source theory and the one in the target module can be different:
+
+$$
+\verb"op"\; \mathit{term}_1\; \verb"to term"\; \mathit{term}_2\; .
+$$
+
+\end{itemize}
+
+Notice that we cannot map labels, and thus we cannot identify the statements in
+the theory with those in the target module.
+
+We can now create a view \verb"NatProcess" from the theory \verb"PROCESS" in the
+previous section to \verb"NAT", the predefined modules for natural numbers:
+
+{\codesize
+\begin{verbatim}
+ view NatProcess from PROCESS to NAT is
+\end{verbatim}
+}
+
+We need a sort in \verb"NAT" to identify processes. We use \verb"Nat", the sort
+for natural numbers:
+
+{\codesize
+\begin{verbatim}
+  sort Process to Nat .
+\end{verbatim}
+}
+
+Since we identify now processes with natural numbers, we can \verb"update" a process
+by applying the successor function, which is declared as \verb"s_" in \verb"NAT":
+
+{\codesize
+\begin{verbatim}
+  op update to s_ .
+\end{verbatim}
+}
+
+We map the operator \verb"finished?" in a different way: we create a term
+with this operator with a variable as argument, and it is mapped to a term
+in the syntax of the target module. In that case we consider a process has
+finished if it reaches \verb"100":
+
+{\codesize
+\begin{verbatim}
+  op finished?(P:Process) to term P:Nat < 100 .
+\end{verbatim}
+}
+
+Since the \verb"NAT" module already contains an operator \verb"_<_" it is not
+necessary to explicitly indicate the mapping.
+
+\subsubsection{Parameterized modules}\label{subsec:pmod}
+
+Maude modules can be parameterized. A parameterized
+system module has syntax
+
+$$
+\verb"mod M{" X_1 :: T_1 , \ldots , X_n :: T_n \verb"} is ... endm"
+$$
+
+\noindent with $n \geq 1$. Parameterized functional modules have completely
+analogous syntax.
+
+The \verb"{"$X_1 :: T_1 , \ldots , X_n :: T_n$\verb"}" part is called the
+interface, where each pair $X_i :: T_i$ is a parameter, each $X_i$ is an
+identifier---the parameter name or parameter label---, and each $T_i$ is
+an expression that yields a theory---the parameter theory. Each parameter
+name in an interface must be unique, although there is no uniqueness
+restriction on the parameter theories of a module. The parameter theories
+of a functional module must be functional theories.
+
+In a parameterized module $M$, all the sorts and statement labels
+coming from theories in its interface must be qualified by their names. Thus,
+given a parameter $X_i :: T_i$, each sort $S$ in $T_i$ must be
+qualified as $X_i\texttt{\$}S$, and each label $l$ of a statement occurring in
+$T_i$ must be qualified as $X_i\texttt{\$}l$. In fact, the parameterized module
+$M$ is flattened as follows. For each parameter $X_i :: T_i$, 
+a renamed copy of the theory $T_i$, called $X_i :: T_i$ is included.
+The renaming  maps each sort $S$ to $X_i\texttt{\$}S$, and each label $l$
+of a statement occurring in $T_i$ to $X_i\texttt{\$}l$. The renaming has
+no effect on importations of modules. Thus, if $T_i$ includes a theory $T'$,
+when the renamed
+theory $X_i :: T_i$ is created and included into $M$, the renamed
+theory $X_i :: T'$ will also be created and included into $X_i :: T_i$. 
+However, the renaming will have no effect on modules imported by either the
+$T_i$ or $T'$; for example, if \verb"BOOL" is imported by one of these
+theories, it is not renamed, but imported in the same way into $M$.
+%
+Moreover, sorts declared in parameterized modules can also be parameterized,
+and these may duplicate, omit, or reorder parameters.
+
+The parameters in parameterized modules are bound to the formal parameters
+by \emph{instantiation}. The 
+instantiation requires a view from each formal parameter to its corresponding 
+actual parameter. Each such view is then used to bind the names of sorts, 
+operators, etc. in the formal parameters to the corresponding sorts, operators 
+(or expressions), etc. in the actual target.
+The instantiation of a parameterized module must be made with views 
+explicitly defined previously.
+
+We can define a parameterized modules for multisets of the processes shown in
+Section \ref{subsec:views}. This module defines the sort \verb"MSet{X}" for
+multisets, which is a supersort of Process:
+
+{\codesize
+\begin{verbatim}
+fmod PROCESS_MSET{X :: PROCESS} is
+ sort MSet{X} .
+ subsort X$Process < MSet{X} .
+\end{verbatim}
+}
+
+The constructors of multisets are \verb"empty" for the empty multiset and
+the juxtaposition operator \verb"__" for bigger multisets:
+
+{\codesize
+\begin{verbatim}
+ op empty : -> MSet{X} [ctor] .
+ op __ : MSet{X} MSet{X} -> MSet{X} [ctor assoc id: empty] .
+\end{verbatim}
+}
+
+We can also use the operators declared in the view. For example, we can remove
+a process from the multiset if it is finished: 
+
+{\codesize
+\begin{verbatim}
+ var P : X$Process .
+ var MS : MSet{X} .
+ 
+ ceq P MS = MS if finished?(P) .
+endfm
+\end{verbatim}
+}
+
+We can use the view \verb"NatProcess" to instantiate this parameterized module
+and create lists of processes identified as natural numbers.
+
+{\codesize
+\begin{verbatim}
+fmod NAT_PROCSES_MSET is
+ pr PROCESS_MSET{NatProcess} .
+endfm
+\end{verbatim}
+}
+
+
+
+
+
+
+
+
+
+

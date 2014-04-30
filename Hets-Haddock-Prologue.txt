@@ -1,0 +1,105 @@
+Hets is the main analysis tool for the specification
+language heterogeneous CASL. Heterogeneous CASL (HetCASL, see
+<http://www.informatik.uni-bremen.de/agbkb/forschung/formal_methods/CoFI/HetCASL/index_e.htm>) combines
+the specification language CASL with CASL extensions and
+sublanguages, as well as completely different logics and even
+programming languages such as Haskell, including its module system.
+Hets provides parsing, static analysis and proof management
+(via development graphs), as well as many other functionalities.
+Hets is written in Haskell (see <http://www.haskell.org> and
+<http://trac.informatik.uni-bremen.de:8080/hets/wiki/HetsForDevelopers>)
+
+The general background of Hets is explained in /Heterogeneous
+specification and the heterogeneous tool set/
+(<http://www.informatik.uni-bremen.de/~till/papers/habil.ps>).
+A short introduction is given in
+<http://www.informatik.uni-bremen.de/~till/papers/hets-tacas.pdf>.
+
+The Hets modules are grouped using hierarchical modules (where modules
+can be grouped into folders); we here only discuss the top view on
+this hierarchy. For a more details, look at the descriptions of
+the folders or the individual modules.
+
+The folder "Logic" contains the infrastructure needed for presenting a
+logic to Hets.  This is complemented by folders working at the
+heterogeneous level --- the code in modules in these folders is
+parameterized over an arbitrary but fixed logic graph.  Existential
+types are used for implementing the heterogeneity, see
+<http://haskell.org/haskellwiki/Existential_type>.  The folder /Syntax/
+(see "Syntax.ADoc") provides abstract syntax and parsing of
+heterogeneous structured specifications. "Static" is for the static
+analysis, based on the verification static semantics for Heterogeneous
+CASL.  "Static.DevGraph" contains the data structures for
+heterogeneous development graphs, including proof management.
+Finally, the folder "Proofs"
+contains an implementation of the proof calculus for heterogeneous
+development graphs.
+
+
+The folders "CASL", "CoCASL", "HasCASL",
+"Haskell", "CspCASL", "Modal", "Isabelle"
+contain different instances of the type class 'Logic.Logic.Logic' of the
+module "Logic.Logic".  These instances always are contained in
+a module named /Logic_xxx/, where /xxx/ is the name of
+the language at hand.  Since the integration of a new logic into Hets
+requires writing a new instantiation of the type class 'Logic.Logic.Logic',
+it is advisable to consult the module /Logic_xxx/ (and the modules
+imported there) for some logic that is in some sense similar to the new
+logic to be integrated.
+In particular, we have
+implemented the CASL logic in such a way that much of the folder
+"CASL" can be re-used for CASL extensions as well; this is
+achieved via /holes/ (realized via polymorphic variables) in the
+types for signatures, morphisms, abstract syntax etc.  This eases
+integration of CASL extensions and keeps the effort quite moderate.
+
+The folder "Comorphisms" contains various comorphisms and other
+translations that constitute the logic graph. Note that these modules
+can be compiled independently of the logic independent heterogeneous
+modules listed above. The module "Comorphisms.LogicList"
+assembles all the logics into one (heterogeneous) list, while
+"Comorphisms.LogicGraph" builds up the logic graph,
+i.e. it assembles all the (co)morphisms among the logics,
+and also specifies which ones are standard inclusions.
+This module also provides a partial union for logics, which is
+crucial for the static analysis of unions of specifications
+(which may occur explicitly or implicitly).
+
+Last but not least, there are general purpose folders.  The most
+important one is the folder "Common". It contains general purpose
+libraries, e.g. for relations, and for parsing and
+pretty printing. "Common.Result" provides a monad for error handling
+and error messages that is used at many places throughout Hets.
+
+The folder "ATC" is for conversion from and to shared ATerms
+<http://hackage.haskell.org/package/aterm>. The /utils/ folder contains tools
+like /DriFT/.
+
+The command line interface is contained in "Driver", the graphical
+interface in "GUI". The latter is based on the UniForM Workbench
+that provides an event system and encapsulations of TclTk
+<http://www.informatik.uni-bremen.de/htk/> and uDraw(Graph)
+<http://www.informatik.uni-bremen.de/uDrawGraph/en/index.html>,
+<http://hackage.haskell.org/package/uni-uDrawGraph>.
+
+Hets is also based on the following third-party libraries:
+
+ * expat for fast XML parsing, see
+   <http://hackage.haskell.org/package/hexpat>
+
+ * The combinator parser library Parsec, see
+   <http://www.haskell.org/haskellwiki/Parsec>,
+   <http://hackage.haskell.org/package/parsec1>
+   and "Propositional.Parse_AS_Basic" for a sample use
+
+ * finite sets and maps, see
+   <http://hackage.haskell.org/package/containers>
+
+ * finite graphs from the functional graph library (fgl), see
+   <http://web.engr.oregonstate.edu/~erwig/fgl/haskell/>
+   and <http://hackage.haskell.org/package/fgl>
+
+ * the xml light package, see
+   <http://hackage.haskell.org/package/xml>
+
+Visit "Driver.Version" for the date of this documentation.

@@ -1,0 +1,8 @@
+(sorts Int, Nat
+ sorts Nat < Int
+ op 0 : Int
+ op 0 : Nat
+ op __-?__ : Int * Int ->? Int
+ op __-?__ : Nat * Nat ->? Nat,
+ [def 0 %(Nat_divide_0)%])
+7.5: ### Warning: unused variable 'm'

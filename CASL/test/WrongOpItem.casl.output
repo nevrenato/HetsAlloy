@@ -1,0 +1,7 @@
+parse error at 1.18:
+unexpected "c"
+expecting "{", "[", "__", "%", ",", ":" or "("
+
+parse error at 2.11:
+unexpected keyword "=e="
+

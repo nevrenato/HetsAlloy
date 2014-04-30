@@ -1,0 +1,4156 @@
+<?xml version='1.0' ?>
+<omdoc version="1.6" name="Basic/RelationsAndOrders">
+  <theory name="BooleanAlgebra__E1" meta="http://cds.omdoc.org/logics/casl/casl.omdoc?casl">
+    <constant name="Elem" role="type">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="sort" />
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="0" role="object">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="Elem" />
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="1" role="object">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="Elem" />
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="__cap__" role="object">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="funtype" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <notation for="??__cap__" role="constant">
+      <text value="cap" />
+    </notation>
+    <notation for="??__cap__" role="application" fixity="in" precedence="2" />
+    <constant name="__cup__" role="object">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="funtype" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <notation for="??__cup__" role="constant">
+      <text value="cup" />
+    </notation>
+    <notation for="??__cup__" role="application" fixity="in" precedence="1" />
+    <constant name="%()%ST:Elem%()%Elem" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="subsortof" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="ga_assoc___cap__" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="y" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="z" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+              <om:OMA>
+                <om:OMS name="__cap__" />
+                <om:OMA>
+                  <om:OMS name="__cap__" />
+                  <om:OMV name="x" />
+                  <om:OMV name="y" />
+                </om:OMA>
+                <om:OMV name="z" />
+              </om:OMA>
+              <om:OMA>
+                <om:OMS name="__cap__" />
+                <om:OMV name="x" />
+                <om:OMA>
+                  <om:OMS name="__cap__" />
+                  <om:OMV name="y" />
+                  <om:OMV name="z" />
+                </om:OMA>
+              </om:OMA>
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="ga_comm___cap__" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="y" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+              <om:OMA>
+                <om:OMS name="__cap__" />
+                <om:OMV name="x" />
+                <om:OMV name="y" />
+              </om:OMA>
+              <om:OMA>
+                <om:OMS name="__cap__" />
+                <om:OMV name="y" />
+                <om:OMV name="x" />
+              </om:OMA>
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="ga_right_unit___cap__" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+              <om:OMA>
+                <om:OMS name="__cap__" />
+                <om:OMV name="x" />
+                <om:OMATTR>
+                  <om:OMATP>
+                    <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                    <om:OMS name="Elem" />
+                  </om:OMATP>
+                  <om:OMS name="1" />
+                </om:OMATTR>
+              </om:OMA>
+              <om:OMV name="x" />
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="ga_left_unit___cap__" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+              <om:OMA>
+                <om:OMS name="__cap__" />
+                <om:OMATTR>
+                  <om:OMATP>
+                    <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                    <om:OMS name="Elem" />
+                  </om:OMATP>
+                  <om:OMS name="1" />
+                </om:OMATTR>
+                <om:OMV name="x" />
+              </om:OMA>
+              <om:OMV name="x" />
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="ga_left_comm___cap__" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="y" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="z" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+              <om:OMA>
+                <om:OMS name="__cap__" />
+                <om:OMV name="x" />
+                <om:OMA>
+                  <om:OMS name="__cap__" />
+                  <om:OMV name="y" />
+                  <om:OMV name="z" />
+                </om:OMA>
+              </om:OMA>
+              <om:OMA>
+                <om:OMS name="__cap__" />
+                <om:OMV name="y" />
+                <om:OMA>
+                  <om:OMS name="__cap__" />
+                  <om:OMV name="x" />
+                  <om:OMV name="z" />
+                </om:OMA>
+              </om:OMA>
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="ga_assoc___cup__" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="y" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="z" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+              <om:OMA>
+                <om:OMS name="__cup__" />
+                <om:OMA>
+                  <om:OMS name="__cup__" />
+                  <om:OMV name="x" />
+                  <om:OMV name="y" />
+                </om:OMA>
+                <om:OMV name="z" />
+              </om:OMA>
+              <om:OMA>
+                <om:OMS name="__cup__" />
+                <om:OMV name="x" />
+                <om:OMA>
+                  <om:OMS name="__cup__" />
+                  <om:OMV name="y" />
+                  <om:OMV name="z" />
+                </om:OMA>
+              </om:OMA>
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="ga_comm___cup__" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="y" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+              <om:OMA>
+                <om:OMS name="__cup__" />
+                <om:OMV name="x" />
+                <om:OMV name="y" />
+              </om:OMA>
+              <om:OMA>
+                <om:OMS name="__cup__" />
+                <om:OMV name="y" />
+                <om:OMV name="x" />
+              </om:OMA>
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="ga_right_unit___cup__" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+              <om:OMA>
+                <om:OMS name="__cup__" />
+                <om:OMV name="x" />
+                <om:OMATTR>
+                  <om:OMATP>
+                    <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                    <om:OMS name="Elem" />
+                  </om:OMATP>
+                  <om:OMS name="0" />
+                </om:OMATTR>
+              </om:OMA>
+              <om:OMV name="x" />
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="ga_left_unit___cup__" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+              <om:OMA>
+                <om:OMS name="__cup__" />
+                <om:OMATTR>
+                  <om:OMATP>
+                    <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                    <om:OMS name="Elem" />
+                  </om:OMATP>
+                  <om:OMS name="0" />
+                </om:OMATTR>
+                <om:OMV name="x" />
+              </om:OMA>
+              <om:OMV name="x" />
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="ga_left_comm___cup__" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="y" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="z" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+              <om:OMA>
+                <om:OMS name="__cup__" />
+                <om:OMV name="x" />
+                <om:OMA>
+                  <om:OMS name="__cup__" />
+                  <om:OMV name="y" />
+                  <om:OMV name="z" />
+                </om:OMA>
+              </om:OMA>
+              <om:OMA>
+                <om:OMS name="__cup__" />
+                <om:OMV name="y" />
+                <om:OMA>
+                  <om:OMS name="__cup__" />
+                  <om:OMV name="x" />
+                  <om:OMV name="z" />
+                </om:OMA>
+              </om:OMA>
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="absorption_def1" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="y" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+              <om:OMA>
+                <om:OMS name="__cap__" />
+                <om:OMV name="x" />
+                <om:OMA>
+                  <om:OMS name="__cup__" />
+                  <om:OMV name="x" />
+                  <om:OMV name="y" />
+                </om:OMA>
+              </om:OMA>
+              <om:OMV name="x" />
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="absorption_def2" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="y" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+              <om:OMA>
+                <om:OMS name="__cup__" />
+                <om:OMV name="x" />
+                <om:OMA>
+                  <om:OMS name="__cap__" />
+                  <om:OMV name="x" />
+                  <om:OMV name="y" />
+                </om:OMA>
+              </om:OMA>
+              <om:OMV name="x" />
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="zeroAndCap" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+              <om:OMA>
+                <om:OMS name="__cap__" />
+                <om:OMV name="x" />
+                <om:OMS name="0" />
+              </om:OMA>
+              <om:OMS name="0" />
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="oneAndCup" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+              <om:OMA>
+                <om:OMS name="__cup__" />
+                <om:OMV name="x" />
+                <om:OMS name="1" />
+              </om:OMA>
+              <om:OMS name="1" />
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="distr1_BooleanAlgebra" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="y" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="z" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+              <om:OMA>
+                <om:OMS name="__cap__" />
+                <om:OMV name="x" />
+                <om:OMA>
+                  <om:OMS name="__cup__" />
+                  <om:OMV name="y" />
+                  <om:OMV name="z" />
+                </om:OMA>
+              </om:OMA>
+              <om:OMA>
+                <om:OMS name="__cup__" />
+                <om:OMA>
+                  <om:OMS name="__cap__" />
+                  <om:OMV name="x" />
+                  <om:OMV name="y" />
+                </om:OMA>
+                <om:OMA>
+                  <om:OMS name="__cap__" />
+                  <om:OMV name="x" />
+                  <om:OMV name="z" />
+                </om:OMA>
+              </om:OMA>
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="distr2_BooleanAlgebra" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="y" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="z" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+              <om:OMA>
+                <om:OMS name="__cup__" />
+                <om:OMV name="x" />
+                <om:OMA>
+                  <om:OMS name="__cap__" />
+                  <om:OMV name="y" />
+                  <om:OMV name="z" />
+                </om:OMA>
+              </om:OMA>
+              <om:OMA>
+                <om:OMS name="__cap__" />
+                <om:OMA>
+                  <om:OMS name="__cup__" />
+                  <om:OMV name="x" />
+                  <om:OMV name="y" />
+                </om:OMA>
+                <om:OMA>
+                  <om:OMS name="__cup__" />
+                  <om:OMV name="x" />
+                  <om:OMV name="z" />
+                </om:OMA>
+              </om:OMA>
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="inverse_BooleanAlgebra" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMBIND>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="exists" />
+              <om:OMBVAR>
+                <om:OMATTR>
+                  <om:OMATP>
+                    <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                    <om:OMS name="Elem" />
+                  </om:OMATP>
+                  <om:OMV name="x&#39;" />
+                </om:OMATTR>
+              </om:OMBVAR>
+              <om:OMA>
+                <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="and" />
+                <om:OMA>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+                  <om:OMA>
+                    <om:OMS name="__cup__" />
+                    <om:OMV name="x" />
+                    <om:OMV name="x&#39;" />
+                  </om:OMA>
+                  <om:OMS name="1" />
+                </om:OMA>
+                <om:OMA>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+                  <om:OMA>
+                    <om:OMS name="__cap__" />
+                    <om:OMV name="x" />
+                    <om:OMV name="x&#39;" />
+                  </om:OMA>
+                  <om:OMS name="0" />
+                </om:OMA>
+              </om:OMA>
+            </om:OMBIND>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+  </theory>
+  <theory name="BooleanAlgebra" meta="http://cds.omdoc.org/logics/casl/casl.omdoc?casl">
+    <structure name="gn_imp_26" from="?BooleanAlgebra__E1">
+      <open name="0" as="0" />
+      <open name="1" as="1" />
+      <open name="Elem" as="Elem" />
+      <open name="__cap__" as="__cap__" />
+      <open name="__cup__" as="__cup__" />
+    </structure>
+    <notation for="??__cap__" role="constant">
+      <text value="cap" />
+    </notation>
+    <notation for="??__cap__" role="application" fixity="in" precedence="2" />
+    <notation for="??__cup__" role="constant">
+      <text value="cup" />
+    </notation>
+    <notation for="??__cup__" role="application" fixity="in" precedence="1" />
+    <constant name="%()%ST:Elem%()%Elem" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="subsortof" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="ga_idem___cup__" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+              <om:OMA>
+                <om:OMS name="__cup__" />
+                <om:OMV name="x" />
+                <om:OMV name="x" />
+              </om:OMA>
+              <om:OMV name="x" />
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="ga_idem___cap__" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+              <om:OMA>
+                <om:OMS name="__cap__" />
+                <om:OMV name="x" />
+                <om:OMV name="x" />
+              </om:OMA>
+              <om:OMV name="x" />
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="uniqueComplement_BooleanAlgebra" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMBIND>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="existsunique" />
+              <om:OMBVAR>
+                <om:OMATTR>
+                  <om:OMATP>
+                    <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                    <om:OMS name="Elem" />
+                  </om:OMATP>
+                  <om:OMV name="x&#39;" />
+                </om:OMATTR>
+              </om:OMBVAR>
+              <om:OMA>
+                <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="and" />
+                <om:OMA>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+                  <om:OMA>
+                    <om:OMS name="__cup__" />
+                    <om:OMV name="x" />
+                    <om:OMV name="x&#39;" />
+                  </om:OMA>
+                  <om:OMS name="1" />
+                </om:OMA>
+                <om:OMA>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+                  <om:OMA>
+                    <om:OMS name="__cap__" />
+                    <om:OMV name="x" />
+                    <om:OMV name="x&#39;" />
+                  </om:OMA>
+                  <om:OMS name="0" />
+                </om:OMA>
+              </om:OMA>
+            </om:OMBIND>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+  </theory>
+  <theory name="ExtBooleanAlgebra__U2E1" meta="http://cds.omdoc.org/logics/casl/casl.omdoc?casl">
+    <structure name="gn_imp_43" from="?BooleanAlgebra">
+      <open name="0" as="0" />
+      <open name="1" as="1" />
+      <open name="Elem" as="Elem" />
+      <open name="__cap__" as="__cap__" />
+      <open name="__cup__" as="__cup__" />
+    </structure>
+    <notation for="??__cap__" role="constant">
+      <text value="cap" />
+    </notation>
+    <notation for="??__cap__" role="application" fixity="in" precedence="2" />
+    <notation for="??__cup__" role="constant">
+      <text value="cup" />
+    </notation>
+    <notation for="??__cup__" role="application" fixity="in" precedence="1" />
+    <constant name="compl__" role="object">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="funtype" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <notation for="??compl__" role="constant">
+      <text value="compl" />
+    </notation>
+    <notation for="??compl__" role="application" fixity="pre" precedence="3" />
+    <constant name="%()%ST:Elem%()%Elem" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="subsortof" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="compl_def_ExtBooleanAlgebra" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="y" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="equivalent" />
+              <om:OMA>
+                <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+                <om:OMA>
+                  <om:OMS name="compl__" />
+                  <om:OMV name="x" />
+                </om:OMA>
+                <om:OMV name="y" />
+              </om:OMA>
+              <om:OMA>
+                <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="and" />
+                <om:OMA>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+                  <om:OMA>
+                    <om:OMS name="__cup__" />
+                    <om:OMV name="x" />
+                    <om:OMV name="y" />
+                  </om:OMA>
+                  <om:OMS name="1" />
+                </om:OMA>
+                <om:OMA>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+                  <om:OMA>
+                    <om:OMS name="__cap__" />
+                    <om:OMV name="x" />
+                    <om:OMV name="y" />
+                  </om:OMA>
+                  <om:OMS name="0" />
+                </om:OMA>
+              </om:OMA>
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+  </theory>
+  <theory name="ExtBooleanAlgebra__U2" meta="http://cds.omdoc.org/logics/casl/casl.omdoc?casl">
+    <structure name="gn_imp_44" from="?ExtBooleanAlgebra__U2E1">
+      <open name="0" as="0" />
+      <open name="1" as="1" />
+      <open name="Elem" as="Elem" />
+      <open name="__cap__" as="__cap__" />
+      <open name="__cup__" as="__cup__" />
+      <open name="compl__" as="compl__" />
+    </structure>
+    <notation for="??__cap__" role="constant">
+      <text value="cap" />
+    </notation>
+    <notation for="??__cap__" role="application" fixity="in" precedence="2" />
+    <notation for="??__cup__" role="constant">
+      <text value="cup" />
+    </notation>
+    <notation for="??__cup__" role="application" fixity="in" precedence="1" />
+    <notation for="??compl__" role="constant">
+      <text value="compl" />
+    </notation>
+    <notation for="??compl__" role="application" fixity="pre" precedence="3" />
+    <constant name="%()%ST:Elem%()%Elem" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="subsortof" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="de_Morgan1" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="y" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+              <om:OMA>
+                <om:OMS name="compl__" />
+                <om:OMA>
+                  <om:OMS name="__cap__" />
+                  <om:OMV name="x" />
+                  <om:OMV name="y" />
+                </om:OMA>
+              </om:OMA>
+              <om:OMA>
+                <om:OMS name="__cup__" />
+                <om:OMA>
+                  <om:OMS name="compl__" />
+                  <om:OMV name="x" />
+                </om:OMA>
+                <om:OMA>
+                  <om:OMS name="compl__" />
+                  <om:OMV name="y" />
+                </om:OMA>
+              </om:OMA>
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="de_Morgan2" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="y" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+              <om:OMA>
+                <om:OMS name="compl__" />
+                <om:OMA>
+                  <om:OMS name="__cup__" />
+                  <om:OMV name="x" />
+                  <om:OMV name="y" />
+                </om:OMA>
+              </om:OMA>
+              <om:OMA>
+                <om:OMS name="__cap__" />
+                <om:OMA>
+                  <om:OMS name="compl__" />
+                  <om:OMV name="x" />
+                </om:OMA>
+                <om:OMA>
+                  <om:OMS name="compl__" />
+                  <om:OMV name="y" />
+                </om:OMA>
+              </om:OMA>
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="involution_compl_ExtBooleanAlgebra" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+              <om:OMA>
+                <om:OMS name="compl__" />
+                <om:OMA>
+                  <om:OMS name="compl__" />
+                  <om:OMV name="x" />
+                </om:OMA>
+              </om:OMA>
+              <om:OMV name="x" />
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+  </theory>
+  <theory name="ExtBooleanAlgebra__U1" meta="http://cds.omdoc.org/logics/casl/casl.omdoc?casl">
+    <structure name="gn_imp_42" from="?BooleanAlgebra">
+      <open name="0" as="0" />
+      <open name="1" as="1" />
+      <open name="Elem" as="Elem" />
+      <open name="__cap__" as="__cap__" />
+      <open name="__cup__" as="__cup__" />
+    </structure>
+    <constant name="__&lt;__" role="object">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="predtype" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <notation for="??__%3C__" role="constant">
+      <text value="&lt;" />
+    </notation>
+    <notation for="??__%3C__" role="application" fixity="in" precedence="3" />
+    <constant name="__&lt;=__" role="object">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="predtype" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <notation for="??__%3C=__" role="constant">
+      <text value="&lt;=" />
+    </notation>
+    <notation for="??__%3C=__" role="application" fixity="in" precedence="3" />
+    <constant name="__&gt;__" role="object">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="predtype" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <notation for="??__%3E__" role="constant">
+      <text value="&gt;" />
+    </notation>
+    <notation for="??__%3E__" role="application" fixity="in" precedence="3" />
+    <constant name="__&gt;=__" role="object">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="predtype" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <notation for="??__%3E=__" role="constant">
+      <text value="&gt;=" />
+    </notation>
+    <notation for="??__%3E=__" role="application" fixity="in" precedence="3" />
+    <notation for="??__cap__" role="constant">
+      <text value="cap" />
+    </notation>
+    <notation for="??__cap__" role="application" fixity="in" precedence="2" />
+    <notation for="??__cup__" role="constant">
+      <text value="cup" />
+    </notation>
+    <notation for="??__cup__" role="application" fixity="in" precedence="1" />
+    <constant name="%()%ST:Elem%()%Elem" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="subsortof" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="leq_def_ExtBooleanAlgebra" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="y" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="equivalent" />
+              <om:OMA>
+                <om:OMS name="__&lt;=__" />
+                <om:OMV name="x" />
+                <om:OMV name="y" />
+              </om:OMA>
+              <om:OMA>
+                <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+                <om:OMA>
+                  <om:OMS name="__cap__" />
+                  <om:OMV name="x" />
+                  <om:OMV name="y" />
+                </om:OMA>
+                <om:OMV name="x" />
+              </om:OMA>
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="geq_def_ExtBooleanAlgebra" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="y" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="equivalent" />
+              <om:OMA>
+                <om:OMS name="__&gt;=__" />
+                <om:OMV name="x" />
+                <om:OMV name="y" />
+              </om:OMA>
+              <om:OMA>
+                <om:OMS name="__&lt;=__" />
+                <om:OMV name="y" />
+                <om:OMV name="x" />
+              </om:OMA>
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="less_def_ExtBooleanAlgebra" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="y" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="equivalent" />
+              <om:OMA>
+                <om:OMS name="__&lt;__" />
+                <om:OMV name="x" />
+                <om:OMV name="y" />
+              </om:OMA>
+              <om:OMA>
+                <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="and" />
+                <om:OMA>
+                  <om:OMS name="__&lt;=__" />
+                  <om:OMV name="x" />
+                  <om:OMV name="y" />
+                </om:OMA>
+                <om:OMA>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="not" />
+                  <om:OMA>
+                    <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+                    <om:OMV name="x" />
+                    <om:OMV name="y" />
+                  </om:OMA>
+                </om:OMA>
+              </om:OMA>
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="greater_def_ExtBooleanAlgebr" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="y" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="equivalent" />
+              <om:OMA>
+                <om:OMS name="__&gt;__" />
+                <om:OMV name="x" />
+                <om:OMV name="y" />
+              </om:OMA>
+              <om:OMA>
+                <om:OMS name="__&lt;__" />
+                <om:OMV name="y" />
+                <om:OMV name="x" />
+              </om:OMA>
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+  </theory>
+  <theory name="ExtBooleanAlgebra" meta="http://cds.omdoc.org/logics/casl/casl.omdoc?casl">
+    <structure name="gn_imp_46" from="?ExtBooleanAlgebra__U1">
+      <open name="0" as="0" />
+      <open name="1" as="1" />
+      <open name="Elem" as="Elem" />
+      <open name="__&lt;__" as="__&lt;__" />
+      <open name="__&lt;=__" as="__&lt;=__" />
+      <open name="__&gt;__" as="__&gt;__" />
+      <open name="__&gt;=__" as="__&gt;=__" />
+      <open name="__cap__" as="__cap__" />
+      <open name="__cup__" as="__cup__" />
+    </structure>
+    <structure name="gn_imp_47" from="?ExtBooleanAlgebra__U2">
+      <conass name="0">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="0" />
+        </OMOBJ>
+      </conass>
+      <conass name="1">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="1" />
+        </OMOBJ>
+      </conass>
+      <conass name="Elem">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="Elem" />
+        </OMOBJ>
+      </conass>
+      <conass name="__cap__">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="__cap__" />
+        </OMOBJ>
+      </conass>
+      <conass name="__cup__">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="__cup__" />
+        </OMOBJ>
+      </conass>
+      <open name="compl__" as="compl__" />
+    </structure>
+    <notation for="??__%3C__" role="constant">
+      <text value="&lt;" />
+    </notation>
+    <notation for="??__%3C__" role="application" fixity="in" precedence="3" />
+    <notation for="??__%3C=__" role="constant">
+      <text value="&lt;=" />
+    </notation>
+    <notation for="??__%3C=__" role="application" fixity="in" precedence="3" />
+    <notation for="??__%3E__" role="constant">
+      <text value="&gt;" />
+    </notation>
+    <notation for="??__%3E__" role="application" fixity="in" precedence="3" />
+    <notation for="??__%3E=__" role="constant">
+      <text value="&gt;=" />
+    </notation>
+    <notation for="??__%3E=__" role="application" fixity="in" precedence="3" />
+    <notation for="??__cap__" role="constant">
+      <text value="cap" />
+    </notation>
+    <notation for="??__cap__" role="application" fixity="in" precedence="2" />
+    <notation for="??__cup__" role="constant">
+      <text value="cup" />
+    </notation>
+    <notation for="??__cup__" role="application" fixity="in" precedence="1" />
+    <notation for="??compl__" role="constant">
+      <text value="compl" />
+    </notation>
+    <notation for="??compl__" role="application" fixity="pre" precedence="3" />
+    <constant name="%()%ST:Elem%()%Elem" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="subsortof" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+  </theory>
+  <theory name="PartialOrder_in_ExtBooleanAlgebra__T" meta="http://cds.omdoc.org/logics/casl/casl.omdoc?casl">
+    <structure name="gn_imp_59" from="?BooleanAlgebra">
+      <open name="0" as="0" />
+      <open name="1" as="1" />
+      <open name="Elem" as="Elem" />
+      <open name="__cap__" as="__cap__" />
+      <open name="__cup__" as="__cup__" />
+    </structure>
+    <structure name="gn_imp_58" from="?ExtBooleanAlgebra">
+      <conass name="0">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="0" />
+        </OMOBJ>
+      </conass>
+      <conass name="1">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="1" />
+        </OMOBJ>
+      </conass>
+      <conass name="Elem">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="Elem" />
+        </OMOBJ>
+      </conass>
+      <open name="__&lt;__" as="__&lt;__" />
+      <open name="__&lt;=__" as="__&lt;=__" />
+      <open name="__&gt;__" as="__&gt;__" />
+      <open name="__&gt;=__" as="__&gt;=__" />
+      <conass name="__cap__">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="__cap__" />
+        </OMOBJ>
+      </conass>
+      <conass name="__cup__">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="__cup__" />
+        </OMOBJ>
+      </conass>
+      <open name="compl__" as="compl__" />
+    </structure>
+    <notation for="??__%3C__" role="constant">
+      <text value="&lt;" />
+    </notation>
+    <notation for="??__%3C__" role="application" fixity="in" precedence="3" />
+    <notation for="??__%3C=__" role="constant">
+      <text value="&lt;=" />
+    </notation>
+    <notation for="??__%3C=__" role="application" fixity="in" precedence="3" />
+    <notation for="??__%3E__" role="constant">
+      <text value="&gt;" />
+    </notation>
+    <notation for="??__%3E__" role="application" fixity="in" precedence="3" />
+    <notation for="??__%3E=__" role="constant">
+      <text value="&gt;=" />
+    </notation>
+    <notation for="??__%3E=__" role="application" fixity="in" precedence="3" />
+    <notation for="??__cap__" role="constant">
+      <text value="cap" />
+    </notation>
+    <notation for="??__cap__" role="application" fixity="in" precedence="2" />
+    <notation for="??__cup__" role="constant">
+      <text value="cup" />
+    </notation>
+    <notation for="??__cup__" role="application" fixity="in" precedence="1" />
+    <notation for="??compl__" role="constant">
+      <text value="compl" />
+    </notation>
+    <notation for="??compl__" role="application" fixity="pre" precedence="3" />
+    <constant name="%()%ST:Elem%()%Elem" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="subsortof" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+  </theory>
+  <theory name="RichBooleanAlgebra" meta="http://cds.omdoc.org/logics/casl/casl.omdoc?casl">
+    <structure name="gn_imp_53" from="?BooleanAlgebra">
+      <open name="0" as="0" />
+      <open name="1" as="1" />
+      <open name="Elem" as="Elem" />
+      <open name="__cap__" as="__cap__" />
+      <open name="__cup__" as="__cup__" />
+    </structure>
+    <structure name="gn_imp_54" from="?ExtBooleanAlgebra">
+      <conass name="0">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="0" />
+        </OMOBJ>
+      </conass>
+      <conass name="1">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="1" />
+        </OMOBJ>
+      </conass>
+      <conass name="Elem">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="Elem" />
+        </OMOBJ>
+      </conass>
+      <open name="__&lt;__" as="__&lt;__" />
+      <open name="__&lt;=__" as="__&lt;=__" />
+      <open name="__&gt;__" as="__&gt;__" />
+      <open name="__&gt;=__" as="__&gt;=__" />
+      <conass name="__cap__">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="__cap__" />
+        </OMOBJ>
+      </conass>
+      <conass name="__cup__">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="__cup__" />
+        </OMOBJ>
+      </conass>
+      <open name="compl__" as="compl__" />
+    </structure>
+    <notation for="??__%3C__" role="constant">
+      <text value="&lt;" />
+    </notation>
+    <notation for="??__%3C__" role="application" fixity="in" precedence="3" />
+    <notation for="??__%3C=__" role="constant">
+      <text value="&lt;=" />
+    </notation>
+    <notation for="??__%3C=__" role="application" fixity="in" precedence="3" />
+    <notation for="??__%3E__" role="constant">
+      <text value="&gt;" />
+    </notation>
+    <notation for="??__%3E__" role="application" fixity="in" precedence="3" />
+    <notation for="??__%3E=__" role="constant">
+      <text value="&gt;=" />
+    </notation>
+    <notation for="??__%3E=__" role="application" fixity="in" precedence="3" />
+    <notation for="??__cap__" role="constant">
+      <text value="cap" />
+    </notation>
+    <notation for="??__cap__" role="application" fixity="in" precedence="2" />
+    <notation for="??__cup__" role="constant">
+      <text value="cup" />
+    </notation>
+    <notation for="??__cup__" role="application" fixity="in" precedence="1" />
+    <notation for="??compl__" role="constant">
+      <text value="compl" />
+    </notation>
+    <notation for="??compl__" role="application" fixity="pre" precedence="3" />
+    <constant name="%()%ST:Elem%()%Elem" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="subsortof" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+  </theory>
+  <theory name="LeftTotalRelation" meta="http://cds.omdoc.org/logics/casl/casl.omdoc?casl">
+    <constant name="S" role="type">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="sort" />
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="T" role="type">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="sort" />
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="__R__" role="object">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="predtype" />
+            <om:OMS name="S" />
+            <om:OMS name="T" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <notation for="??__R__" role="constant">
+      <text value="R" />
+    </notation>
+    <notation for="??__R__" role="application" fixity="in" precedence="3" />
+    <constant name="%()%ST:S%()%S" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="subsortof" />
+            <om:OMS name="S" />
+            <om:OMS name="S" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="%()%ST:T%()%T" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="subsortof" />
+            <om:OMS name="T" />
+            <om:OMS name="T" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="Ax1" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="S" />
+                </om:OMATP>
+                <om:OMV name="s" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMBIND>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="exists" />
+              <om:OMBVAR>
+                <om:OMATTR>
+                  <om:OMATP>
+                    <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                    <om:OMS name="T" />
+                  </om:OMATP>
+                  <om:OMV name="t" />
+                </om:OMATTR>
+              </om:OMBVAR>
+              <om:OMA>
+                <om:OMS name="__R__" />
+                <om:OMV name="s" />
+                <om:OMV name="t" />
+              </om:OMA>
+            </om:OMBIND>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+  </theory>
+  <theory name="RightUniqueRelation" meta="http://cds.omdoc.org/logics/casl/casl.omdoc?casl">
+    <constant name="S" role="type">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="sort" />
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="T" role="type">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="sort" />
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="__R__" role="object">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="predtype" />
+            <om:OMS name="S" />
+            <om:OMS name="T" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <notation for="??__R__" role="constant">
+      <text value="R" />
+    </notation>
+    <notation for="??__R__" role="application" fixity="in" precedence="3" />
+    <constant name="%()%ST:S%()%S" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="subsortof" />
+            <om:OMS name="S" />
+            <om:OMS name="S" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="%()%ST:T%()%T" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="subsortof" />
+            <om:OMS name="T" />
+            <om:OMS name="T" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="Ax1" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="S" />
+                </om:OMATP>
+                <om:OMV name="s" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="T" />
+                </om:OMATP>
+                <om:OMV name="t1" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="T" />
+                </om:OMATP>
+                <om:OMV name="t2" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="implies" />
+              <om:OMA>
+                <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="and" />
+                <om:OMA>
+                  <om:OMS name="__R__" />
+                  <om:OMV name="s" />
+                  <om:OMV name="t1" />
+                </om:OMA>
+                <om:OMA>
+                  <om:OMS name="__R__" />
+                  <om:OMV name="s" />
+                  <om:OMV name="t2" />
+                </om:OMA>
+              </om:OMA>
+              <om:OMA>
+                <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+                <om:OMV name="t1" />
+                <om:OMV name="t2" />
+              </om:OMA>
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+  </theory>
+  <theory name="Relation" meta="http://cds.omdoc.org/logics/casl/casl.omdoc?casl">
+    <constant name="Elem" role="type">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="sort" />
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="__~__" role="object">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="predtype" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <notation for="??__~__" role="constant">
+      <text value="~" />
+    </notation>
+    <notation for="??__~__" role="application" fixity="in" precedence="3" />
+    <constant name="%()%ST:Elem%()%Elem" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="subsortof" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+  </theory>
+  <theory name="TransitiveRelation" meta="http://cds.omdoc.org/logics/casl/casl.omdoc?casl">
+    <structure name="gn_imp_5" from="?Relation">
+      <open name="Elem" as="Elem" />
+      <open name="__~__" as="__~__" />
+    </structure>
+    <notation for="??__~__" role="constant">
+      <text value="~" />
+    </notation>
+    <notation for="??__~__" role="application" fixity="in" precedence="3" />
+    <constant name="%()%ST:Elem%()%Elem" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="subsortof" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="trans" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="y" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="z" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="implied" />
+              <om:OMA>
+                <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="and" />
+                <om:OMA>
+                  <om:OMS name="__~__" />
+                  <om:OMV name="x" />
+                  <om:OMV name="y" />
+                </om:OMA>
+                <om:OMA>
+                  <om:OMS name="__~__" />
+                  <om:OMV name="y" />
+                  <om:OMV name="z" />
+                </om:OMA>
+              </om:OMA>
+              <om:OMA>
+                <om:OMS name="__~__" />
+                <om:OMV name="x" />
+                <om:OMV name="z" />
+              </om:OMA>
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+  </theory>
+  <theory name="AntisymmetricRelation" meta="http://cds.omdoc.org/logics/casl/casl.omdoc?casl">
+    <structure name="gn_imp_4" from="?Relation">
+      <open name="Elem" as="Elem" />
+      <open name="__~__" as="__~__" />
+    </structure>
+    <notation for="??__~__" role="constant">
+      <text value="~" />
+    </notation>
+    <notation for="??__~__" role="application" fixity="in" precedence="3" />
+    <constant name="%()%ST:Elem%()%Elem" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="subsortof" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="antisym" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="y" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="implied" />
+              <om:OMA>
+                <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="and" />
+                <om:OMA>
+                  <om:OMS name="__~__" />
+                  <om:OMV name="x" />
+                  <om:OMV name="y" />
+                </om:OMA>
+                <om:OMA>
+                  <om:OMS name="__~__" />
+                  <om:OMV name="y" />
+                  <om:OMV name="x" />
+                </om:OMA>
+              </om:OMA>
+              <om:OMA>
+                <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+                <om:OMV name="x" />
+                <om:OMV name="y" />
+              </om:OMA>
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+  </theory>
+  <theory name="PartialOrder__U2" meta="http://cds.omdoc.org/logics/casl/casl.omdoc?casl">
+    <structure name="gn_imp_21" from="?AntisymmetricRelation">
+      <open name="Elem" as="Elem" />
+      <open name="__~__" as="__&lt;=__" />
+    </structure>
+    <notation for="??__%3C=__" role="constant">
+      <text value="&lt;=" />
+    </notation>
+    <notation for="??__%3C=__" role="application" fixity="in" precedence="0" />
+    <constant name="%()%ST:Elem%()%Elem" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="subsortof" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+  </theory>
+  <theory name="AsymmetricRelation" meta="http://cds.omdoc.org/logics/casl/casl.omdoc?casl">
+    <structure name="gn_imp_3" from="?Relation">
+      <open name="Elem" as="Elem" />
+      <open name="__~__" as="__~__" />
+    </structure>
+    <notation for="??__~__" role="constant">
+      <text value="~" />
+    </notation>
+    <notation for="??__~__" role="application" fixity="in" precedence="3" />
+    <constant name="%()%ST:Elem%()%Elem" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="subsortof" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="asym" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="y" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="implied" />
+              <om:OMA>
+                <om:OMS name="__~__" />
+                <om:OMV name="y" />
+                <om:OMV name="x" />
+              </om:OMA>
+              <om:OMA>
+                <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="not" />
+                <om:OMA>
+                  <om:OMS name="__~__" />
+                  <om:OMV name="x" />
+                  <om:OMV name="y" />
+                </om:OMA>
+              </om:OMA>
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+  </theory>
+  <theory name="SymmetricRelation" meta="http://cds.omdoc.org/logics/casl/casl.omdoc?casl">
+    <structure name="gn_imp_2" from="?Relation">
+      <open name="Elem" as="Elem" />
+      <open name="__~__" as="__~__" />
+    </structure>
+    <notation for="??__~__" role="constant">
+      <text value="~" />
+    </notation>
+    <notation for="??__~__" role="application" fixity="in" precedence="3" />
+    <constant name="%()%ST:Elem%()%Elem" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="subsortof" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="sym" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="y" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="implied" />
+              <om:OMA>
+                <om:OMS name="__~__" />
+                <om:OMV name="y" />
+                <om:OMV name="x" />
+              </om:OMA>
+              <om:OMA>
+                <om:OMS name="__~__" />
+                <om:OMV name="x" />
+                <om:OMV name="y" />
+              </om:OMA>
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+  </theory>
+  <theory name="PartialEquivalenceRelation" meta="http://cds.omdoc.org/logics/casl/casl.omdoc?casl">
+    <structure name="gn_imp_8" from="?SymmetricRelation">
+      <open name="Elem" as="Elem" />
+      <open name="__~__" as="__~__" />
+    </structure>
+    <structure name="gn_imp_9" from="?TransitiveRelation">
+      <conass name="Elem">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="Elem" />
+        </OMOBJ>
+      </conass>
+      <conass name="__~__">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="__~__" />
+        </OMOBJ>
+      </conass>
+    </structure>
+    <notation for="??__~__" role="constant">
+      <text value="~" />
+    </notation>
+    <notation for="??__~__" role="application" fixity="in" precedence="3" />
+    <constant name="%()%ST:Elem%()%Elem" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="subsortof" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+  </theory>
+  <theory name="IrreflexiveRelation" meta="http://cds.omdoc.org/logics/casl/casl.omdoc?casl">
+    <structure name="gn_imp_1" from="?Relation">
+      <open name="Elem" as="Elem" />
+      <open name="__~__" as="__~__" />
+    </structure>
+    <notation for="??__~__" role="constant">
+      <text value="~" />
+    </notation>
+    <notation for="??__~__" role="application" fixity="in" precedence="3" />
+    <constant name="%()%ST:Elem%()%Elem" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="subsortof" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="irrefl" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="not" />
+              <om:OMA>
+                <om:OMS name="__~__" />
+                <om:OMV name="x" />
+                <om:OMV name="x" />
+              </om:OMA>
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+  </theory>
+  <theory name="StrictOrder__TE1" meta="http://cds.omdoc.org/logics/casl/casl.omdoc?casl">
+    <structure name="gn_imp_15" from="?IrreflexiveRelation">
+      <open name="Elem" as="Elem" />
+      <open name="__~__" as="__~__" />
+    </structure>
+    <structure name="gn_imp_16" from="?TransitiveRelation">
+      <conass name="Elem">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="Elem" />
+        </OMOBJ>
+      </conass>
+      <conass name="__~__">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="__~__" />
+        </OMOBJ>
+      </conass>
+    </structure>
+    <notation for="??__~__" role="constant">
+      <text value="~" />
+    </notation>
+    <notation for="??__~__" role="application" fixity="in" precedence="3" />
+    <constant name="%()%ST:Elem%()%Elem" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="subsortof" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+  </theory>
+  <theory name="StrictOrder__T" meta="http://cds.omdoc.org/logics/casl/casl.omdoc?casl">
+    <structure name="gn_imp_17" from="?AsymmetricRelation">
+      <open name="Elem" as="Elem" />
+      <open name="__~__" as="__~__" />
+    </structure>
+    <structure name="gn_imp_18" from="?StrictOrder__TE1">
+      <conass name="Elem">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="Elem" />
+        </OMOBJ>
+      </conass>
+      <conass name="__~__">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="__~__" />
+        </OMOBJ>
+      </conass>
+    </structure>
+    <notation for="??__~__" role="constant">
+      <text value="~" />
+    </notation>
+    <notation for="??__~__" role="application" fixity="in" precedence="3" />
+    <constant name="%()%ST:Elem%()%Elem" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="subsortof" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+  </theory>
+  <theory name="StrictOrder" meta="http://cds.omdoc.org/logics/casl/casl.omdoc?casl">
+    <structure name="gn_imp_20" from="?StrictOrder__T">
+      <open name="Elem" as="Elem" />
+      <open name="__~__" as="__&lt;__" />
+    </structure>
+    <notation for="??__%3C__" role="constant">
+      <text value="&lt;" />
+    </notation>
+    <notation for="??__%3C__" role="application" fixity="in" precedence="0" />
+    <constant name="%()%ST:Elem%()%Elem" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="subsortof" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+  </theory>
+  <theory name="StrictTotalOrder" meta="http://cds.omdoc.org/logics/casl/casl.omdoc?casl">
+    <structure name="gn_imp_25" from="?StrictOrder">
+      <open name="Elem" as="Elem" />
+      <open name="__&lt;__" as="__&lt;__" />
+    </structure>
+    <notation for="??__%3C__" role="constant">
+      <text value="&lt;" />
+    </notation>
+    <notation for="??__%3C__" role="application" fixity="in" precedence="3" />
+    <constant name="%()%ST:Elem%()%Elem" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="subsortof" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="trichotomy_StrictTotalOrder" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="y" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="or" />
+              <om:OMA>
+                <om:OMS name="__&lt;__" />
+                <om:OMV name="x" />
+                <om:OMV name="y" />
+              </om:OMA>
+              <om:OMA>
+                <om:OMS name="__&lt;__" />
+                <om:OMV name="y" />
+                <om:OMV name="x" />
+              </om:OMA>
+              <om:OMA>
+                <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+                <om:OMV name="x" />
+                <om:OMV name="y" />
+              </om:OMA>
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+  </theory>
+  <theory name="ReflexiveRelation" meta="http://cds.omdoc.org/logics/casl/casl.omdoc?casl">
+    <structure name="gn_imp_0" from="?Relation">
+      <open name="Elem" as="Elem" />
+      <open name="__~__" as="__~__" />
+    </structure>
+    <notation for="??__~__" role="constant">
+      <text value="~" />
+    </notation>
+    <notation for="??__~__" role="application" fixity="in" precedence="3" />
+    <constant name="%()%ST:Elem%()%Elem" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="subsortof" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="refl" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS name="__~__" />
+              <om:OMV name="x" />
+              <om:OMV name="x" />
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+  </theory>
+  <theory name="PreOrder" meta="http://cds.omdoc.org/logics/casl/casl.omdoc?casl">
+    <structure name="gn_imp_61" from="?ReflexiveRelation">
+      <open name="Elem" as="Elem" />
+      <open name="__~__" as="__&lt;=__" />
+    </structure>
+    <structure name="gn_imp_62" from="?TransitiveRelation">
+      <conass name="Elem">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="Elem" />
+        </OMOBJ>
+      </conass>
+      <conass name="__~__">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="__&lt;=__" />
+        </OMOBJ>
+      </conass>
+    </structure>
+    <notation for="??__%3C=__" role="constant">
+      <text value="&lt;=" />
+    </notation>
+    <notation for="??__%3C=__" role="application" fixity="in" precedence="0" />
+    <constant name="%()%ST:Elem%()%Elem" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="subsortof" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+  </theory>
+  <theory name="PartialOrder" meta="http://cds.omdoc.org/logics/casl/casl.omdoc?casl">
+    <structure name="gn_imp_22" from="?PreOrder">
+      <open name="Elem" as="Elem" />
+      <open name="__&lt;=__" as="__&lt;=__" />
+    </structure>
+    <structure name="gn_imp_23" from="?PartialOrder__U2">
+      <conass name="Elem">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="Elem" />
+        </OMOBJ>
+      </conass>
+      <conass name="__&lt;=__">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="__&lt;=__" />
+        </OMOBJ>
+      </conass>
+    </structure>
+    <notation for="??__%3C=__" role="constant">
+      <text value="&lt;=" />
+    </notation>
+    <notation for="??__%3C=__" role="application" fixity="in" precedence="0" />
+    <constant name="%()%ST:Elem%()%Elem" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="subsortof" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+  </theory>
+  <theory name="ExtPartialOrder__U2" meta="http://cds.omdoc.org/logics/casl/casl.omdoc?casl">
+    <structure name="gn_imp_29" from="?PartialOrder">
+      <open name="Elem" as="Elem" />
+      <open name="__&lt;=__" as="__&lt;=__" />
+    </structure>
+    <notation for="??__%3C=__" role="constant">
+      <text value="&lt;=" />
+    </notation>
+    <notation for="??__%3C=__" role="application" fixity="in" precedence="3" />
+    <constant name="inf" role="object">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="partialfuntype" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="sup" role="object">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="partialfuntype" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="%()%ST:Elem%()%Elem" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="subsortof" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="ga_comm_inf" role="theorem">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="y" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+              <om:OMA>
+                <om:OMS name="inf" />
+                <om:OMV name="x" />
+                <om:OMV name="y" />
+              </om:OMA>
+              <om:OMA>
+                <om:OMS name="inf" />
+                <om:OMV name="y" />
+                <om:OMV name="x" />
+              </om:OMA>
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="ga_comm_sup" role="theorem">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="y" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+              <om:OMA>
+                <om:OMS name="sup" />
+                <om:OMV name="x" />
+                <om:OMV name="y" />
+              </om:OMA>
+              <om:OMA>
+                <om:OMS name="sup" />
+                <om:OMV name="y" />
+                <om:OMV name="x" />
+              </om:OMA>
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="inf_def_ExtPartialOrder" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="y" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="z" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="equivalent" />
+              <om:OMA>
+                <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+                <om:OMA>
+                  <om:OMS name="inf" />
+                  <om:OMV name="x" />
+                  <om:OMV name="y" />
+                </om:OMA>
+                <om:OMV name="z" />
+              </om:OMA>
+              <om:OMA>
+                <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="and" />
+                <om:OMA>
+                  <om:OMS name="__&lt;=__" />
+                  <om:OMV name="z" />
+                  <om:OMV name="x" />
+                </om:OMA>
+                <om:OMA>
+                  <om:OMS name="__&lt;=__" />
+                  <om:OMV name="z" />
+                  <om:OMV name="y" />
+                </om:OMA>
+                <om:OMBIND>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+                  <om:OMBVAR>
+                    <om:OMATTR>
+                      <om:OMATP>
+                        <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                        <om:OMS name="Elem" />
+                      </om:OMATP>
+                      <om:OMV name="t" />
+                    </om:OMATTR>
+                  </om:OMBVAR>
+                  <om:OMA>
+                    <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="implies" />
+                    <om:OMA>
+                      <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="and" />
+                      <om:OMA>
+                        <om:OMS name="__&lt;=__" />
+                        <om:OMV name="t" />
+                        <om:OMV name="x" />
+                      </om:OMA>
+                      <om:OMA>
+                        <om:OMS name="__&lt;=__" />
+                        <om:OMV name="t" />
+                        <om:OMV name="y" />
+                      </om:OMA>
+                    </om:OMA>
+                    <om:OMA>
+                      <om:OMS name="__&lt;=__" />
+                      <om:OMV name="t" />
+                      <om:OMV name="z" />
+                    </om:OMA>
+                  </om:OMA>
+                </om:OMBIND>
+              </om:OMA>
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="sup_def_ExtPartialOrder" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="y" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="z" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="equivalent" />
+              <om:OMA>
+                <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+                <om:OMA>
+                  <om:OMS name="sup" />
+                  <om:OMV name="x" />
+                  <om:OMV name="y" />
+                </om:OMA>
+                <om:OMV name="z" />
+              </om:OMA>
+              <om:OMA>
+                <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="and" />
+                <om:OMA>
+                  <om:OMS name="__&lt;=__" />
+                  <om:OMV name="x" />
+                  <om:OMV name="z" />
+                </om:OMA>
+                <om:OMA>
+                  <om:OMS name="__&lt;=__" />
+                  <om:OMV name="y" />
+                  <om:OMV name="z" />
+                </om:OMA>
+                <om:OMBIND>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+                  <om:OMBVAR>
+                    <om:OMATTR>
+                      <om:OMATP>
+                        <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                        <om:OMS name="Elem" />
+                      </om:OMATP>
+                      <om:OMV name="t" />
+                    </om:OMATTR>
+                  </om:OMBVAR>
+                  <om:OMA>
+                    <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="implies" />
+                    <om:OMA>
+                      <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="and" />
+                      <om:OMA>
+                        <om:OMS name="__&lt;=__" />
+                        <om:OMV name="x" />
+                        <om:OMV name="t" />
+                      </om:OMA>
+                      <om:OMA>
+                        <om:OMS name="__&lt;=__" />
+                        <om:OMV name="y" />
+                        <om:OMV name="t" />
+                      </om:OMA>
+                    </om:OMA>
+                    <om:OMA>
+                      <om:OMS name="__&lt;=__" />
+                      <om:OMV name="z" />
+                      <om:OMV name="t" />
+                    </om:OMA>
+                  </om:OMA>
+                </om:OMBIND>
+              </om:OMA>
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+  </theory>
+  <theory name="ExtPartialOrder__U1" meta="http://cds.omdoc.org/logics/casl/casl.omdoc?casl">
+    <structure name="gn_imp_28" from="?PartialOrder">
+      <open name="Elem" as="Elem" />
+      <open name="__&lt;=__" as="__&lt;=__" />
+    </structure>
+    <constant name="__&lt;__" role="object">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="predtype" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <notation for="??__%3C__" role="constant">
+      <text value="&lt;" />
+    </notation>
+    <notation for="??__%3C__" role="application" fixity="in" precedence="3" />
+    <notation for="??__%3C=__" role="constant">
+      <text value="&lt;=" />
+    </notation>
+    <notation for="??__%3C=__" role="application" fixity="in" precedence="3" />
+    <constant name="__&gt;__" role="object">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="predtype" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <notation for="??__%3E__" role="constant">
+      <text value="&gt;" />
+    </notation>
+    <notation for="??__%3E__" role="application" fixity="in" precedence="3" />
+    <constant name="__&gt;=__" role="object">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="predtype" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <notation for="??__%3E=__" role="constant">
+      <text value="&gt;=" />
+    </notation>
+    <notation for="??__%3E=__" role="application" fixity="in" precedence="3" />
+    <constant name="%()%ST:Elem%()%Elem" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="subsortof" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="geq_def_ExtPartialOrder" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="y" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="equivalent" />
+              <om:OMA>
+                <om:OMS name="__&gt;=__" />
+                <om:OMV name="x" />
+                <om:OMV name="y" />
+              </om:OMA>
+              <om:OMA>
+                <om:OMS name="__&lt;=__" />
+                <om:OMV name="y" />
+                <om:OMV name="x" />
+              </om:OMA>
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="less_def_ExtPartialOrder" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="y" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="equivalent" />
+              <om:OMA>
+                <om:OMS name="__&lt;__" />
+                <om:OMV name="x" />
+                <om:OMV name="y" />
+              </om:OMA>
+              <om:OMA>
+                <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="and" />
+                <om:OMA>
+                  <om:OMS name="__&lt;=__" />
+                  <om:OMV name="x" />
+                  <om:OMV name="y" />
+                </om:OMA>
+                <om:OMA>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="not" />
+                  <om:OMA>
+                    <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+                    <om:OMV name="x" />
+                    <om:OMV name="y" />
+                  </om:OMA>
+                </om:OMA>
+              </om:OMA>
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="greater_def_ExtPartialOrder" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="y" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="equivalent" />
+              <om:OMA>
+                <om:OMS name="__&gt;__" />
+                <om:OMV name="x" />
+                <om:OMV name="y" />
+              </om:OMA>
+              <om:OMA>
+                <om:OMS name="__&lt;__" />
+                <om:OMV name="y" />
+                <om:OMV name="x" />
+              </om:OMA>
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+  </theory>
+  <theory name="ExtPartialOrder" meta="http://cds.omdoc.org/logics/casl/casl.omdoc?casl">
+    <structure name="gn_imp_30" from="?ExtPartialOrder__U1">
+      <open name="Elem" as="Elem" />
+      <open name="__&lt;__" as="__&lt;__" />
+      <open name="__&lt;=__" as="__&lt;=__" />
+      <open name="__&gt;__" as="__&gt;__" />
+      <open name="__&gt;=__" as="__&gt;=__" />
+    </structure>
+    <structure name="gn_imp_31" from="?ExtPartialOrder__U2">
+      <conass name="Elem">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="Elem" />
+        </OMOBJ>
+      </conass>
+      <conass name="__&lt;=__">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="__&lt;=__" />
+        </OMOBJ>
+      </conass>
+      <open name="inf" as="inf" />
+      <open name="sup" as="sup" />
+    </structure>
+    <notation for="??__%3C__" role="constant">
+      <text value="&lt;" />
+    </notation>
+    <notation for="??__%3C__" role="application" fixity="in" precedence="3" />
+    <notation for="??__%3C=__" role="constant">
+      <text value="&lt;=" />
+    </notation>
+    <notation for="??__%3C=__" role="application" fixity="in" precedence="3" />
+    <notation for="??__%3E__" role="constant">
+      <text value="&gt;" />
+    </notation>
+    <notation for="??__%3E__" role="application" fixity="in" precedence="3" />
+    <notation for="??__%3E=__" role="constant">
+      <text value="&gt;=" />
+    </notation>
+    <notation for="??__%3E=__" role="application" fixity="in" precedence="3" />
+    <constant name="%()%ST:Elem%()%Elem" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="subsortof" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+  </theory>
+  <theory name="RichPartialOrder" meta="http://cds.omdoc.org/logics/casl/casl.omdoc?casl">
+    <structure name="gn_imp_49" from="?PartialOrder">
+      <open name="Elem" as="Elem" />
+      <open name="__&lt;=__" as="__&lt;=__" />
+    </structure>
+    <structure name="gn_imp_50" from="?ExtPartialOrder">
+      <conass name="Elem">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="Elem" />
+        </OMOBJ>
+      </conass>
+      <open name="__&lt;__" as="__&lt;__" />
+      <conass name="__&lt;=__">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="__&lt;=__" />
+        </OMOBJ>
+      </conass>
+      <open name="__&gt;__" as="__&gt;__" />
+      <open name="__&gt;=__" as="__&gt;=__" />
+      <open name="inf" as="inf" />
+      <open name="sup" as="sup" />
+    </structure>
+    <notation for="??__%3C__" role="constant">
+      <text value="&lt;" />
+    </notation>
+    <notation for="??__%3C__" role="application" fixity="in" precedence="0" />
+    <notation for="??__%3C=__" role="constant">
+      <text value="&lt;=" />
+    </notation>
+    <notation for="??__%3C=__" role="application" fixity="in" precedence="0" />
+    <notation for="??__%3E__" role="constant">
+      <text value="&gt;" />
+    </notation>
+    <notation for="??__%3E__" role="application" fixity="in" precedence="0" />
+    <notation for="??__%3E=__" role="constant">
+      <text value="&gt;=" />
+    </notation>
+    <notation for="??__%3E=__" role="application" fixity="in" precedence="0" />
+    <constant name="%()%ST:Elem%()%Elem" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="subsortof" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+  </theory>
+  <theory name="TotalOrder" meta="http://cds.omdoc.org/logics/casl/casl.omdoc?casl">
+    <structure name="gn_imp_24" from="?PartialOrder">
+      <open name="Elem" as="Elem" />
+      <open name="__&lt;=__" as="__&lt;=__" />
+    </structure>
+    <notation for="??__%3C=__" role="constant">
+      <text value="&lt;=" />
+    </notation>
+    <notation for="??__%3C=__" role="application" fixity="in" precedence="3" />
+    <constant name="%()%ST:Elem%()%Elem" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="subsortof" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="dichotomy_TotalOrder" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="y" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="or" />
+              <om:OMA>
+                <om:OMS name="__&lt;=__" />
+                <om:OMV name="x" />
+                <om:OMV name="y" />
+              </om:OMA>
+              <om:OMA>
+                <om:OMS name="__&lt;=__" />
+                <om:OMV name="y" />
+                <om:OMV name="x" />
+              </om:OMA>
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+  </theory>
+  <theory name="ExtTotalOrder__E1U2" meta="http://cds.omdoc.org/logics/casl/casl.omdoc?casl">
+    <structure name="gn_imp_36" from="?TotalOrder">
+      <open name="Elem" as="Elem" />
+      <open name="__&lt;=__" as="__&lt;=__" />
+    </structure>
+    <notation for="??__%3C=__" role="constant">
+      <text value="&lt;=" />
+    </notation>
+    <notation for="??__%3C=__" role="application" fixity="in" precedence="3" />
+    <constant name="max" role="object">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="funtype" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="min" role="object">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="funtype" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="%()%ST:Elem%()%Elem" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="subsortof" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="ga_comm_min" role="theorem">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="y" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+              <om:OMA>
+                <om:OMS name="min" />
+                <om:OMV name="x" />
+                <om:OMV name="y" />
+              </om:OMA>
+              <om:OMA>
+                <om:OMS name="min" />
+                <om:OMV name="y" />
+                <om:OMV name="x" />
+              </om:OMA>
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="ga_comm_max" role="theorem">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="y" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+              <om:OMA>
+                <om:OMS name="max" />
+                <om:OMV name="x" />
+                <om:OMV name="y" />
+              </om:OMA>
+              <om:OMA>
+                <om:OMS name="max" />
+                <om:OMV name="y" />
+                <om:OMV name="x" />
+              </om:OMA>
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="ga_assoc_min" role="theorem">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="y" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="z" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+              <om:OMA>
+                <om:OMS name="min" />
+                <om:OMA>
+                  <om:OMS name="min" />
+                  <om:OMV name="x" />
+                  <om:OMV name="y" />
+                </om:OMA>
+                <om:OMV name="z" />
+              </om:OMA>
+              <om:OMA>
+                <om:OMS name="min" />
+                <om:OMV name="x" />
+                <om:OMA>
+                  <om:OMS name="min" />
+                  <om:OMV name="y" />
+                  <om:OMV name="z" />
+                </om:OMA>
+              </om:OMA>
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="ga_assoc_max" role="theorem">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="y" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="z" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+              <om:OMA>
+                <om:OMS name="max" />
+                <om:OMA>
+                  <om:OMS name="max" />
+                  <om:OMV name="x" />
+                  <om:OMV name="y" />
+                </om:OMA>
+                <om:OMV name="z" />
+              </om:OMA>
+              <om:OMA>
+                <om:OMS name="max" />
+                <om:OMV name="x" />
+                <om:OMA>
+                  <om:OMS name="max" />
+                  <om:OMV name="y" />
+                  <om:OMV name="z" />
+                </om:OMA>
+              </om:OMA>
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="ga_left_comm_min" role="theorem">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="y" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="z" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+              <om:OMA>
+                <om:OMS name="min" />
+                <om:OMV name="x" />
+                <om:OMA>
+                  <om:OMS name="min" />
+                  <om:OMV name="y" />
+                  <om:OMV name="z" />
+                </om:OMA>
+              </om:OMA>
+              <om:OMA>
+                <om:OMS name="min" />
+                <om:OMV name="y" />
+                <om:OMA>
+                  <om:OMS name="min" />
+                  <om:OMV name="x" />
+                  <om:OMV name="z" />
+                </om:OMA>
+              </om:OMA>
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="ga_left_comm_max" role="theorem">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="y" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="z" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+              <om:OMA>
+                <om:OMS name="max" />
+                <om:OMV name="x" />
+                <om:OMA>
+                  <om:OMS name="max" />
+                  <om:OMV name="y" />
+                  <om:OMV name="z" />
+                </om:OMA>
+              </om:OMA>
+              <om:OMA>
+                <om:OMS name="max" />
+                <om:OMV name="y" />
+                <om:OMA>
+                  <om:OMS name="max" />
+                  <om:OMV name="x" />
+                  <om:OMV name="z" />
+                </om:OMA>
+              </om:OMA>
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="min_def_ExtTotalOrder" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="y" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+              <om:OMA>
+                <om:OMS name="min" />
+                <om:OMV name="x" />
+                <om:OMV name="y" />
+              </om:OMA>
+              <om:OMA>
+                <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="if" />
+                <om:OMV name="x" />
+                <om:OMA>
+                  <om:OMS name="__&lt;=__" />
+                  <om:OMV name="x" />
+                  <om:OMV name="y" />
+                </om:OMA>
+                <om:OMV name="y" />
+              </om:OMA>
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="max_def_ExtTotalOrder" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="y" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+              <om:OMA>
+                <om:OMS name="max" />
+                <om:OMV name="x" />
+                <om:OMV name="y" />
+              </om:OMA>
+              <om:OMA>
+                <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="if" />
+                <om:OMV name="y" />
+                <om:OMA>
+                  <om:OMS name="__&lt;=__" />
+                  <om:OMV name="x" />
+                  <om:OMV name="y" />
+                </om:OMA>
+                <om:OMV name="x" />
+              </om:OMA>
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+  </theory>
+  <theory name="ExtTotalOrder__E1U1" meta="http://cds.omdoc.org/logics/casl/casl.omdoc?casl">
+    <structure name="gn_imp_33" from="?PartialOrder">
+      <open name="Elem" as="Elem" />
+      <open name="__&lt;=__" as="__&lt;=__" />
+    </structure>
+    <structure name="gn_imp_35" from="?TotalOrder">
+      <conass name="Elem">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="Elem" />
+        </OMOBJ>
+      </conass>
+      <conass name="__&lt;=__">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="__&lt;=__" />
+        </OMOBJ>
+      </conass>
+    </structure>
+    <structure name="gn_imp_34" from="?ExtPartialOrder">
+      <conass name="Elem">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="Elem" />
+        </OMOBJ>
+      </conass>
+      <open name="__&lt;__" as="__&lt;__" />
+      <conass name="__&lt;=__">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="__&lt;=__" />
+        </OMOBJ>
+      </conass>
+      <open name="__&gt;__" as="__&gt;__" />
+      <open name="__&gt;=__" as="__&gt;=__" />
+      <open name="inf" as="inf" />
+      <open name="sup" as="sup" />
+    </structure>
+    <notation for="??__%3C__" role="constant">
+      <text value="&lt;" />
+    </notation>
+    <notation for="??__%3C__" role="application" fixity="in" precedence="3" />
+    <notation for="??__%3C=__" role="constant">
+      <text value="&lt;=" />
+    </notation>
+    <notation for="??__%3C=__" role="application" fixity="in" precedence="3" />
+    <notation for="??__%3E__" role="constant">
+      <text value="&gt;" />
+    </notation>
+    <notation for="??__%3E__" role="application" fixity="in" precedence="3" />
+    <notation for="??__%3E=__" role="constant">
+      <text value="&gt;=" />
+    </notation>
+    <notation for="??__%3E=__" role="application" fixity="in" precedence="3" />
+    <constant name="%()%ST:Elem%()%Elem" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="subsortof" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+  </theory>
+  <theory name="ExtTotalOrder__E1" meta="http://cds.omdoc.org/logics/casl/casl.omdoc?casl">
+    <structure name="gn_imp_37" from="?ExtTotalOrder__E1U1">
+      <open name="Elem" as="Elem" />
+      <open name="__&lt;__" as="__&lt;__" />
+      <open name="__&lt;=__" as="__&lt;=__" />
+      <open name="__&gt;__" as="__&gt;__" />
+      <open name="__&gt;=__" as="__&gt;=__" />
+      <open name="inf" as="inf" />
+      <open name="sup" as="sup" />
+    </structure>
+    <structure name="gn_imp_38" from="?ExtTotalOrder__E1U2">
+      <conass name="Elem">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="Elem" />
+        </OMOBJ>
+      </conass>
+      <conass name="__&lt;=__">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="__&lt;=__" />
+        </OMOBJ>
+      </conass>
+      <open name="max" as="max" />
+      <open name="min" as="min" />
+    </structure>
+    <notation for="??__%3C__" role="constant">
+      <text value="&lt;" />
+    </notation>
+    <notation for="??__%3C__" role="application" fixity="in" precedence="3" />
+    <notation for="??__%3C=__" role="constant">
+      <text value="&lt;=" />
+    </notation>
+    <notation for="??__%3C=__" role="application" fixity="in" precedence="3" />
+    <notation for="??__%3E__" role="constant">
+      <text value="&gt;" />
+    </notation>
+    <notation for="??__%3E__" role="application" fixity="in" precedence="3" />
+    <notation for="??__%3E=__" role="constant">
+      <text value="&gt;=" />
+    </notation>
+    <notation for="??__%3E=__" role="application" fixity="in" precedence="3" />
+    <constant name="%()%ST:Elem%()%Elem" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="subsortof" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+  </theory>
+  <theory name="ExtTotalOrder" meta="http://cds.omdoc.org/logics/casl/casl.omdoc?casl">
+    <structure name="gn_imp_39" from="?ExtTotalOrder__E1">
+      <open name="Elem" as="Elem" />
+      <open name="__&lt;__" as="__&lt;__" />
+      <open name="__&lt;=__" as="__&lt;=__" />
+      <open name="__&gt;__" as="__&gt;__" />
+      <open name="__&gt;=__" as="__&gt;=__" />
+      <open name="inf" as="inf" />
+      <open name="max" as="max" />
+      <open name="min" as="min" />
+      <open name="sup" as="sup" />
+    </structure>
+    <notation for="??__%3C__" role="constant">
+      <text value="&lt;" />
+    </notation>
+    <notation for="??__%3C__" role="application" fixity="in" precedence="3" />
+    <notation for="??__%3C=__" role="constant">
+      <text value="&lt;=" />
+    </notation>
+    <notation for="??__%3C=__" role="application" fixity="in" precedence="3" />
+    <notation for="??__%3E__" role="constant">
+      <text value="&gt;" />
+    </notation>
+    <notation for="??__%3E__" role="application" fixity="in" precedence="3" />
+    <notation for="??__%3E=__" role="constant">
+      <text value="&gt;=" />
+    </notation>
+    <notation for="??__%3E=__" role="application" fixity="in" precedence="3" />
+    <constant name="%()%ST:Elem%()%Elem" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="subsortof" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="min_inf_relation" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="y" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+              <om:OMA>
+                <om:OMS name="min" />
+                <om:OMV name="x" />
+                <om:OMV name="y" />
+              </om:OMA>
+              <om:OMA>
+                <om:OMS name="inf" />
+                <om:OMV name="x" />
+                <om:OMV name="y" />
+              </om:OMA>
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+    <constant name="max_sup_relation" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMBIND>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="forall" />
+            <om:OMBVAR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="x" />
+              </om:OMATTR>
+              <om:OMATTR>
+                <om:OMATP>
+                  <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="type" />
+                  <om:OMS name="Elem" />
+                </om:OMATP>
+                <om:OMV name="y" />
+              </om:OMATTR>
+            </om:OMBVAR>
+            <om:OMA>
+              <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="eq" />
+              <om:OMA>
+                <om:OMS name="max" />
+                <om:OMV name="x" />
+                <om:OMV name="y" />
+              </om:OMA>
+              <om:OMA>
+                <om:OMS name="sup" />
+                <om:OMV name="x" />
+                <om:OMV name="y" />
+              </om:OMA>
+            </om:OMA>
+          </om:OMBIND>
+        </OMOBJ>
+      </type>
+    </constant>
+  </theory>
+  <theory name="RichTotalOrder" meta="http://cds.omdoc.org/logics/casl/casl.omdoc?casl">
+    <structure name="gn_imp_51" from="?TotalOrder">
+      <open name="Elem" as="Elem" />
+      <open name="__&lt;=__" as="__&lt;=__" />
+    </structure>
+    <structure name="gn_imp_52" from="?ExtTotalOrder">
+      <conass name="Elem">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="Elem" />
+        </OMOBJ>
+      </conass>
+      <open name="__&lt;__" as="__&lt;__" />
+      <conass name="__&lt;=__">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="__&lt;=__" />
+        </OMOBJ>
+      </conass>
+      <open name="__&gt;__" as="__&gt;__" />
+      <open name="__&gt;=__" as="__&gt;=__" />
+      <open name="inf" as="inf" />
+      <open name="max" as="max" />
+      <open name="min" as="min" />
+      <open name="sup" as="sup" />
+    </structure>
+    <notation for="??__%3C__" role="constant">
+      <text value="&lt;" />
+    </notation>
+    <notation for="??__%3C__" role="application" fixity="in" precedence="3" />
+    <notation for="??__%3C=__" role="constant">
+      <text value="&lt;=" />
+    </notation>
+    <notation for="??__%3C=__" role="application" fixity="in" precedence="3" />
+    <notation for="??__%3E__" role="constant">
+      <text value="&gt;" />
+    </notation>
+    <notation for="??__%3E__" role="application" fixity="in" precedence="3" />
+    <notation for="??__%3E=__" role="constant">
+      <text value="&gt;=" />
+    </notation>
+    <notation for="??__%3E=__" role="application" fixity="in" precedence="3" />
+    <constant name="%()%ST:Elem%()%Elem" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="subsortof" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+  </theory>
+  <theory name="EquivalenceRelation" meta="http://cds.omdoc.org/logics/casl/casl.omdoc?casl">
+    <structure name="gn_imp_10" from="?ReflexiveRelation">
+      <open name="Elem" as="Elem" />
+      <open name="__~__" as="__~__" />
+    </structure>
+    <structure name="gn_imp_11" from="?PartialEquivalenceRelation">
+      <conass name="Elem">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="Elem" />
+        </OMOBJ>
+      </conass>
+      <conass name="__~__">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="__~__" />
+        </OMOBJ>
+      </conass>
+    </structure>
+    <notation for="??__~__" role="constant">
+      <text value="~" />
+    </notation>
+    <notation for="??__~__" role="application" fixity="in" precedence="3" />
+    <constant name="%()%ST:Elem%()%Elem" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="subsortof" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+  </theory>
+  <theory name="SimilarityRelation" meta="http://cds.omdoc.org/logics/casl/casl.omdoc?casl">
+    <structure name="gn_imp_6" from="?ReflexiveRelation">
+      <open name="Elem" as="Elem" />
+      <open name="__~__" as="__~__" />
+    </structure>
+    <structure name="gn_imp_7" from="?SymmetricRelation">
+      <conass name="Elem">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="Elem" />
+        </OMOBJ>
+      </conass>
+      <conass name="__~__">
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMS name="__~__" />
+        </OMOBJ>
+      </conass>
+    </structure>
+    <notation for="??__~__" role="constant">
+      <text value="~" />
+    </notation>
+    <notation for="??__~__" role="application" fixity="in" precedence="3" />
+    <constant name="%()%ST:Elem%()%Elem" role="axiom">
+      <type>
+        <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+          <om:OMA>
+            <om:OMS base="http://cds.omdoc.org/logics/casl/casl.omdoc" module="casl" name="subsortof" />
+            <om:OMS name="Elem" />
+            <om:OMS name="Elem" />
+          </om:OMA>
+        </OMOBJ>
+      </type>
+    </constant>
+  </theory>
+  <view name="gn_vn_19" from="?StrictOrder__T" to="?StrictOrder__TE1">
+    <conass name="Elem">
+      <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+        <om:OMS name="Elem" />
+      </OMOBJ>
+    </conass>
+    <conass name="__~__">
+      <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+        <om:OMS name="__~__" />
+      </OMOBJ>
+    </conass>
+  </view>
+  <view name="gn_vn_32" from="?PartialOrder" to="?ExtPartialOrder">
+    <conass name="Elem">
+      <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+        <om:OMS name="Elem" />
+      </OMOBJ>
+    </conass>
+    <conass name="__&lt;=__">
+      <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+        <om:OMS name="__&lt;=__" />
+      </OMOBJ>
+    </conass>
+  </view>
+  <view name="gn_vn_60" from="?PartialOrder" to="?PartialOrder_in_ExtBooleanAlgebra__T">
+    <conass name="Elem">
+      <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+        <om:OMS name="Elem" />
+      </OMOBJ>
+    </conass>
+    <conass name="__&lt;=__">
+      <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+        <om:OMS name="__&lt;=__" />
+      </OMOBJ>
+    </conass>
+  </view>
+  <view name="gn_vn_55" from="?TotalOrder" to="Numbers.omdoc?Nat">
+    <conass name="Elem">
+      <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+        <om:OMS name="Nat" />
+      </OMOBJ>
+    </conass>
+    <conass name="__&lt;=__">
+      <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+        <om:OMS name="__&lt;=__" />
+      </OMOBJ>
+    </conass>
+  </view>
+  <view name="gn_vn_56" from="?TotalOrder" to="Numbers.omdoc?Int">
+    <conass name="Elem">
+      <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+        <om:OMS name="Int" />
+      </OMOBJ>
+    </conass>
+    <conass name="__&lt;=__">
+      <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+        <om:OMS name="__&lt;=__" />
+      </OMOBJ>
+    </conass>
+  </view>
+  <view name="gn_vn_57" from="?TotalOrder" to="Numbers.omdoc?Rat">
+    <conass name="Elem">
+      <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+        <om:OMS name="Rat" />
+      </OMOBJ>
+    </conass>
+    <conass name="__&lt;=__">
+      <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+        <om:OMS name="%()%over_2:__&lt;=__" />
+      </OMOBJ>
+    </conass>
+  </view>
+  <view name="gn_vn_41" from="?TotalOrder" to="?ExtTotalOrder">
+    <conass name="Elem">
+      <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+        <om:OMS name="Elem" />
+      </OMOBJ>
+    </conass>
+    <conass name="__&lt;=__">
+      <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+        <om:OMS name="__&lt;=__" />
+      </OMOBJ>
+    </conass>
+  </view>
+  <view name="gn_vn_27" from="?BooleanAlgebra" to="?BooleanAlgebra__E1">
+    <conass name="0">
+      <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+        <om:OMS name="0" />
+      </OMOBJ>
+    </conass>
+    <conass name="1">
+      <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+        <om:OMS name="1" />
+      </OMOBJ>
+    </conass>
+    <conass name="Elem">
+      <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+        <om:OMS name="Elem" />
+      </OMOBJ>
+    </conass>
+    <conass name="__cap__">
+      <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+        <om:OMS name="__cap__" />
+      </OMOBJ>
+    </conass>
+    <conass name="__cup__">
+      <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+        <om:OMS name="__cup__" />
+      </OMOBJ>
+    </conass>
+  </view>
+  <view name="gn_vn_48" from="?BooleanAlgebra" to="?ExtBooleanAlgebra">
+    <conass name="0">
+      <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+        <om:OMS name="0" />
+      </OMOBJ>
+    </conass>
+    <conass name="1">
+      <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+        <om:OMS name="1" />
+      </OMOBJ>
+    </conass>
+    <conass name="Elem">
+      <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+        <om:OMS name="Elem" />
+      </OMOBJ>
+    </conass>
+    <conass name="__cap__">
+      <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+        <om:OMS name="__cap__" />
+      </OMOBJ>
+    </conass>
+    <conass name="__cup__">
+      <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+        <om:OMS name="__cup__" />
+      </OMOBJ>
+    </conass>
+  </view>
+  <view name="gn_vn_40" from="?ExtTotalOrder" to="?ExtTotalOrder__E1">
+    <conass name="Elem">
+      <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+        <om:OMS name="Elem" />
+      </OMOBJ>
+    </conass>
+    <conass name="__&lt;__">
+      <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+        <om:OMS name="__&lt;__" />
+      </OMOBJ>
+    </conass>
+    <conass name="__&lt;=__">
+      <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+        <om:OMS name="__&lt;=__" />
+      </OMOBJ>
+    </conass>
+    <conass name="__&gt;__">
+      <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+        <om:OMS name="__&gt;__" />
+      </OMOBJ>
+    </conass>
+    <conass name="__&gt;=__">
+      <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+        <om:OMS name="__&gt;=__" />
+      </OMOBJ>
+    </conass>
+    <conass name="inf">
+      <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+        <om:OMS name="inf" />
+      </OMOBJ>
+    </conass>
+    <conass name="max">
+      <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+        <om:OMS name="max" />
+      </OMOBJ>
+    </conass>
+    <conass name="min">
+      <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+        <om:OMS name="min" />
+      </OMOBJ>
+    </conass>
+    <conass name="sup">
+      <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+        <om:OMS name="sup" />
+      </OMOBJ>
+    </conass>
+  </view>
+  <view name="gn_vn_45" from="?ExtBooleanAlgebra__U2" to="?ExtBooleanAlgebra__U2E1">
+    <conass name="0">
+      <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+        <om:OMS name="0" />
+      </OMOBJ>
+    </conass>
+    <conass name="1">
+      <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+        <om:OMS name="1" />
+      </OMOBJ>
+    </conass>
+    <conass name="Elem">
+      <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+        <om:OMS name="Elem" />
+      </OMOBJ>
+    </conass>
+    <conass name="__cap__">
+      <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+        <om:OMS name="__cap__" />
+      </OMOBJ>
+    </conass>
+    <conass name="__cup__">
+      <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+        <om:OMS name="__cup__" />
+      </OMOBJ>
+    </conass>
+    <conass name="compl__">
+      <OMOBJ xmlns:om="http://www.openmath.org/OpenMath">
+        <om:OMS name="compl__" />
+      </OMOBJ>
+    </conass>
+  </view>
+</omdoc>
