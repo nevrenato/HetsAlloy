@@ -12,5 +12,9 @@ Alloy grammar.
 
 module Alloy.AS_Alloy where
 
+import Common.Id
+
 -- DrIFT command
 {-! global: GetRange !-}
+
+data X = A | B

@@ -60,6 +60,7 @@ import Adl.Logic_Adl
 import Modal.Logic_Modal
 import Hybrid.Logic_Hybrid
 import TopHybrid.Logic_TopHybrid
+import Alloy.Logic_Alloy
 import ExtModal.Logic_ExtModal
 import CoCASL.Logic_CoCASL
 import CspCASL.Logic_CspCASL
