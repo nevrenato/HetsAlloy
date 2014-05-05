@@ -14,3 +14,7 @@ Alloy signature definition.
 module Alloy.AlloySign where
 
 import Alloy.AS_Alloy
+
+data Sign = Sign deriving (Show, Eq, Ord)
+
+data Mor = Mor deriving (Show, Eq, Ord)
